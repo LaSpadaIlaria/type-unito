@@ -14,15 +14,15 @@ const ORIGINAL_POINTS = [
     {x: 33654, y: 35433}, {x: 11226, y: 35433}, {x: 11226, y: 45694}
 ];
 
-const NODO_IMAGE_SETTINGS = { //positivo a destra, negativo a sinistra. negativo su
-    1: { offsetX: -10000, offsetY: -3000, scale: 0  },
-    2: { offsetX: -10000, offsetY: 2000, scale: 7},
-    3: { offsetX: -5000, offsetY: -10000, scale: 8 }, //h
-    4: { offsetX: -9000, offsetY: -5500, scale: 8 }, //n
-    5: { offsetX: -3000, offsetY: 2000, scale: 8 }, //t
-    6: { offsetX: 1000, offsetY: -5000, scale: 9 }, //m
-    7: { offsetX: 0, offsetY: -3500, scale: 6 }, //c
-    8: { offsetX: -3000, offsetY: -5000, scale: 8 }, //b
+const NODO_IMAGE_SETTINGS = {
+    1: { offsetX: -10000, offsetY: -3000, scale: 0 },
+    2: { offsetX: -10000, offsetY: 2000, scale: 7 },
+    3: { offsetX: -5000, offsetY: -10000, scale: 8 },
+    4: { offsetX: -9000, offsetY: -5500, scale: 8 },
+    5: { offsetX: -3000, offsetY: 2000, scale: 8 },
+    6: { offsetX: 1000, offsetY: -5000, scale: 9 },
+    7: { offsetX: 0, offsetY: -3500, scale: 6 },
+    8: { offsetX: -3000, offsetY: -5000, scale: 8 },
     9: { offsetX: 2000, offsetY: -2000, scale: 7 },
     10: { offsetX: -3000, offsetY: -5000, scale: 8 },
     11: { offsetX: -2500, offsetY: -7000, scale: 8 },
@@ -40,7 +40,7 @@ const NODO_IMAGE_SETTINGS = { //positivo a destra, negativo a sinistra. negativo
     23: { offsetX: -3000, offsetY: -7000, scale: 7 },
     24: { offsetX: -2000, offsetY: -6000, scale: 9 },
     25: { offsetX: -5000, offsetY: -2000, scale: 11 },
-    26: { offsetX: 2000, offsetY: -2000, scale: 0}
+    26: { offsetX: 2000, offsetY: -2000, scale: 0 }
 };
 
 // Testi per i nodi
@@ -79,6 +79,7 @@ const STAR_COUNT = 100;
 const NODO_IMAGE_TARGET_ALPHA = 200;
 const NODO_IMAGE_FADE_SPEED = 5;
 const DESCRIPTION_FADE_SPEED = 8;
+const IMAGE_TRANSITION_SPEED = 0.05; // Nuova costante per la velocità di transizione
 const BASE_TEXT_SIZE = 780;
 
 const TEXT_OFFSET_X_NODO2 = -20000;
@@ -97,6 +98,8 @@ let isProcessing = false;
 let nodoImages = {};
 let showNodoImages = {};
 let nodoImageAlphas = {};
+let nodoImageStates = {}; // Stato: 'bis' o 'original'
+let nodoImageFadeProgress = {}; // Progresso transizione: 0-1
 
 let starParticles = [];
 
@@ -116,6 +119,8 @@ let nodeCounter;
 for (let i = 1; i <= 26; i++) {
     showNodoImages[i] = false;
     nodoImageAlphas[i] = 0;
+    nodoImageStates[i] = 'bis'; // Default mostra la versione bis
+    nodoImageFadeProgress[i] = 0; // Nessuna transizione iniziale
 }
 
 // ============ FUNZIONI UTILITY ============
@@ -286,11 +291,22 @@ function startMoving(direction) {
         for (let i = 1; i <= 26; i++) {
             showNodoImages[i] = false;
             nodoImageAlphas[i] = 0;
+            // Resetta lo stato per i nodi 1-10
+            if (i <= 10) {
+                nodoImageStates[i] = 'bis';
+                nodoImageFadeProgress[i] = 0;
+            }
         }
         
         // Mostra l'immagine del nodo target
         if (targetNodeIndex >= 0 && targetNodeIndex < 26) {
-            showNodoImages[targetNodeIndex + 1] = true;
+            const nodeNumber = targetNodeIndex + 1;
+            showNodoImages[nodeNumber] = true;
+            // Per i nodi 1-10, imposta la versione bis
+            if (nodeNumber <= 10) {
+                nodoImageStates[nodeNumber] = 'bis';
+                nodoImageFadeProgress[nodeNumber] = 0;
+            }
         }
         
         // Nascondi tutte le descrizioni
@@ -335,6 +351,11 @@ function updateMovement() {
             const nodoIndex = currentNodeIndex + 1;
             if (nodoIndex >= 1 && nodoIndex <= 26) {
                 nodoImageAlphas[nodoIndex] = NODO_IMAGE_TARGET_ALPHA;
+                // Per i nodi 1-10, assicurati che sia visibile la versione bis
+                if (nodoIndex <= 10) {
+                    nodoImageStates[nodoIndex] = 'bis';
+                    nodoImageFadeProgress[nodoIndex] = 0;
+                }
             } else {
                 for (let i = 1; i <= 26; i++) {
                     showNodoImages[i] = false;
@@ -344,7 +365,44 @@ function updateMovement() {
         }
     }
     
+    // Aggiorna le transizioni delle immagini per i nodi 1-10
+    updateImageTransitions();
+    
     updateUI();
+}
+
+// Funzione per aggiornare le transizioni delle immagini
+function updateImageTransitions() {
+    for (let i = 1; i <= 10; i++) {
+        const nodeNumber = i;
+        
+        // Controlla se il nodo ha una descrizione attiva
+        let hasActiveDescription = false;
+        if (nodeNumber === 2 && showDescriptionNodo2) hasActiveDescription = true;
+        if (nodeNumber === 3 && showDescriptionNodo3) hasActiveDescription = true;
+        
+        if (hasActiveDescription) {
+            // Transizione verso la versione originale
+            if (nodoImageStates[nodeNumber] !== 'original') {
+                nodoImageStates[nodeNumber] = 'original';
+            }
+            // Aumenta il progresso della transizione
+            nodoImageFadeProgress[nodeNumber] = Math.min(
+                nodoImageFadeProgress[nodeNumber] + IMAGE_TRANSITION_SPEED, 
+                1
+            );
+        } else {
+            // Transizione verso la versione bis
+            if (nodoImageStates[nodeNumber] !== 'bis') {
+                nodoImageStates[nodeNumber] = 'bis';
+            }
+            // Diminuisci il progresso della transizione
+            nodoImageFadeProgress[nodeNumber] = Math.max(
+                nodoImageFadeProgress[nodeNumber] - IMAGE_TRANSITION_SPEED, 
+                0
+            );
+        }
+    }
 }
 
 // ============ SKETCH P5 ============
@@ -654,35 +712,69 @@ const sketch = (p) => {
         });
     }
     
-    function drawNodoImage(nodeIndex, img, alpha) {
-        if (!nodes || nodes.length <= nodeIndex || !img || alpha <= 0) return;
+    // Funzione modificata per gestire entrambe le versioni delle immagini
+    function drawNodoImage(nodeIndex, alpha) {
+        if (!nodes || nodes.length <= nodeIndex || alpha <= 0) return;
         
         const node = nodes[nodeIndex];
+        const nodeNumber = nodeIndex + 1;
         
-        // Mapping delle immagini ai nodi corretti
-        let imageNum = (nodeIndex) % 26 + 1;
+        // Se per questo nodo non abbiamo immagini, esci
+        if (!nodoImages[nodeNumber]) return;
         
-        const settings = NODO_IMAGE_SETTINGS[imageNum];
+        const settings = NODO_IMAGE_SETTINGS[nodeNumber];
         if (!settings) {
-            console.log(`Nessuna impostazione per l'immagine ${imageNum} (nodo ${nodeIndex + 1})`);
+            console.log(`Nessuna impostazione per l'immagine del nodo ${nodeNumber}`);
             return;
         }
-        
-        if (!img.width || !img.height) return;
         
         p.push();
         
         try {
             const imageX = node.x + settings.offsetX;
             const imageY = node.y + settings.offsetY;
-            const desiredWidth = img.width * settings.scale;
-            const desiredHeight = img.height * settings.scale;
             
-            p.tint(255, alpha);
-            p.image(img, imageX, imageY, desiredWidth, desiredHeight);
+            // Per i nodi 1-10, gestisci entrambe le versioni con transizione
+            if (nodeNumber <= 10 && nodoImages[nodeNumber].bis && nodoImages[nodeNumber].original) {
+                const fadeProgress = nodoImageFadeProgress[nodeNumber];
+                
+                // Disegna la versione bis (dissolvenza in uscita)
+                if (fadeProgress < 1) {
+                    const img = nodoImages[nodeNumber].bis;
+                    if (img && img.width && img.height) {
+                        const desiredWidth = img.width * settings.scale;
+                        const desiredHeight = img.height * settings.scale;
+                        // L'opacità della versione bis diminuisce man mano che fadeProgress aumenta
+                        const bisAlpha = alpha * (1 - fadeProgress);
+                        p.tint(255, bisAlpha);
+                        p.image(img, imageX, imageY, desiredWidth, desiredHeight);
+                    }
+                }
+                
+                // Disegna la versione originale (dissolvenza in entrata)
+                if (fadeProgress > 0) {
+                    const img = nodoImages[nodeNumber].original;
+                    if (img && img.width && img.height) {
+                        const desiredWidth = img.width * settings.scale;
+                        const desiredHeight = img.height * settings.scale;
+                        // L'opacità della versione originale aumenta man mano che fadeProgress aumenta
+                        const originalAlpha = alpha * fadeProgress;
+                        p.tint(255, originalAlpha);
+                        p.image(img, imageX, imageY, desiredWidth, desiredHeight);
+                    }
+                }
+            } else {
+                // Per gli altri nodi, mostra solo l'originale
+                const img = nodoImages[nodeNumber].original || nodoImages[nodeNumber];
+                if (!img || !img.width || !img.height) return;
+                const desiredWidth = img.width * settings.scale;
+                const desiredHeight = img.height * settings.scale;
+                p.tint(255, alpha);
+                p.image(img, imageX, imageY, desiredWidth, desiredHeight);
+            }
             
         } catch (e) {
-            console.warn("Errore nel disegno dell'immagine del nodo", imageNum, e);
+            console.warn("Errore nel disegno dell'immagine del nodo", nodeNumber, e);
         }
         
         p.pop();
@@ -746,6 +838,52 @@ const sketch = (p) => {
         const worldX = (clickX - p.width/2) / zoom + currentPoint.x;
         const worldY = (clickY - p.height/2) / zoom + currentPoint.y;
         
+        // Controlla se il click è su un nodo 1-10
+        for (let i = 1; i <= 10; i++) {
+            const nodeIndex = i - 1;
+            const node = nodes[nodeIndex];
+            if (!node) continue;
+            
+            const dist = distance(worldX, worldY, node.x, node.y);
+            if (dist < 1500) {
+                // Determina se questo nodo ha una descrizione
+                if (i === 2) {
+                    showDescriptionNodo2 = !showDescriptionNodo2;
+                    showDescriptionNodo3 = false;
+                    showDescriptionNodo13 = false;
+                    showDescriptionNodo21 = false;
+                    
+                    updateStatusMessage();
+                    
+                    if (showDescriptionNodo2 && localTextLines.length === 0) {
+                        createTextLinesNodo2(node);
+                    }
+                } else if (i === 3) {
+                    showDescriptionNodo3 = !showDescriptionNodo3;
+                    showDescriptionNodo2 = false;
+                    showDescriptionNodo13 = false;
+                    showDescriptionNodo21 = false;
+                    
+                    updateStatusMessage();
+                    
+                    if (showDescriptionNodo3 && localTextLinesNodo3.length === 0) {
+                        createTextLinesNodo3(node);
+                    }
+                } else {
+                    // Per gli altri nodi 1-10, attiva comunque la transizione visiva
+                    // anche se non hanno una descrizione testuale
+                    // Toggle dello stato
+                    if (nodoImageStates[i] === 'bis') {
+                        nodoImageStates[i] = 'original';
+                    } else {
+                        nodoImageStates[i] = 'bis';
+                    }
+                }
+                return;
+            }
+        }
+        
+        // Gestione esistente per gli altri nodi...
         const nodo2 = nodes[1];
         const distToNodo2 = distance(worldX, worldY, nodo2.x, nodo2.y);
         
@@ -791,7 +929,7 @@ const sketch = (p) => {
     }
     
     p.preload = async function() {
-        console.log("Caricamento immagini dei nodi con mapping corretto...");
+        console.log("Caricamento immagini dei nodi con entrambe le versioni...");
         
         for (let imageFileIndex = 1; imageFileIndex <= 26; imageFileIndex++) {
             // Determina su quale nodo deve andare questa immagine
@@ -802,29 +940,53 @@ const sketch = (p) => {
                 nodeIndexForImage = imageFileIndex; // nodo_i.png va sul nodo i+1
             }
             
-            const imgPath = `assets/nodo_${imageFileIndex}.png`;
+            const nodeNumber = nodeIndexForImage + 1;
+            const originalPath = `assets/nodo_${imageFileIndex}.png`;
+            
+            // Inizializza l'oggetto per questo nodo se non esiste
+            if (!nodoImages[nodeNumber]) {
+                nodoImages[nodeNumber] = {};
+            }
             
             try {
-                const img = await loadImageSafely(imgPath, `Img ${imageFileIndex} -> Nodo ${nodeIndexForImage + 1}`);
-                // Salva l'immagine con una chiave che corrisponde al nodo a cui deve andare
-                nodoImages[nodeIndexForImage + 1] = img;
-                console.log(`✅ Immagine nodo_${imageFileIndex}.png assegnata al Nodo ${nodeIndexForImage + 1}`);
+                // Carica l'immagine originale
+                const originalImg = await loadImageSafely(
+                    originalPath, 
+                    `Img ${imageFileIndex} -> Nodo ${nodeNumber}`
+                );
+                nodoImages[nodeNumber].original = originalImg;
+                console.log(`✅ Immagine originale nodo_${imageFileIndex}.png assegnata al Nodo ${nodeNumber}`);
+                
+                // Per i nodi 1-10, carica anche la versione bis
+                if (imageFileIndex <= 10) {
+                    const bisPath = `assets/nodo_${imageFileIndex}bis.png`;
+                    try {
+                        const bisImg = await loadImageSafely(
+                            bisPath, 
+                            `Img ${imageFileIndex}bis -> Nodo ${nodeNumber}`
+                        );
+                        nodoImages[nodeNumber].bis = bisImg;
+                        console.log(`✅ Immagine bis nodo_${imageFileIndex}bis.png assegnata al Nodo ${nodeNumber}`);
+                    } catch (e) {
+                        console.warn(`Errore nel caricamento di ${bisPath}:`, e);
+                        // Crea un placeholder per la versione bis
+                        const placeholder = p.createGraphics(200, 200);
+                        placeholder.background(200, 200, 255, 100);
+                        placeholder.fill(50, 50, 100);
+                        placeholder.textSize(24);
+                        placeholder.textAlign(p.CENTER, p.CENTER);
+                        placeholder.text(`Bis ${nodeNumber}`, 100, 100);
+                        nodoImages[nodeNumber].bis = placeholder;
+                    }
+                }
             } catch (e) {
-                console.warn(`Errore nel caricamento di nodo_${imageFileIndex}.png:`, e);
-                // Crea un placeholder
-                const placeholder = p.createGraphics(200, 200);
-                placeholder.background(240, 240, 240, 100);
-                placeholder.fill(50, 50, 50);
-                placeholder.textSize(24);
-                placeholder.textAlign(p.CENTER, p.CENTER);
-                placeholder.text(`Nodo ${nodeIndexForImage + 1}`, 100, 100);
-                nodoImages[nodeIndexForImage + 1] = placeholder;
+                console.warn(`Errore nel caricamento di ${originalPath}:`, e);
             }
         }
     };
     
     p.setup = function() {
-        console.log("Setup p5.js - 26 nodi");
+        console.log("Setup p5.js - 26 nodi con sistema di transizione immagini");
         canvas = p.createCanvas(p.windowWidth, p.windowHeight);
         canvas.parent('p5-canvas');
         
@@ -893,11 +1055,11 @@ const sketch = (p) => {
         p.scale(zoom);
         p.translate(-currentPoint.x, -currentPoint.y);
         
-        // Disegna le immagini dei nodi con il mapping corretto
+        // Disegna le immagini dei nodi con il sistema di transizione
         for (let nodeIdx = 0; nodeIdx < 26; nodeIdx++) {
             const nodeNumber = nodeIdx + 1;
-            if (showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0 && nodoImages[nodeNumber]) {
-                drawNodoImage(nodeIdx, nodoImages[nodeNumber], nodoImageAlphas[nodeNumber]);
+            if (showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0) {
+                drawNodoImage(nodeIdx, nodoImageAlphas[nodeNumber]);
             }
         }
         
@@ -928,3 +1090,4 @@ const sketch = (p) => {
 
 // ============ AVVIO ============
 new p5(sketch);
+//questo comento è per capire

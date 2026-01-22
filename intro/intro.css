@@ -74,6 +74,18 @@ body {
     transition: opacity 0.5s ease;
 }
 
+/* Immagine in basso a sinistra */
+.bottom-left-image {
+    position: fixed;
+    bottom: 70px;
+    left: 70px;
+    width: 620px; /* Puoi modificare questa dimensione */
+    height: auto;
+    z-index: 5;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
 .eyelid {
     position: fixed;
     left: 0;
@@ -116,7 +128,6 @@ body {
     clip-path: ellipse(120% 150% at 50% 0%);
 }
 
-
 @keyframes blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
@@ -130,6 +141,12 @@ body {
     .quote {
         font-size: 24px;
     }
+    
+    .bottom-left-image {
+        width: 440px;
+        bottom: 5px;
+        left: 5px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -139,5 +156,11 @@ body {
     
     .quote {
         font-size: 20px;
+    }
+    
+    .bottom-left-image {
+        width: 300px;
+        bottom: 10px;
+        left: 10px;
     }
 }

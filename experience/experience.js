@@ -1,121 +1,3 @@
-// ============ FLUID SIMULATION ============
-(function() {
-    const canvas = document.getElementById('smokey-fluid-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-    
-    let particles = [];
-    const PARTICLE_COUNT = 150;
-    let mouse = { x: width * 0.5, y: height * 0.5 };
-    
-    class Particle {
-        constructor() {
-            this.reset();
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-        }
-        
-        reset() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.vx = 0;
-            this.vy = 0;
-            this.radius = Math.random() * 2 + 0.5;
-            this.color = {
-                r: Math.floor(Math.random() * 30 + 225),
-                g: Math.floor(Math.random() * 30 + 225),
-                b: Math.floor(Math.random() * 30 + 225)
-            };
-            this.life = 1;
-            this.decay = Math.random() * 0.02 + 0.005;
-        }
-        
-        update() {
-            const dx = mouse.x - this.x;
-            const dy = mouse.y - this.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            
-            if (dist < 100) {
-                const angle = Math.atan2(dy, dx);
-                const force = (100 - dist) / 100;
-                this.vx += Math.cos(angle) * force * 0.5;
-                this.vy += Math.sin(angle) * force * 0.5;
-            }
-            
-            this.vx *= 0.95;
-            this.vy *= 0.95;
-            this.x += this.vx;
-            this.y += this.vy;
-            
-            this.life -= this.decay;
-            if (this.life <= 0) {
-                this.reset();
-            }
-            
-            if (this.x < -100) this.x = width + 100;
-            if (this.x > width + 100) this.x = -100;
-            if (this.y < -100) this.y = height + 100;
-            if (this.y > height + 100) this.y = -100;
-        }
-        
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius * this.life, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${0.2 * this.life})`;
-            ctx.fill();
-        }
-    }
-    
-    function initParticles() {
-        particles = [];
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-            particles.push(new Particle());
-        }
-    }
-    
-    function animate() {
-        ctx.clearRect(0, 0, width, width);
-        
-        for (let particle of particles) {
-            particle.update();
-            particle.draw();
-        }
-        
-        requestAnimationFrame(animate);
-    }
-    
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
-    
-    window.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        mouse.x = e.touches[0].clientX;
-        mouse.y = e.touches[0].clientY;
-    }, { passive: false });
-    
-    window.addEventListener('resize', () => {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        initParticles();
-    });
-    
-    window.controlFluidEffect = function(currentNode, totalNodes) {
-        const intensity = (currentNode + 1) / totalNodes;
-        canvas.style.opacity = 0.3 + intensity * 0.3;
-    };
-    
-    initParticles();
-    animate();
-})();
-
 // ============ DATI DEL PERCORSO ============
 const ORIGINAL_POINTS = [
     {x: 7853, y: 16849}, {x: 10975, y: 21322}, {x: 8947, y: 20178},
@@ -132,33 +14,33 @@ const ORIGINAL_POINTS = [
     {x: 33654, y: 35433}, {x: 11226, y: 35433}, {x: 11226, y: 45694}
 ];
 
-const NODO_IMAGE_SETTINGS = {
-    1: { offsetX: -10000, offsetY: 1000, scale: 8 },
-    2: { offsetX: -800, offsetY: -200, scale: 10 },
-    3: { offsetX: -12000, offsetY: -6000, scale: 10 },
-    4: { offsetX: -4000, offsetY: 1500, scale: 9 },
-    5: { offsetX: -8000, offsetY: -1000, scale: 10 },
-    6: { offsetX: 1000, offsetY: -5000, scale: 6.5 },
-    7: { offsetX: -3200, offsetY: -6500, scale: 10 },
-    8: { offsetX: 1000, offsetY: -2000, scale: 8 },
-    9: { offsetX: -3000, offsetY: 2000, scale: 9 },
-    10: { offsetX: -3000, offsetY: -6300, scale: 8 },
+const NODO_IMAGE_SETTINGS = { //positivo a destra, negativo a sinistra. negativo su
+    1: { offsetX: -10000, offsetY: -3000, scale: 0  },
+    2: { offsetX: -10000, offsetY: 2000, scale: 7},
+    3: { offsetX: -5000, offsetY: -10000, scale: 8 }, //h
+    4: { offsetX: -9000, offsetY: -5500, scale: 8 }, //n
+    5: { offsetX: -3000, offsetY: 2000, scale: 8 }, //t
+    6: { offsetX: 1000, offsetY: -5000, scale: 9 }, //m
+    7: { offsetX: 0, offsetY: -3500, scale: 6 }, //c
+    8: { offsetX: -3000, offsetY: -5000, scale: 8 }, //b
+    9: { offsetX: 2000, offsetY: -2000, scale: 7 },
+    10: { offsetX: -3000, offsetY: -5000, scale: 8 },
     11: { offsetX: -2500, offsetY: -7000, scale: 8 },
-    12: { offsetX: -5500, offsetY: -7500, scale: 9 },
-    13: { offsetX: 2000, offsetY: -3000, scale: 8 },
-    14: { offsetX: -3000, offsetY: 1000, scale: 11 },
-    15: { offsetX: -2500, offsetY: 1400, scale: 7 },
-    16: { offsetX: 1000, offsetY: -2000, scale: 7 },
-    17: { offsetX: 1500, offsetY: -1000, scale: 10 },
-    18: { offsetX: -2000, offsetY: -6000, scale: 10 },
-    19: { offsetX: 2000, offsetY: -3550, scale: 12 },
-    20: { offsetX: -3200, offsetY: -6000, scale: 8 },
-    21: { offsetX: -2400, offsetY: -7000, scale: 7 },
+    12: { offsetX: -2500, offsetY: -7500, scale: 8 },
+    13: { offsetX: -2000, offsetY: -6000, scale: 8 },
+    14: { offsetX: -7000, offsetY: -2000, scale: 8 },
+    15: { offsetX: -2500, offsetY: 1400, scale: 10 },
+    16: { offsetX: -2000, offsetY: 2000, scale: 7 },
+    17: { offsetX: 1500, offsetY: -1000, scale: 7 },
+    18: { offsetX: -7000, offsetY: -2000, scale: 11 },
+    19: { offsetX: -2000, offsetY: -5550, scale: 10 },
+    20: { offsetX: -5200, offsetY: -3000, scale: 13 },
+    21: { offsetX: -2400, offsetY: -7000, scale: 8 },
     22: { offsetX: -2600, offsetY: -7000, scale: 7 },
-    23: { offsetX: -2000, offsetY: -5000, scale: 8 },
-    24: { offsetX: 2000, offsetY: -2000, scale: 11 },
-    25: { offsetX: -2000, offsetY: -5000, scale: 8 },
-    26: { offsetX: 2000, offsetY: -2000, scale: 1.5 }
+    23: { offsetX: -3000, offsetY: -7000, scale: 7 },
+    24: { offsetX: -2000, offsetY: -6000, scale: 9 },
+    25: { offsetX: -5000, offsetY: -2000, scale: 11 },
+    26: { offsetX: 2000, offsetY: -2000, scale: 0}
 };
 
 // Testi per i nodi
@@ -228,7 +110,7 @@ let descriptionAlphaNodo3 = 0;
 let descriptionAlphaNodo13 = 0;
 let descriptionAlphaNodo21 = 0;
 
-let nodeCounter, instructionMessage;
+let nodeCounter;
 
 // Inizializza gli stati delle immagini
 for (let i = 1; i <= 26; i++) {
@@ -356,7 +238,7 @@ function distance(x1, y1, x2, y2) {
 // ============ GESTIONE UI ============
 function initUIElements() {
     nodeCounter = document.querySelector('.node-counter');
-    instructionMessage = document.querySelector('.instruction-message');
+    updateUI();
 }
 
 function updateUI() {
@@ -367,23 +249,24 @@ function updateUI() {
         nodeCounter.style.opacity = '1';
     }
     
-    updateInstructionMessage();
+    updateStatusMessage();
 }
 
-function updateInstructionMessage() {
-    if (!instructionMessage) return;
+function updateStatusMessage() {
+    const statusMessageElement = nodeCounter.querySelector('.status-message');
+    if (!statusMessageElement) return;
     
     const hasActiveDescription = showDescriptionNodo2 || showDescriptionNodo3 || 
                                 showDescriptionNodo13 || showDescriptionNodo21;
     
     if (hasActiveDescription) {
-        instructionMessage.textContent = "Click per chiudere la descrizione";
-        instructionMessage.style.opacity = '1';
+        statusMessageElement.textContent = "Click per chiudere la descrizione";
+        statusMessageElement.style.display = 'block';
     } else if (movementState === 'MOVING_TO_NODE') {
-        instructionMessage.textContent = "Raggiungendo il nodo...";
-        instructionMessage.style.opacity = '1';
+        statusMessageElement.textContent = "Raggiungendo il nodo...";
+        statusMessageElement.style.display = 'block';
     } else {
-        instructionMessage.style.opacity = '1';
+        statusMessageElement.style.display = 'none';
     }
 }
 
@@ -416,7 +299,7 @@ function startMoving(direction) {
         showDescriptionNodo13 = false;
         showDescriptionNodo21 = false;
         
-        updateInstructionMessage();
+        updateStatusMessage();
     }
 }
 
@@ -446,12 +329,7 @@ function updateMovement() {
             movementState = 'STOPPED';
             isProcessing = false;
             
-            // Aggiorna la fluid simulation
-            if (window.controlFluidEffect) {
-                window.controlFluidEffect(currentNodeIndex, NODE_COUNT);
-            }
-            
-            updateInstructionMessage();
+            updateStatusMessage();
             
             // Imposta l'alpha finale per l'immagine del nodo corrente
             const nodoIndex = currentNodeIndex + 1;
@@ -781,19 +659,8 @@ const sketch = (p) => {
         
         const node = nodes[nodeIndex];
         
-        // CORREZIONE: Mapping delle immagini ai nodi corretti
-        // Il nodo 1 riceve l'immagine 26, il nodo 2 riceve l'immagine 1, ecc.
-        let imageNum;
-        if (nodeIndex === 0) {
-            imageNum = 26; // Nodo 1 -> immagine 26
-        } else {
-            imageNum = nodeIndex; // Nodo n -> immagine n-1 (ma con index shift)
-        }
-        
-        // Correzione: il nodo 2 (index 1) deve prendere l'immagine 1
-        // Quindi: nodeIndex + 1 = numero del nodo
-        // Immagine per il nodo: (nodeIndex) % 26 + 1
-        imageNum = (nodeIndex) % 26 + 1;
+        // Mapping delle immagini ai nodi corretti
+        let imageNum = (nodeIndex) % 26 + 1;
         
         const settings = NODO_IMAGE_SETTINGS[imageNum];
         if (!settings) {
@@ -891,7 +758,7 @@ const sketch = (p) => {
             showDescriptionNodo13 = false;
             showDescriptionNodo21 = false;
             
-            updateInstructionMessage();
+            updateStatusMessage();
             
             if (showDescriptionNodo2 && localTextLines.length === 0) {
                 createTextLinesNodo2(nodo2);
@@ -905,7 +772,7 @@ const sketch = (p) => {
             showDescriptionNodo13 = false;
             showDescriptionNodo21 = false;
             
-            updateInstructionMessage();
+            updateStatusMessage();
             
             if (showDescriptionNodo3 && localTextLinesNodo3.length === 0) {
                 createTextLinesNodo3(nodo3);
@@ -919,19 +786,12 @@ const sketch = (p) => {
             showDescriptionNodo3 = false;
             showDescriptionNodo13 = false;
             showDescriptionNodo21 = false;
-            updateInstructionMessage();
+            updateStatusMessage();
         }
     }
     
     p.preload = async function() {
         console.log("Caricamento immagini dei nodi con mapping corretto...");
-        
-        // CORREZIONE: Carica le immagini con il mapping corretto
-        // nodo_1.png va sul nodo 2
-        // nodo_2.png va sul nodo 3
-        // ...
-        // nodo_25.png va sul nodo 26
-        // nodo_26.png va sul nodo 1
         
         for (let imageFileIndex = 1; imageFileIndex <= 26; imageFileIndex++) {
             // Determina su quale nodo deve andare questa immagine
@@ -981,6 +841,15 @@ const sketch = (p) => {
         
         initUIElements();
         
+        // Aggiungi elemento per il messaggio di stato
+        const navigationInfo = document.querySelector('.navigation-info');
+        if (navigationInfo && !document.querySelector('.status-message')) {
+            const statusMessage = document.createElement('div');
+            statusMessage.className = 'status-message';
+            statusMessage.style.display = 'none';
+            navigationInfo.appendChild(statusMessage);
+        }
+        
         canvas.elt.addEventListener('click', handleCanvasClick);
         canvas.elt.style.cursor = 'pointer';
         
@@ -1007,15 +876,6 @@ const sketch = (p) => {
                 startMoving(-1);
             }
         });
-        
-        // Inizializza la fluid simulation
-        setTimeout(() => {
-            if (window.controlFluidEffect) {
-                window.controlFluidEffect(0, NODE_COUNT);
-            }
-        }, 1000);
-        
-        updateInstructionMessage();
         
         console.log("Setup completato con", nodes.length, "nodi");
     };

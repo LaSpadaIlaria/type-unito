@@ -43,34 +43,8 @@ const NODO_IMAGE_SETTINGS = {
     26: { offsetX: 2000, offsetY: -2000, scale: 0 }
 };
 
-// Testi per i nodi
-const nodo2Text = `QuaLCosa si Avvolge… una CURVA che danza… 
-ritmO… raPIdiTà… LE grAzie conDuconO alla lettera, 
-la CREAno, la fanno naSCerE: Scende la priMa astE. 
-Veloce, sPESSA non guarda DoVe VA… poi…ralLLEnta.
-La barrA divEnta un PuNto di sospEnsiOne che deViA 
-il moviMento vErSo destra,
-un'altra asta … SLASH! 
-Un taglio.  
-E pOI… riNasCita.`;
-
-const nodo3Text = `QuaLCosa si Avvolge… una CURVA che danza… 
-ritmO… raPIdiTà…
-LE grAzie conDuconO alla lettera, 
-la CREAno, la fanno naSCerE:
-Scende la priMa astA. 
-Veloce, sPESSA non guarda DoVe VA… poi…ralLLEnta.
-La barrA divEnta un PuNto di sospEnsiOne 
-che deViA il moviMento vErSo destra,
-un'altra asta … 
-
-SLASH! 
-
-Un taglio.  
-E pOI… riNasCita.`;
-
-const nodo13Text = `Testo per il nodo 13.`;
-const nodo21Text = `Testo per il nodo 21.`;
+// Testo segnaposto per tutte le descrizioni
+const PLACEHOLDER_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
 
 // ============ COSTANTI ============
 const NODE_COUNT = 26;
@@ -79,13 +53,7 @@ const STAR_COUNT = 100;
 const NODO_IMAGE_TARGET_ALPHA = 200;
 const NODO_IMAGE_FADE_SPEED = 5;
 const DESCRIPTION_FADE_SPEED = 8;
-const IMAGE_TRANSITION_SPEED = 0.05; // Nuova costante per la velocità di transizione
-const BASE_TEXT_SIZE = 780;
-
-const TEXT_OFFSET_X_NODO2 = -20000;
-const TEXT_OFFSET_X_NODO3 = 22000;
-const TEXT_OFFSET_X_NODO13 = 20000;
-const TEXT_OFFSET_X_NODO21 = -18000;
+const IMAGE_TRANSITION_SPEED = 0.05;
 
 // ============ STATO GLOBALE ============
 let scrollProgress = 0;
@@ -98,20 +66,20 @@ let isProcessing = false;
 let nodoImages = {};
 let showNodoImages = {};
 let nodoImageAlphas = {};
-let nodoImageStates = {}; // Stato: 'bis' o 'original'
-let nodoImageFadeProgress = {}; // Progresso transizione: 0-1
+let nodoImageStates = {};
+let nodoImageFadeProgress = {};
 
 let starParticles = [];
 
-let showDescriptionNodo2 = false;
-let showDescriptionNodo3 = false;
-let showDescriptionNodo13 = false;
-let showDescriptionNodo21 = false;
-
+// Stato per le descrizioni
+let activeDescription = null; // { nodeIndex: number, animationType: 'group1' | 'group2' | 'group3' | 'group4' }
 let descriptionAlpha = 0;
-let descriptionAlphaNodo3 = 0;
-let descriptionAlphaNodo13 = 0;
-let descriptionAlphaNodo21 = 0;
+
+// Variabili per le animazioni delle descrizioni
+let textLinesGroup1 = []; // Per nodi 2-9
+let textLinesGroup2 = []; // Per nodi 10-16
+let textLinesGroup3 = []; // Per nodi 17-21 (blocco intero animato)
+let textLinesGroup4 = []; // Per nodi 22-25 (statico)
 
 let nodeCounter;
 
@@ -119,8 +87,8 @@ let nodeCounter;
 for (let i = 1; i <= 26; i++) {
     showNodoImages[i] = false;
     nodoImageAlphas[i] = 0;
-    nodoImageStates[i] = 'bis'; // Default mostra la versione bis
-    nodoImageFadeProgress[i] = 0; // Nessuna transizione iniziale
+    nodoImageStates[i] = 'bis';
+    nodoImageFadeProgress[i] = 0;
 }
 
 // ============ FUNZIONI UTILITY ============
@@ -261,10 +229,7 @@ function updateStatusMessage() {
     const statusMessageElement = nodeCounter.querySelector('.status-message');
     if (!statusMessageElement) return;
     
-    const hasActiveDescription = showDescriptionNodo2 || showDescriptionNodo3 || 
-                                showDescriptionNodo13 || showDescriptionNodo21;
-    
-    if (hasActiveDescription) {
+    if (activeDescription !== null) {
         statusMessageElement.textContent = "Click per chiudere la descrizione";
         statusMessageElement.style.display = 'block';
     } else if (movementState === 'MOVING_TO_NODE') {
@@ -291,7 +256,6 @@ function startMoving(direction) {
         for (let i = 1; i <= 26; i++) {
             showNodoImages[i] = false;
             nodoImageAlphas[i] = 0;
-            // Resetta lo stato per i nodi 1-10
             if (i <= 10) {
                 nodoImageStates[i] = 'bis';
                 nodoImageFadeProgress[i] = 0;
@@ -302,7 +266,6 @@ function startMoving(direction) {
         if (targetNodeIndex >= 0 && targetNodeIndex < 26) {
             const nodeNumber = targetNodeIndex + 1;
             showNodoImages[nodeNumber] = true;
-            // Per i nodi 1-10, imposta la versione bis
             if (nodeNumber <= 10) {
                 nodoImageStates[nodeNumber] = 'bis';
                 nodoImageFadeProgress[nodeNumber] = 0;
@@ -310,10 +273,8 @@ function startMoving(direction) {
         }
         
         // Nascondi tutte le descrizioni
-        showDescriptionNodo2 = false;
-        showDescriptionNodo3 = false;
-        showDescriptionNodo13 = false;
-        showDescriptionNodo21 = false;
+        activeDescription = null;
+        descriptionAlpha = 0;
         
         updateStatusMessage();
     }
@@ -324,7 +285,6 @@ function updateMovement() {
         const targetT = nodes[targetNodeIndex].t;
         const distanceToTarget = Math.abs(targetT - scrollProgress);
         
-        // Anima l'immagine del nodo
         const nodoIndex = targetNodeIndex + 1;
         if (nodoIndex >= 1 && nodoIndex <= 26 && showNodoImages[nodoIndex]) {
             if (distanceToTarget < 0.008) {
@@ -335,10 +295,8 @@ function updateMovement() {
             }
         }
         
-        // Muovi verso il target
         scrollProgress += (targetT - scrollProgress) * MOVEMENT_SPEED;
         
-        // Se siamo abbastanza vicini, fermati
         if (distanceToTarget < 0.0005) {
             scrollProgress = targetT;
             currentNodeIndex = targetNodeIndex;
@@ -347,11 +305,9 @@ function updateMovement() {
             
             updateStatusMessage();
             
-            // Imposta l'alpha finale per l'immagine del nodo corrente
             const nodoIndex = currentNodeIndex + 1;
             if (nodoIndex >= 1 && nodoIndex <= 26) {
                 nodoImageAlphas[nodoIndex] = NODO_IMAGE_TARGET_ALPHA;
-                // Per i nodi 1-10, assicurati che sia visibile la versione bis
                 if (nodoIndex <= 10) {
                     nodoImageStates[nodoIndex] = 'bis';
                     nodoImageFadeProgress[nodoIndex] = 0;
@@ -364,39 +320,29 @@ function updateMovement() {
             }
         }
     }
-    
-    // Aggiorna le transizioni delle immagini per i nodi 1-10
-    updateImageTransitions();
-    
-    updateUI();
 }
 
-// Funzione per aggiornare le transizioni delle immagini
 function updateImageTransitions() {
     for (let i = 1; i <= 10; i++) {
         const nodeNumber = i;
         
-        // Controlla se il nodo ha una descrizione attiva
         let hasActiveDescription = false;
-        if (nodeNumber === 2 && showDescriptionNodo2) hasActiveDescription = true;
-        if (nodeNumber === 3 && showDescriptionNodo3) hasActiveDescription = true;
+        if (activeDescription && activeDescription.nodeIndex === i-1) {
+            hasActiveDescription = true;
+        }
         
         if (hasActiveDescription) {
-            // Transizione verso la versione originale
             if (nodoImageStates[nodeNumber] !== 'original') {
                 nodoImageStates[nodeNumber] = 'original';
             }
-            // Aumenta il progresso della transizione
             nodoImageFadeProgress[nodeNumber] = Math.min(
                 nodoImageFadeProgress[nodeNumber] + IMAGE_TRANSITION_SPEED, 
                 1
             );
         } else {
-            // Transizione verso la versione bis
             if (nodoImageStates[nodeNumber] !== 'bis') {
                 nodoImageStates[nodeNumber] = 'bis';
             }
-            // Diminuisci il progresso della transizione
             nodoImageFadeProgress[nodeNumber] = Math.max(
                 nodoImageFadeProgress[nodeNumber] - IMAGE_TRANSITION_SPEED, 
                 0
@@ -405,14 +351,613 @@ function updateImageTransitions() {
     }
 }
 
+function updateDescriptionAlpha() {
+    if (activeDescription !== null) {
+        descriptionAlpha = Math.min(descriptionAlpha + DESCRIPTION_FADE_SPEED, 255);
+    } else {
+        descriptionAlpha = Math.max(descriptionAlpha - DESCRIPTION_FADE_SPEED, 0);
+    }
+}
+
+// ============ FUNZIONI PER LE DESCRIZIONI ============
+
+// Funzione per dividere il testo in righe di circa 70 caratteri
+function splitTextIntoLines(text, maxCharsPerLine = 70) {
+    const words = text.split(' ');
+    const lines = [];
+    let currentLine = '';
+    
+    words.forEach(word => {
+        if (currentLine.length + word.length + 1 <= maxCharsPerLine) {
+            currentLine += (currentLine ? ' ' : '') + word;
+        } else {
+            lines.push(currentLine);
+            currentLine = word;
+        }
+    });
+    
+    if (currentLine) {
+        lines.push(currentLine);
+    }
+    
+    return lines;
+}
+
+// Gruppo 1: Nodi 2-9 - Animazioni molto diverse tra loro, parole che ondeggiano, inclinano, esplodono
+function createTextLinesGroup1(node) {
+    textLinesGroup1 = [];
+    
+    // Dividi il testo in righe
+    const lines = splitTextIntoLines(PLACEHOLDER_TEXT, 70);
+    
+    const offsetX = 0;
+    const offsetY = 0;
+    const lineHeight = 1200;
+    const startY = node.y + offsetY - ((lines.length - 1) * lineHeight) / 2;
+    
+    lines.forEach((line, lineIndex) => {
+        const words = line.split(' ');
+        const wordsInLine = [];
+        
+        const wordSpacing = 350;
+        const estimatedCharWidth = 320;
+        
+        // Calcola larghezza approssimativa della riga per centrare
+        let totalLineWidth = 0;
+        words.forEach(word => {
+            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
+        });
+        totalLineWidth -= wordSpacing;
+        
+        let currentX = node.x + offsetX - totalLineWidth / 2;
+        
+        words.forEach((word, wordIndex) => {
+            const wordWidth = word.length * estimatedCharWidth;
+            
+            // Tipo di animazione RANDOM per ogni parola
+            const animationType = Math.random();
+            
+            wordsInLine.push({
+                text: word,
+                x: currentX + wordWidth / 2,
+                y: startY + lineIndex * lineHeight,
+                baseX: currentX + wordWidth / 2,
+                baseY: startY + lineIndex * lineHeight,
+                width: wordWidth,
+                
+                // Determinazione del tipo di animazione
+                animationType: animationType < 0.2 ? 'wave' : 
+                              animationType < 0.4 ? 'tilt' :
+                              animationType < 0.6 ? 'bounce' :
+                              animationType < 0.8 ? 'explode' : 'float',
+                
+                // Parametri specifici per ogni tipo di animazione
+                waveAmp: 30 + Math.random() * 40,
+                waveSpeed: 0.02 + Math.random() * 0.03,
+                waveOffset: Math.random() * 1000,
+                
+                tiltAmp: (Math.random() - 0.5) * 0.3,
+                tiltSpeed: 0.01 + Math.random() * 0.02,
+                tiltOffset: Math.random() * 1000,
+                
+                bounceAmp: 40 + Math.random() * 50,
+                bounceSpeed: 0.03 + Math.random() * 0.04,
+                bounceOffset: Math.random() * 1000,
+                
+                explodeAmp: 60 + Math.random() * 80,
+                explodeSpeed: 0.04 + Math.random() * 0.05,
+                explodeOffset: Math.random() * 1000,
+                explodeScale: 0.5 + Math.random() * 1.0,
+                
+                floatAmpX: 30 + Math.random() * 40,
+                floatAmpY: 20 + Math.random() * 30,
+                floatSpeedX: 0.015 + Math.random() * 0.02,
+                floatSpeedY: 0.01 + Math.random() * 0.015,
+                floatOffsetX: Math.random() * 1000,
+                floatOffsetY: Math.random() * 1000,
+                
+                // Animazioni dei caratteri (diverse per ogni tipo)
+                charRotations: [],
+                charSpacings: [],
+                charScales: []
+            });
+            
+            // Inizializza animazioni per ogni carattere
+            const lastWord = wordsInLine[wordsInLine.length - 1];
+            const baseCharSpacing = 320;
+            
+            for (let i = 0; i < word.length; i++) {
+                // Per l'effetto "explode", i caratteri hanno spaziatura variabile
+                if (lastWord.animationType === 'explode') {
+                    lastWord.charSpacings.push(baseCharSpacing * (1.5 + Math.random() * 1.0));
+                    lastWord.charRotations.push((Math.random() - 0.5) * 0.5);
+                    lastWord.charScales.push(0.8 + Math.random() * 0.6);
+                } 
+                // Per l'effetto "tilt", caratteri inclinati uniformemente
+                else if (lastWord.animationType === 'tilt') {
+                    lastWord.charSpacings.push(baseCharSpacing);
+                    lastWord.charRotations.push((i / word.length - 0.5) * 0.4);
+                    lastWord.charScales.push(1.0);
+                }
+                // Per altri effetti, spaziatura e rotazioni normali
+                else {
+                    lastWord.charSpacings.push(baseCharSpacing + (Math.random() - 0.5) * 50);
+                    lastWord.charRotations.push((Math.random() - 0.5) * 0.1);
+                    lastWord.charScales.push(0.9 + Math.random() * 0.3);
+                }
+            }
+            
+            currentX += wordWidth + wordSpacing;
+        });
+        
+        textLinesGroup1.push(wordsInLine);
+    });
+    
+    // Aggiungi inclinazione alle righe
+    textLinesGroup1.forEach((wordsInLine, lineIndex) => {
+        const lineRotation = (Math.random() - 0.5) * 0.15;
+        
+        if (wordsInLine[0]) {
+            wordsInLine[0].lineRotation = lineRotation;
+        }
+    });
+}
+
+function drawDescriptionGroup1(p) {
+    if (descriptionAlpha <= 0 || !activeDescription) return;
+    
+    const time = p.millis() * 0.001;
+    
+    textLinesGroup1.forEach((wordsInLine, lineIndex) => {
+        const lineRotation = wordsInLine[0]?.lineRotation || 0;
+        
+        wordsInLine.forEach((word, wordIndex) => {
+            p.push();
+            
+            // Applica rotazione della riga
+            p.translate(word.baseX, word.baseY);
+            p.rotate(lineRotation);
+            
+            // Calcola animazione in base al tipo
+            let animX = 0, animY = 0, animRotation = 0, animScale = 1.0;
+            
+            switch (word.animationType) {
+                case 'wave':
+                    animY = Math.sin(time * word.waveSpeed + word.waveOffset) * word.waveAmp;
+                    animRotation = Math.sin(time * word.waveSpeed * 0.7 + word.waveOffset) * 0.1;
+                    break;
+                    
+                case 'tilt':
+                    animRotation = Math.sin(time * word.tiltSpeed + word.tiltOffset) * word.tiltAmp;
+                    animY = Math.abs(Math.sin(time * word.tiltSpeed * 1.5 + word.tiltOffset)) * 20;
+                    break;
+                    
+                case 'bounce':
+                    const bounceT = Math.abs(Math.sin(time * word.bounceSpeed + word.bounceOffset));
+                    animY = -bounceT * word.bounceAmp;
+                    animScale = 1.0 + bounceT * 0.2;
+                    break;
+                    
+                case 'explode':
+                    const explodeT = Math.sin(time * word.explodeSpeed + word.explodeOffset);
+                    const explodeFactor = Math.max(0, explodeT);
+                    animX = (Math.random() - 0.5) * explodeFactor * word.explodeAmp;
+                    animY = (Math.random() - 0.5) * explodeFactor * word.explodeAmp;
+                    animScale = 1.0 + explodeFactor * word.explodeScale;
+                    break;
+                    
+                case 'float':
+                    animX = Math.sin(time * word.floatSpeedX + word.floatOffsetX) * word.floatAmpX;
+                    animY = Math.cos(time * word.floatSpeedY + word.floatOffsetY) * word.floatAmpY;
+                    animRotation = Math.sin(time * 0.02 + wordIndex * 0.1) * 0.05;
+                    break;
+            }
+            
+            // Applica animazione della parola
+            p.translate(animX, animY);
+            p.rotate(animRotation);
+            p.scale(animScale);
+            
+            // Dimensione testo uniforme
+            const baseTextSize = 700;
+            
+            // Disegna ogni carattere individualmente
+            const totalWidth = word.charSpacings.reduce((a, b) => a + b, 0) - 
+                             (word.charSpacings.length > 0 ? word.charSpacings[word.charSpacings.length - 1] : 0);
+            const startX = -totalWidth / 2;
+            
+            p.translate(startX, 0);
+            
+            let currentCharX = 0;
+            for (let i = 0; i < word.text.length; i++) {
+                p.push();
+                
+                // Sposta alla posizione del carattere
+                p.translate(currentCharX, 0);
+                
+                // Rotazione individuale del carattere
+                const charRotation = word.charRotations[i] + 
+                    Math.sin(time * 0.03 + i * 0.1) * 0.1;
+                p.rotate(charRotation);
+                
+                // Scala individuale del carattere
+                const charScale = word.charScales[i] + 
+                    (word.animationType === 'explode' ? Math.sin(time * 0.05 + i) * 0.2 : 0);
+                p.scale(charScale);
+                
+                // Colore con effetti speciali
+                let brightness = 220;
+                let r = brightness, g = brightness, b = brightness;
+                
+                // Effetti di colore in base al tipo di animazione
+                if (word.animationType === 'explode') {
+                    const colorPulse = Math.sin(time * 0.1 + i * 0.2) * 50;
+                    r = Math.min(255, brightness + colorPulse);
+                    g = Math.max(0, brightness - colorPulse * 0.5);
+                    b = Math.max(0, brightness - colorPulse);
+                } else if (word.animationType === 'float') {
+                    r = brightness + Math.sin(time * 0.05 + i) * 30;
+                    g = brightness + Math.sin(time * 0.05 + i + 1) * 30;
+                    b = brightness + Math.sin(time * 0.05 + i + 2) * 30;
+                }
+                
+                p.fill(r, g, b, descriptionAlpha);
+                p.noStroke();
+                
+                // Disegna il carattere
+                p.textSize(baseTextSize);
+                p.textAlign(p.CENTER, p.CENTER);
+                p.text(word.text[i], 0, 0);
+                
+                p.pop();
+                
+                // Sposta alla posizione del prossimo carattere
+                currentCharX += word.charSpacings[i];
+            }
+            
+            p.pop();
+        });
+    });
+}
+
+// Gruppo 2: Nodi 10-16 - Parole che ondeggiano in sincrono per riga
+function createTextLinesGroup2(node) {
+    textLinesGroup2 = [];
+    
+    // Dividi il testo in righe
+    const lines = splitTextIntoLines(PLACEHOLDER_TEXT, 70);
+    
+    const offsetX = 0;
+    const offsetY = 0;
+    const lineHeight = 1200;
+    
+    const startY = node.y + offsetY - ((lines.length - 1) * lineHeight) / 2;
+    
+    lines.forEach((line, lineIndex) => {
+        const words = line.split(' ');
+        const wordsInLine = [];
+        
+        const wordSpacing = 350;
+        const estimatedCharWidth = 320;
+        
+        // Calcola larghezza approssimativa della riga per centrare
+        let totalLineWidth = 0;
+        words.forEach(word => {
+            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
+        });
+        totalLineWidth -= wordSpacing;
+        
+        let currentX = node.x + offsetX - totalLineWidth / 2;
+        
+        words.forEach((word, wordIndex) => {
+            const wordWidth = word.length * estimatedCharWidth;
+            
+            wordsInLine.push({
+                text: word,
+                x: currentX + wordWidth / 2,
+                y: startY + lineIndex * lineHeight,
+                baseX: currentX + wordWidth / 2,
+                baseY: startY + lineIndex * lineHeight,
+                width: wordWidth
+            });
+            
+            currentX += wordWidth + wordSpacing;
+        });
+        
+        // Parametri di animazione SINCRONI per l'intera riga
+        const lineObj = {
+            words: wordsInLine,
+            baseY: startY + lineIndex * lineHeight,
+            
+            // Onde sincrone per tutta la riga
+            waveType: lineIndex % 3, // 0: onda orizzontale, 1: onda verticale, 2: onda circolare
+            waveAmp: 40 + Math.random() * 50,
+            waveSpeed: 0.02 + Math.random() * 0.02,
+            waveOffset: Math.random() * 1000,
+            
+            // Inclinazione della riga
+            tiltAmp: (Math.random() - 0.5) * 0.12,
+            tiltSpeed: 0.005 + Math.random() * 0.01,
+            tiltOffset: Math.random() * 1000
+        };
+        
+        textLinesGroup2.push(lineObj);
+    });
+}
+
+function drawDescriptionGroup2(p) {
+    if (descriptionAlpha <= 0 || !activeDescription) return;
+    
+    const time = p.millis() * 0.001;
+    
+    textLinesGroup2.forEach((line, lineIndex) => {
+        p.push();
+        
+        // Calcola inclinazione della riga
+        const tilt = Math.sin(time * line.tiltSpeed + line.tiltOffset) * line.tiltAmp;
+        
+        // Calcola movimento d'onda per tutta la riga
+        const globalWave = Math.sin(time * line.waveSpeed + line.waveOffset) * line.waveAmp;
+        
+        // Disegna ogni parola della riga in SINCRONIA
+        line.words.forEach((word, wordIndex) => {
+            p.push();
+            
+            // Posizione base della parola
+            p.translate(word.baseX, word.baseY);
+            
+            // Applica inclinazione della riga
+            p.rotate(tilt);
+            
+            // Calcola movimento d'onda sincrono in base al tipo
+            let waveX = 0, waveY = 0;
+            
+            switch (line.waveType) {
+                case 0: // Onda orizzontale
+                    waveX = Math.sin(time * line.waveSpeed * 2 + wordIndex * 0.3) * line.waveAmp * 0.7;
+                    waveY = globalWave * 0.5;
+                    break;
+                    
+                case 1: // Onda verticale
+                    waveY = Math.sin(time * line.waveSpeed * 1.5 + wordIndex * 0.2) * line.waveAmp;
+                    waveX = globalWave * 0.3;
+                    break;
+                    
+                case 2: // Onda circolare
+                    const angle = wordIndex * 0.5 + time * line.waveSpeed * 3;
+                    waveX = Math.cos(angle) * line.waveAmp * 0.6;
+                    waveY = Math.sin(angle) * line.waveAmp * 0.6;
+                    break;
+            }
+            
+            // Applica movimento d'onda
+            p.translate(waveX, waveY);
+            
+            // Rotazione leggera della parola in sincrono con l'onda
+            const wordRotation = Math.sin(time * line.waveSpeed * 1.2 + wordIndex * 0.4) * 0.05;
+            p.rotate(wordRotation);
+            
+            // Dimensione testo uniforme
+            p.textSize(700);
+            p.textAlign(p.CENTER, p.CENTER);
+            
+            // Colore con leggera modulazione in sincrono
+            const brightness = 220 + Math.sin(time * line.waveSpeed + wordIndex * 0.1) * 20;
+            p.fill(brightness, brightness, brightness, descriptionAlpha);
+            p.noStroke();
+            
+            // Disegna la parola
+            p.text(word.text, 0, 0);
+            
+            p.pop();
+        });
+        
+        p.pop();
+    });
+}
+
+// Gruppo 3: Nodi 17-21 - Intero blocco di testo che si muove e si inclina
+function createTextLinesGroup3(node) {
+    textLinesGroup3 = [];
+    
+    // Dividi il testo in righe
+    const lines = splitTextIntoLines(PLACEHOLDER_TEXT, 70);
+    
+    const offsetX = 0;
+    const offsetY = 0;
+    const lineHeight = 1200;
+    
+    const startY = node.y + offsetY - ((lines.length - 1) * lineHeight) / 2;
+    
+    lines.forEach((line, lineIndex) => {
+        const words = line.split(' ');
+        const wordsInLine = [];
+        
+        const wordSpacing = 350;
+        const estimatedCharWidth = 320;
+        
+        // Calcola larghezza approssimativa della riga per centrare
+        let totalLineWidth = 0;
+        words.forEach(word => {
+            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
+        });
+        totalLineWidth -= wordSpacing;
+        
+        let currentX = node.x + offsetX - totalLineWidth / 2;
+        
+        words.forEach((word, wordIndex) => {
+            const wordWidth = word.length * estimatedCharWidth;
+            
+            wordsInLine.push({
+                text: word,
+                x: currentX + wordWidth / 2,
+                y: startY + lineIndex * lineHeight,
+                baseX: currentX + wordWidth / 2,
+                baseY: startY + lineIndex * lineHeight,
+                width: wordWidth
+            });
+            
+            currentX += wordWidth + wordSpacing;
+        });
+        
+        textLinesGroup3.push({
+            words: wordsInLine,
+            baseY: startY + lineIndex * lineHeight
+        });
+    });
+    
+    // Parametri per l'animazione dell'intero blocco
+    textLinesGroup3.blockParams = {
+        // Movimento del blocco
+        waveAmpY: 50,
+        waveSpeedY: 0.012,
+        waveOffsetY: Math.random() * 1000,
+        
+        waveAmpX: 30,
+        waveSpeedX: 0.008,
+        waveOffsetX: Math.random() * 1000,
+        
+        // Inclinazione del blocco
+        rotationAmp: 0.04,
+        rotationSpeed: 0.006,
+        rotationOffset: Math.random() * 1000,
+        
+        // Oscillazione verticale delle righe all'interno del blocco
+        lineWaveAmp: 20,
+        lineWaveSpeed: 0.02,
+        lineWaveOffset: Math.random() * 1000
+    };
+}
+
+function drawDescriptionGroup3(p) {
+    if (descriptionAlpha <= 0 || !activeDescription) return;
+    
+    const time = p.millis() * 0.001;
+    const block = textLinesGroup3.blockParams;
+    
+    // Calcola movimento dell'intero blocco
+    const blockWaveY = Math.sin(time * block.waveSpeedY + block.waveOffsetY) * block.waveAmpY;
+    const blockWaveX = Math.sin(time * block.waveSpeedX + block.waveOffsetX) * block.waveAmpX;
+    const blockRotation = Math.sin(time * block.rotationSpeed + block.rotationOffset) * block.rotationAmp;
+    
+    p.push();
+    
+    // Applica trasformazione all'intero blocco
+    p.translate(blockWaveX, blockWaveY);
+    p.rotate(blockRotation);
+    
+    // Disegna tutte le righe con oscillazione verticale aggiuntiva
+    textLinesGroup3.forEach((line, lineIndex) => {
+        if (line.words) {
+            const lineWaveY = Math.sin(time * block.lineWaveSpeed + block.lineWaveOffset + lineIndex * 0.3) * block.lineWaveAmp;
+            
+            // Disegna ogni parola della riga
+            line.words.forEach((word, wordIndex) => {
+                p.push();
+                
+                p.translate(word.baseX, word.baseY + lineWaveY);
+                
+                // Dimensione testo uniforme
+                p.textSize(700);
+                p.textAlign(p.CENTER, p.CENTER);
+                
+                // Colore
+                p.fill(220, 220, 220, descriptionAlpha);
+                p.noStroke();
+                
+                // Disegna la parola
+                p.text(word.text, 0, 0);
+                
+                p.pop();
+            });
+        }
+    });
+    
+    p.pop();
+}
+
+// Gruppo 4: Nodi 22-25 - Testo statico (mantenuto per completezza)
+function createTextLinesGroup4(node) {
+    textLinesGroup4 = [];
+    
+    // Dividi il testo in righe
+    const lines = splitTextIntoLines(PLACEHOLDER_TEXT, 70);
+    
+    const offsetX = 0;
+    const offsetY = 0;
+    const lineHeight = 1200;
+    
+    const startY = node.y + offsetY - ((lines.length - 1) * lineHeight) / 2;
+    
+    lines.forEach((line, lineIndex) => {
+        const words = line.split(' ');
+        const wordsInLine = [];
+        
+        const wordSpacing = 350;
+        const estimatedCharWidth = 320;
+        
+        // Calcola larghezza approssimativa della riga per centrare
+        let totalLineWidth = 0;
+        words.forEach(word => {
+            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
+        });
+        totalLineWidth -= wordSpacing;
+        
+        let currentX = node.x + offsetX - totalLineWidth / 2;
+        
+        words.forEach((word, wordIndex) => {
+            const wordWidth = word.length * estimatedCharWidth;
+            
+            wordsInLine.push({
+                text: word,
+                x: currentX + wordWidth / 2,
+                y: startY + lineIndex * lineHeight,
+                baseX: currentX + wordWidth / 2,
+                baseY: startY + lineIndex * lineHeight,
+                width: wordWidth
+            });
+            
+            currentX += wordWidth + wordSpacing;
+        });
+        
+        textLinesGroup4.push({
+            words: wordsInLine,
+            baseY: startY + lineIndex * lineHeight
+        });
+    });
+}
+
+function drawDescriptionGroup4(p) {
+    if (descriptionAlpha <= 0 || !activeDescription) return;
+    
+    // Disegna tutte le righe staticamente
+    textLinesGroup4.forEach((line, lineIndex) => {
+        if (line.words) {
+            line.words.forEach((word, wordIndex) => {
+                p.push();
+                
+                p.translate(word.baseX, word.baseY);
+                
+                // Dimensione testo uniforme
+                p.textSize(700);
+                p.textAlign(p.CENTER, p.CENTER);
+                
+                // Colore
+                p.fill(220, 220, 220, descriptionAlpha);
+                p.noStroke();
+                
+                // Disegna la parola
+                p.text(word.text, 0, 0);
+                
+                p.pop();
+            });
+        }
+    });
+}
+
 // ============ SKETCH P5 ============
 const sketch = (p) => {
     let canvas;
-    
-    let localTextLines = [];
-    let localTextLinesNodo3 = [];
-    let localTextLinesNodo13 = [];
-    let localTextLinesNodo21 = [];
     
     p.smoothstep = function(edge0, edge1, x) {
         x = p.constrain((x - edge0) / (edge1 - edge0), 0.0, 1.0);
@@ -453,97 +998,6 @@ const sketch = (p) => {
                 }
             );
         });
-    }
-    
-    // Funzioni per creare le linee di testo
-    function createTextLinesNodo2(node) {
-        localTextLines = [{
-            text: nodo2Text.substring(0, 50) + "...",
-            x: node.x + TEXT_OFFSET_X_NODO2,
-            y: node.y,
-            size: 700,
-            color: [255, 255, 255]
-        }];
-    }
-    
-    function createTextLinesNodo3(node) {
-        localTextLinesNodo3 = [{
-            text: nodo3Text.substring(0, 50) + "...",
-            x: node.x + TEXT_OFFSET_X_NODO3,
-            y: node.y,
-            size: 700,
-            color: [255, 255, 255]
-        }];
-    }
-    
-    function createTextLinesNodo13(node) {
-        localTextLinesNodo13 = [{
-            text: nodo13Text,
-            x: node.x + TEXT_OFFSET_X_NODO13,
-            y: node.y,
-            size: 700,
-            color: [255, 255, 255]
-        }];
-    }
-    
-    function createTextLinesNodo21(node) {
-        localTextLinesNodo21 = [{
-            text: nodo21Text,
-            x: node.x + TEXT_OFFSET_X_NODO21,
-            y: node.y,
-            size: 700,
-            color: [255, 255, 255]
-        }];
-    }
-    
-    function drawNodo2Description() {
-        if (!showDescriptionNodo2 && descriptionAlpha <= 0) return;
-        
-        if (showDescriptionNodo2) {
-            descriptionAlpha = Math.min(descriptionAlpha + DESCRIPTION_FADE_SPEED, 255);
-        } else {
-            descriptionAlpha = Math.max(descriptionAlpha - DESCRIPTION_FADE_SPEED, 0);
-        }
-        
-        localTextLines.forEach(line => {
-            p.push();
-            p.translate(line.x, line.y);
-            p.fill(255, 255, 255, descriptionAlpha);
-            p.noStroke();
-            p.textSize(line.size);
-            p.textAlign(p.CENTER, p.CENTER);
-            p.text(line.text, 0, 0);
-            p.pop();
-        });
-    }
-    
-    function drawNodo3Description() {
-        if (!showDescriptionNodo3 && descriptionAlphaNodo3 <= 0) return;
-        
-        if (showDescriptionNodo3) {
-            descriptionAlphaNodo3 = Math.min(descriptionAlphaNodo3 + DESCRIPTION_FADE_SPEED, 255);
-        } else {
-            descriptionAlphaNodo3 = Math.max(descriptionAlphaNodo3 - DESCRIPTION_FADE_SPEED, 0);
-        }
-        
-        localTextLinesNodo3.forEach(line => {
-            p.push();
-            p.translate(line.x, line.y);
-            p.fill(255, 255, 255, descriptionAlphaNodo3);
-            p.noStroke();
-            p.textSize(line.size);
-            p.textAlign(p.CENTER, p.CENTER);
-            p.text(line.text, 0, 0);
-            p.pop();
-        });
-    }
-    
-    function drawNodo13Description() {
-        // Implementazione simile per gli altri nodi
-    }
-    
-    function drawNodo21Description() {
-        // Implementazione simile per gli altri nodi
     }
     
     function drawLightGradient() {
@@ -712,14 +1166,12 @@ const sketch = (p) => {
         });
     }
     
-    // Funzione modificata per gestire entrambe le versioni delle immagini
     function drawNodoImage(nodeIndex, alpha) {
         if (!nodes || nodes.length <= nodeIndex || alpha <= 0) return;
         
         const node = nodes[nodeIndex];
         const nodeNumber = nodeIndex + 1;
         
-        // Se per questo nodo non abbiamo immagini, esci
         if (!nodoImages[nodeNumber]) return;
         
         const settings = NODO_IMAGE_SETTINGS[nodeNumber];
@@ -734,37 +1186,31 @@ const sketch = (p) => {
             const imageX = node.x + settings.offsetX;
             const imageY = node.y + settings.offsetY;
             
-            // Per i nodi 1-10, gestisci entrambe le versioni con transizione
             if (nodeNumber <= 10 && nodoImages[nodeNumber].bis && nodoImages[nodeNumber].original) {
                 const fadeProgress = nodoImageFadeProgress[nodeNumber];
                 
-                // Disegna la versione bis (dissolvenza in uscita)
                 if (fadeProgress < 1) {
                     const img = nodoImages[nodeNumber].bis;
                     if (img && img.width && img.height) {
                         const desiredWidth = img.width * settings.scale;
                         const desiredHeight = img.height * settings.scale;
-                        // L'opacità della versione bis diminuisce man mano che fadeProgress aumenta
                         const bisAlpha = alpha * (1 - fadeProgress);
                         p.tint(255, bisAlpha);
                         p.image(img, imageX, imageY, desiredWidth, desiredHeight);
                     }
                 }
                 
-                // Disegna la versione originale (dissolvenza in entrata)
                 if (fadeProgress > 0) {
                     const img = nodoImages[nodeNumber].original;
                     if (img && img.width && img.height) {
                         const desiredWidth = img.width * settings.scale;
                         const desiredHeight = img.height * settings.scale;
-                        // L'opacità della versione originale aumenta man mano che fadeProgress aumenta
                         const originalAlpha = alpha * fadeProgress;
                         p.tint(255, originalAlpha);
                         p.image(img, imageX, imageY, desiredWidth, desiredHeight);
                     }
                 }
             } else {
-                // Per gli altri nodi, mostra solo l'originale
                 const img = nodoImages[nodeNumber].original || nodoImages[nodeNumber];
                 if (!img || !img.width || !img.height) return;
                 const desiredWidth = img.width * settings.scale;
@@ -838,118 +1284,117 @@ const sketch = (p) => {
         const worldX = (clickX - p.width/2) / zoom + currentPoint.x;
         const worldY = (clickY - p.height/2) / zoom + currentPoint.y;
         
-        // Controlla se il click è su un nodo 1-10
-        for (let i = 1; i <= 10; i++) {
-            const nodeIndex = i - 1;
-            const node = nodes[nodeIndex];
-            if (!node) continue;
+        // Prima controlla se il click è su un'immagine (lettera)
+        for (let nodeIdx = 0; nodeIdx < nodes.length; nodeIdx++) {
+            const node = nodes[nodeIdx];
+            const nodeNumber = nodeIdx + 1;
+            
+            // Controlla se c'è un'immagine visibile per questo nodo
+            if (showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0) {
+                const settings = NODO_IMAGE_SETTINGS[nodeNumber];
+                if (settings && settings.scale > 0) {
+                    const imageX = node.x + settings.offsetX;
+                    const imageY = node.y + settings.offsetY;
+                    
+                    // Stima le dimensioni dell'immagine (semplificata)
+                    let imgWidth = 1000 * settings.scale;
+                    let imgHeight = 1000 * settings.scale;
+                    
+                    // Controlla se il click è dentro l'area dell'immagine
+                    if (Math.abs(worldX - imageX) < imgWidth/2 && 
+                        Math.abs(worldY - imageY) < imgHeight/2) {
+                        
+                        handleNodeClick(nodeIdx);
+                        return;
+                    }
+                }
+            }
+        }
+        
+        // Se non è stato cliccato su un'immagine, controlla i nodi
+        for (let nodeIdx = 0; nodeIdx < nodes.length; nodeIdx++) {
+            const node = nodes[nodeIdx];
+            const nodeNumber = nodeIdx + 1;
             
             const dist = distance(worldX, worldY, node.x, node.y);
             if (dist < 1500) {
-                // Determina se questo nodo ha una descrizione
-                if (i === 2) {
-                    showDescriptionNodo2 = !showDescriptionNodo2;
-                    showDescriptionNodo3 = false;
-                    showDescriptionNodo13 = false;
-                    showDescriptionNodo21 = false;
-                    
-                    updateStatusMessage();
-                    
-                    if (showDescriptionNodo2 && localTextLines.length === 0) {
-                        createTextLinesNodo2(node);
-                    }
-                } else if (i === 3) {
-                    showDescriptionNodo3 = !showDescriptionNodo3;
-                    showDescriptionNodo2 = false;
-                    showDescriptionNodo13 = false;
-                    showDescriptionNodo21 = false;
-                    
-                    updateStatusMessage();
-                    
-                    if (showDescriptionNodo3 && localTextLinesNodo3.length === 0) {
-                        createTextLinesNodo3(node);
-                    }
-                } else {
-                    // Per gli altri nodi 1-10, attiva comunque la transizione visiva
-                    // anche se non hanno una descrizione testuale
-                    // Toggle dello stato
-                    if (nodoImageStates[i] === 'bis') {
-                        nodoImageStates[i] = 'original';
-                    } else {
-                        nodoImageStates[i] = 'bis';
-                    }
-                }
+                handleNodeClick(nodeIdx);
                 return;
             }
         }
         
-        // Gestione esistente per gli altri nodi...
-        const nodo2 = nodes[1];
-        const distToNodo2 = distance(worldX, worldY, nodo2.x, nodo2.y);
-        
-        const nodo3 = nodes[2];
-        const distToNodo3 = distance(worldX, worldY, nodo3.x, nodo3.y);
-        
-        if (distToNodo2 < 1500) {
-            showDescriptionNodo2 = !showDescriptionNodo2;
-            showDescriptionNodo3 = false;
-            showDescriptionNodo13 = false;
-            showDescriptionNodo21 = false;
-            
-            updateStatusMessage();
-            
-            if (showDescriptionNodo2 && localTextLines.length === 0) {
-                createTextLinesNodo2(nodo2);
-            }
-            return;
-        }
-        
-        if (distToNodo3 < 1500) {
-            showDescriptionNodo3 = !showDescriptionNodo3;
-            showDescriptionNodo2 = false;
-            showDescriptionNodo13 = false;
-            showDescriptionNodo21 = false;
-            
-            updateStatusMessage();
-            
-            if (showDescriptionNodo3 && localTextLinesNodo3.length === 0) {
-                createTextLinesNodo3(nodo3);
-            }
-            return;
-        }
-        
-        // Chiudi tutte le descrizioni se si clicca altrove
-        if (showDescriptionNodo2 || showDescriptionNodo3 || showDescriptionNodo13 || showDescriptionNodo21) {
-            showDescriptionNodo2 = false;
-            showDescriptionNodo3 = false;
-            showDescriptionNodo13 = false;
-            showDescriptionNodo21 = false;
+        // Se si clicca altrove, chiudi la descrizione
+        if (activeDescription) {
+            activeDescription = null;
             updateStatusMessage();
         }
     }
     
+    function handleNodeClick(nodeIdx) {
+        const nodeNumber = nodeIdx + 1;
+        
+        // Determina il tipo di animazione in base al gruppo del nodo
+        let animationType = 'group1'; // Predefinito
+        
+        if (nodeNumber >= 2 && nodeNumber <= 9) {
+            animationType = 'group1'; // Animazioni molto diverse tra loro
+        } else if (nodeNumber >= 10 && nodeNumber <= 16) {
+            animationType = 'group2'; // Onde sincrone per riga
+        } else if (nodeNumber >= 17 && nodeNumber <= 21) {
+            animationType = 'group3'; // Intero blocco animato
+        } else if (nodeNumber >= 22 && nodeNumber <= 25) {
+            animationType = 'group4'; // Testo statico
+        } else {
+            // Per i nodi 1 e 26, non mostrare descrizioni
+            return;
+        }
+        
+        // Gestione toggle della descrizione
+        if (activeDescription && activeDescription.nodeIndex === nodeIdx) {
+            // Chiudi la descrizione se clicchi sullo stesso nodo
+            activeDescription = null;
+        } else {
+            // Apri una nuova descrizione
+            activeDescription = {
+                nodeIndex: nodeIdx,
+                animationType: animationType,
+                node: nodes[nodeIdx]
+            };
+            
+            // Prepara le linee di testo per le animazioni
+            if (animationType === 'group1') {
+                createTextLinesGroup1(nodes[nodeIdx]);
+            } else if (animationType === 'group2') {
+                createTextLinesGroup2(nodes[nodeIdx]);
+            } else if (animationType === 'group3') {
+                createTextLinesGroup3(nodes[nodeIdx]);
+            } else if (animationType === 'group4') {
+                createTextLinesGroup4(nodes[nodeIdx]);
+            }
+        }
+        
+        updateStatusMessage();
+    }
+    
     p.preload = async function() {
-        console.log("Caricamento immagini dei nodi con entrambe le versioni...");
+        console.log("Caricamento immagini dei nodi...");
         
         for (let imageFileIndex = 1; imageFileIndex <= 26; imageFileIndex++) {
-            // Determina su quale nodo deve andare questa immagine
             let nodeIndexForImage;
             if (imageFileIndex === 26) {
-                nodeIndexForImage = 0; // nodo_26.png va sul nodo 1 (index 0)
+                nodeIndexForImage = 0;
             } else {
-                nodeIndexForImage = imageFileIndex; // nodo_i.png va sul nodo i+1
+                nodeIndexForImage = imageFileIndex;
             }
             
             const nodeNumber = nodeIndexForImage + 1;
             const originalPath = `assets/nodo_${imageFileIndex}.png`;
             
-            // Inizializza l'oggetto per questo nodo se non esiste
             if (!nodoImages[nodeNumber]) {
                 nodoImages[nodeNumber] = {};
             }
             
             try {
-                // Carica l'immagine originale
                 const originalImg = await loadImageSafely(
                     originalPath, 
                     `Img ${imageFileIndex} -> Nodo ${nodeNumber}`
@@ -957,7 +1402,6 @@ const sketch = (p) => {
                 nodoImages[nodeNumber].original = originalImg;
                 console.log(`✅ Immagine originale nodo_${imageFileIndex}.png assegnata al Nodo ${nodeNumber}`);
                 
-                // Per i nodi 1-10, carica anche la versione bis
                 if (imageFileIndex <= 10) {
                     const bisPath = `assets/nodo_${imageFileIndex}bis.png`;
                     try {
@@ -969,7 +1413,6 @@ const sketch = (p) => {
                         console.log(`✅ Immagine bis nodo_${imageFileIndex}bis.png assegnata al Nodo ${nodeNumber}`);
                     } catch (e) {
                         console.warn(`Errore nel caricamento di ${bisPath}:`, e);
-                        // Crea un placeholder per la versione bis
                         const placeholder = p.createGraphics(200, 200);
                         placeholder.background(200, 200, 255, 100);
                         placeholder.fill(50, 50, 100);
@@ -1019,21 +1462,18 @@ const sketch = (p) => {
         window.addEventListener('wheel', function(e) {
             if (isProcessing || movementState !== 'STOPPED') return;
             
-            if (Math.abs(e.deltaY) > 5 || Math.abs(e.deltaX) > 5) {
-                e.preventDefault();
-                const direction = e.deltaY > 0 ? 1 : -1;
-                startMoving(direction);
-            }
-        }, { passive: false });
+            const direction = e.deltaY > 0 ? 1 : -1;
+            startMoving(direction);
+        });
         
         // Tasti freccia per navigazione
         window.addEventListener('keydown', function(e) {
             if (isProcessing || movementState !== 'STOPPED') return;
             
-            if (['Space', 'ArrowDown'].includes(e.code)) {
+            if (e.code === 'ArrowDown' || e.code === 'ArrowRight' || e.code === 'Space') {
                 e.preventDefault();
                 startMoving(1);
-            } else if (['ArrowUp'].includes(e.code)) {
+            } else if (e.code === 'ArrowUp' || e.code === 'ArrowLeft') {
                 e.preventDefault();
                 startMoving(-1);
             }
@@ -1044,6 +1484,9 @@ const sketch = (p) => {
     
     p.draw = function() {
         updateMovement();
+        updateImageTransitions();
+        updateDescriptionAlpha();
+        
         const currentPoint = getPointOnPath(scrollProgress, smoothPath, pathLength);
         
         drawLightGradient();
@@ -1068,16 +1511,27 @@ const sketch = (p) => {
         drawNodes();
         drawMovingDot(currentPoint);
         
-        // Disegna le descrizioni dei nodi
-        if (showDescriptionNodo2 || descriptionAlpha > 0) {
-            drawNodo2Description();
-        }
-        
-        if (showDescriptionNodo3 || descriptionAlphaNodo3 > 0) {
-            drawNodo3Description();
+        // Disegna la descrizione attiva se presente
+        if (activeDescription && descriptionAlpha > 0) {
+            switch (activeDescription.animationType) {
+                case 'group1':
+                    drawDescriptionGroup1(p);
+                    break;
+                case 'group2':
+                    drawDescriptionGroup2(p);
+                    break;
+                case 'group3':
+                    drawDescriptionGroup3(p);
+                    break;
+                case 'group4':
+                    drawDescriptionGroup4(p);
+                    break;
+            }
         }
         
         p.pop();
+        
+        updateUI();
     };
     
     p.windowResized = function() {
@@ -1090,4 +1544,3 @@ const sketch = (p) => {
 
 // ============ AVVIO ============
 new p5(sketch);
-//questo comento è per capire

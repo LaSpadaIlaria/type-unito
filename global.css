@@ -1,0 +1,16 @@
+@font-face {
+  font-family: 'WakeType';
+  src: url('./Assets/WakeType.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Forza il font per tutti gli elementi con !important */
+* {
+  font-family: 'WakeType', sans-serif !important;
+}
+
+/* Specifica per gli input e textarea per compatibilità */
+input, textarea, select, button {
+  font-family: 'WakeType', sans-serif !important;
+}

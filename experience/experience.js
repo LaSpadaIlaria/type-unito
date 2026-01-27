@@ -43,8 +43,80 @@ const NODO_IMAGE_SETTINGS = {
     26: { offsetX: 2000, offsetY: -2000, scale: 0 }
 };
 
-// Testo segnaposto per tutte le descrizioni
-const PLACEHOLDER_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
+// Testi delle lettere (nodi 2-25 corrispondono a testi 1-24)
+const LETTER_TEXTS = [
+    // Testo 1 - Nodo 2
+    "Nebulosa... non la raggiungi... la percepisci solo quando riesci a seguirla. Non sai bene dove sei... lo spazio è confuso. Le grazie si avvolgono... turbini... filamenti d'inchiostro che nascondono... La lettera c'è... forse... dietro... Ti muovi... cerchi di afferrarla... ma lei si ritrae... si nasconde nelle sue stesse curve... Lo spazio respira... ondeggia... E tu cerchi... una strada... tra quei filamenti che si intrecciano... pensieri appena formati...",
+    
+    // Testo 2 - Nodo 3
+    "Qualcosa si avvolge… una curva che danza… ritmo… rapidità… Le grazie conducono alla lettera, la creano, la fanno nascere: Scende la prima asta. Veloce, spessa, non guarda dove va… poi…rallenta. La barra diventa un punto di sospensione che devia il movimento verso destra, un'altra asta … SLASH! Un taglio. E poi… rinascita.",
+    
+    // Testo 3 - Nodo 4
+    "Inizi a muoverti... inizi a definirti... forse sai dove ti trovi? Le curve salgono... scendono... salgono di nuovo... Tre archi che si inseguono... fluidi... senza interruzione. Scorre il gesto, continuo, come acqua che trova la sua strada. Non ci sono angoli, solo movimento. Il pennino danza sulla superficie, lascia tracce morbide, quasi trasparenti. Dove finisce una curva ne inizia un'altra.",
+    
+    // Testo 4 - Nodo 5
+    "Una curva ampia si solleva... sale... cerca l'alto... poi si spezza. Si interrompe. Un taglio che attraversa, obliquo, deciso. Il tratto superiore si attorciglia su se stesso, si avvolge in una voluta che non sa dove andare, mentre quello inferiore scende, si allunga in una coda sottile che si perde nello spazio. La forma si frammenta... cerca di tenersi insieme... ma qualcosa l'ha divisa. Due parti che erano una... ora separate... sospese... La grazia finale si ripiega come un uncino, come se volesse aggrapparsi a qualcosa che non c'è più.",
+    
+    // Testo 5 - Nodo 6
+    "Qualcosa si addensa. Le forme si fanno più scure... più dense... come se il sogno stesse prendendo corpo. Aste che salgono come torri ma poi si fratturano in angoli acuti... quasi spine. C'è un'architettura qui... ma è quella di un castello che ricordi solo a metà... con guglie che bucano la nebbia. Il nero si accumula... si stratifica in zone d'ombra... Le grazie diventano artigli... la lettera si aggrappa allo spazio cercando di non dissolversi.",
+    
+    // Testo 6 - Nodo 7
+    "Pelosa... Spinosa... Un avvolgimento? La curva si apre, ampia, generosa, ma il suo bordo è frastagliato, irregolare, come se fosse coperta di peli o spine che escono dal tracciato principale. Ricorda quasi una creatura, o forse una pianta... ma è una lettera. Il nero non è uniforme: si sfrangia, si diffonde in piccole proiezioni che sembrano vibrare, pulsare. Si avvolge come una coda, morbida all'interno, aggressiva all'esterno. La texture è tattile, quasi la senti sotto le dita. Il gesto calligrafico ha lasciato tracce organiche, vive. La forma respira... si muove... abita lo spazio?",
+    
+    // Testo 7 - Nodo 8
+    "Un unico tratto... Non si stacca mai. Inizia con un ricciolo che si volge su se stesso, come un grembo... una spirale che gira, gira, scende, poi si allunga verso l'alto. Sale in una curva morbida, quasi silvano, leggera, che si gonfia e si chiude creando sospensione. Poi scende, fluida, senza interruzione, e si apre di nuovo in una seconda pancia, più ampia, più generosa della prima... gira. Il gesto è continuo, ininterrotto, come un nastro che danza nell'aria. Non ci sono angoli, non ci sono pause. Solo movimento che si piega, si ripiega, si avvolge su se stesso cercando di contenere qualcosa... o forse di proteggerlo.",
+    
+    // Testo 8 - Nodo 9
+    "Si spezza... Due curve opposte, una sopra e una sotto, unite da un tracciato che scende, taglia, attraversa. Ma i bordi non sono netti. La curva superiore si gonfia a sinistra, termina in una piccola punta, un accenno rapido. Il segno che le collega vibra leggermente, come se stesse perdendo definizione, come se i contorni iniziassero a sfumare. La curva inferiore riprende quella peluria della creatura di prima, ma solo un pelo, un'appendice vitale che esce dal corpo della lettera. E poi si riavvolge su se stessa, termina in quel ricciolo denso, pieno, quella coda che ancora pulsa di vita. È una forma che va in due direzioni opposte, che si strappa tra alto e basso... tra dove era e dove va.",
+    
+    // Testo 9 - Nodo 10
+    "Due occhi... Due fori circolari, perfetti, che ti fissano. La forma è massiccia, geometrica, costruita su verticali spesse e curve che si chiudono formando due pupille simmetriche. Al centro un elemento a mandorla, una forma ovale piena che divide e unisce allo stesso tempo. I terminali laterali si aprono come code, grazie che escono verso l'esterno quasi come corna o antenne. Il nero è pieno, compatto, solido... Non c'è più la fluidità dei segni precedenti: qui la forma è densa, quasi pesante... come se il sogno stesse coagulando, prendendo corpo. La lettera ti guarda, ti osserva, quasi consapevole di sé.",
+    
+    // Testo 10 - Nodo 11
+    "Massiccia... Quadrata... Una verticale ferma, pesante, quasi muta. Superiore e inferiore si espandono... si rigonfiano. Una pressione trattenuta, come aria pronta a uscire ma ancora compressa. Eppure qualcosa vibra. Non ovunque. Al centro. Si spinge verso destra, si gonfia, si incurva. Un solo ricciolo, denso, morbido, come un prolungamento del respiro. Sembra una tromba: non decora, emette. Amplifica. La struttura in sé resta immobile, ma da quel punto nasce un'onda. Silenzio e suono insieme. La lettera non si muove, eppure risuona. La senti?",
+    
+    // Testo 11 - Nodo 12
+    "Qui si ricade. Il sogno ritorna, più denso, più ornato. La verticale scende lunga, poi si ripiega in una curva ampia che si avvolge su se stessa formando una spirale generosa, irregolare. Ma non è sola: dall'asta principale nascono altri riccioli, spirali più piccole che escono come germogli, come tentacoli che cercano lo spazio. Una in alto a sinistra, una a destra a metà discesa. I contorni vibrano, si gonfiano, si assottigliano in modo irregolare. La natura qui è dinamica, infinita, si espande senza controllo. Le forme si moltiplicano, si intrecciano, creano un movimento sublime che non si ferma mai. È una lettera che cresce, che vive, che respira con un'energia organica, incontrollabile.",
+    
+    // Testo 12 - Nodo 13
+    "La curva superiore sembra tirarla indietro, come se trattenesse qualcosa che sta per sfuggire, mentre quella inferiore pare allungarla verso un altrove incerto. Le grazie ai due estremi non appaiono decorative: sembrano afferrarla, forse tenderla, forse scioglierla, e la forma si distende come una corda che qualcuno tira da due parti senza decidersi. Nei pressi dei nodi il tratto si assottiglia fino a diventare un filo, e quei due pallini d'inchiostro potrebbero essere esitazioni del pennino… o punti in cui la lettera si è stretta per un istante, come se stesse cercando di trattenere la propria forma.",
+    
+    // Testo 13 - Nodo 14
+    "La verticale a sinistra non è stabile, è morbida. Parte da destra, si piega, ondula leggermente prima di scendere. Non è dritta, non è ferma: ha un movimento interno, una curvatura che la rende viva. E poi sulla destra si apre la spirale. Cerchi concentrici che si stringono, si avvolgono sempre più vicini verso il centro, verso quel punto denso, nero, pieno. È un occhio. Un vortice. Ti guarda e ti attira, ti porta giù, sempre più giù nel suo nucleo. Non puoi resistere: il movimento è ipnotico, centripeto, ti risucchia nel buio. La forma gira, gira, si stringe fino a quel puntino finale dove tutto converge, dove tutto sprofonda. Stai cadendo nel mondo onirico, più in profondità di prima. Il centro ti chiama, ti inghiotte.",
+    
+    // Testo 14 - Nodo 15
+    "Dopo la caduta, un cerchio. Ampio, generoso, che si chiude su se stesso formando un contenitore, un grembo. Ma dentro c'è un'altra forma, una curva a cuore che si avvolge verso il centro, puntando verso il basso, creando un punto di tensione interna. La forma cerca di chiudersi, di proteggersi. Ma qualcosa sfugge… Una lunga coda, morbida, esce dal corpo circolare e si allunga obliqua verso il basso a destra. Si gonfia al centro, poi si assottiglia e termina in un ricciolo che si ripiega su se stesso. È una via di fuga. Un tentativo di uscire dal cerchio, di rompere la chiusura. Quella coda si protende nello spazio esterno, vuole staccarsi, liberarsi. Ma il ricciolo finale la trattiene ancora, esita. È sospesa tra il restare dentro e l'andare fuori, tra il contenimento e la liberazione.",
+    
+    // Testo 15 - Nodo 16
+    "La verticale scende, ferma, decisa. Sale fino a raggiungere l'altezza, poi da lì parte una spalla che si protende verso destra. Ma non si chiude. Si apre, si solleva formando un arco che termina arrotolato su se stesso in una spirale stretta, compatta. È come una testa che guarda indietro, un riccio che si avvolge. La forma è semplice nella sua struttura base, ma quella terminazione a spirale conserva ancora un ricordo del movimento onirico. Il gesto si concentra in quel punto finale, dove la curva si stringe, si raccoglie. La lettera ha un piede piantato... ma la testa ancora sogna...",
+    
+    // Testo 16 - Nodo 17
+    "La pancia si apre ampia, generosa, sul lato sinistro crea un varco che lascia entrare lo spazio, una spirale…. Sul lato destro la curva si chiude quasi completamente. La spalla parte dal punto più rotondo, sale dritto terminando con appena un accenno di chiusura. In basso a destra, una piccola appendice sporge, quasi un terminale che punta obliquo. La curva scorre continua, senza interruzioni brusche, il modulo è contenuto ma respira... ancora morbida... ma la struttura si definisce.",
+    
+    // Testo 17 - Nodo 18
+    "Due archi paralleli che salgono e scendono creando due controforme gemelle. Al centro, dove i due archi si incontrano, si forma un vertice, un rettangolo, che scende leggermente… un tronco… un albero. Le terminazioni inferiori si riavvolgono su se stesse in piccoli riccioli, guardano verso l'interno. La forma ha un ritmo binario, un movimento che si ripete, si duplica. Simmetria... battito doppio... le curve ancora morbide, non rigide... respirano insieme, sincronizzate.",
+    
+    // Testo 18 - Nodo 19
+    "La lettera si apre con due braccia diagonali che convergono verso il basso formando un apice appuntito. Ma le terminazioni superiori non sono semplici: quella di sinistra si arrotola su se stessa in un ricciolo pieno, denso, che guarda indietro. Quella di destra termina con una goccia morbida, quasi un lacrima. Il vertice inferiore è affilato, preciso. Le due aste hanno peso variabile, si assottigliano avvicinandosi al punto di incontro. È una lettera che ancora si volta, che conserva memoria di dove è stata... nostalgica.",
+    
+    // Testo 19 - Nodo 20
+    "Sinuosità. Liquida, ondulata, scorre come acqua o come un serpente che si erge. Si gonfia, si assottiglia, ha un movimento interno che la fa vibrare. La curva basale collega questo flusso a un'asta destra più stabile, più dritta, che termina con una grazia appena accennata, quasi geometrica. La controforma è ampia, generosa, l'apertura superiore lascia respirare lo spazio interno. Il contrasto tra la parte sinistra organica e quella destra più controllata crea tensione... guarda, osserva.",
+    
+    // Testo 20 - Nodo 21
+    "La D ha un'asta sinistra stabile che termina in due piccole grazie leggermente abbozzate, e un arco destro ampio che culmina in una curva schiacciata. I tratti superiori e inferiori oscillano andando a creare una maggiore tensione nella controforma interna portando quasi ad una sorta di vibrazione all'occhio… o forse si sta proprio muovendo?",
+    
+    // Testo 21 - Nodo 22
+    "Controforma ampia, quasi circolare, con apertura sul lato destro che interrompe la continuità della forma. Lo sperone orizzontale si inserisce perpendicolarmente, estendendosi verso l'interno della controforma creando una chiusura parziale. Ma i bordi esterni... i bordi vibrano. Piccole escrescenze triangolari si proiettano verso l'esterno: una nella zona superiore destra, come una punta acuminata che fuoriesce dalla curva, un'altra inferiore sinistra che sporge asimmetrica. Non sono grazie convenzionali, sono interruzioni del contorno, come se la forma stesse respirando, pulsando. Il peso del tratto è sostanzialmente uniforme ma queste proiezioni creano tensione visiva. La struttura è geometrica, definita... ma qualcosa sfugge, si protende.",
+    
+    // Testo 22 - Nodo 23
+    "Due aste inclinate di peso consistente, simmetrico. Scendono parallele dall'altezza maiuscola e si congiungono in una curva basale regolare, ad arco. La controforma interna è stretta, una fenditura creata da due aste parallele, a distanza costante. I terminali superiori sono netti, tagliati in diagonale senza grazie. La curva inferiore ha raggio uniforme, collega le due verticali con fluidità, eppure... se guardi bene... il bordo esterno sinistro vibra appena, impercettibilmente. Un'oscillazione minima del contorno, come un tremito. Il tratto non è perfettamente liscio, ha microvariazioni che l'occhio quasi non coglie. Stabilità che trema.",
+    
+    // Testo 23 - Nodo 24
+    "Costruzione binoculare con occhio orizzontale regolare. La barra mediana attraversa lo spazio posizionandosi leggermente sotto la linea mediana dell'altezza. L'apertura verso destra è contenuta, terminale superiore con becco pronunciato rivolto verso l'alto. Il peso è distribuito uniformemente lungo tutto il tracciato, le curve hanno raggio costante. Ma il bordo... il bordo della curva superiore presenta irregolarità, ondulazioni del contorno come se la superficie stesse per dissolversi, come se l'occhio si assottigliasse per scrutare meglio… osservare. La forma è definita, leggibile, funzionale. Eppure qualcosa sotto la pelle si muove ancora.",
+    
+    // Testo 24 - Nodo 25
+    "È l'unica che osa ancora scendere. Mentre tutto intorno fluttua, lei affonda. La sua asta verticale, dritta e decisa, taglia la linea di base, la attraversa, come a cercare un terreno solido, reale. L'occhiello ellittico tende verso l'alto, un asse verticale lo attraversa. All'estremità inferiore dell'asta, la grazia si fa pesante, appuntita, si aggrappa attraverso un raccordo, un pesante incudine. Il tratto è uniforme, costruito con precisione tecnica, ma la sua forma racconta un'altra storia: quella di una radice che non si arrende, che fa piccole incursioni nel buio prima di tornare in superficie. Un becco sottile sulla sommità dell'asta punta verso sinistra, ripensando al viaggio percorso… ti stai svegliando?"
+];
 
 // ============ COSTANTI ============
 const NODE_COUNT = 26;
@@ -72,7 +144,7 @@ let nodoImageFadeProgress = {};
 let starParticles = [];
 
 // Stato per le descrizioni
-let activeDescription = null; // { nodeIndex: number, animationType: 'group1' | 'group2' | 'group3' | 'group4' }
+let activeDescription = null; // { nodeIndex: number, animationType: 'group1' | 'group2' | 'group3' | 'group4', text: string }
 let descriptionAlpha = 0;
 
 // Variabili per le animazioni delle descrizioni
@@ -384,11 +456,11 @@ function splitTextIntoLines(text, maxCharsPerLine = 70) {
 }
 
 // Gruppo 1: Nodi 2-9 - Animazioni molto diverse tra loro, parole che ondeggiano, inclinano, esplodono
-function createTextLinesGroup1(node) {
+function createTextLinesGroup1(node, text) {
     textLinesGroup1 = [];
     
     // Dividi il testo in righe
-    const lines = splitTextIntoLines(PLACEHOLDER_TEXT, 70);
+    const lines = splitTextIntoLines(text, 70);
     
     const offsetX = 0;
     const offsetY = 0;
@@ -621,11 +693,11 @@ function drawDescriptionGroup1(p) {
 }
 
 // Gruppo 2: Nodi 10-16 - Parole che ondeggiano in sincrono per riga
-function createTextLinesGroup2(node) {
+function createTextLinesGroup2(node, text) {
     textLinesGroup2 = [];
     
     // Dividi il testo in righe
-    const lines = splitTextIntoLines(PLACEHOLDER_TEXT, 70);
+    const lines = splitTextIntoLines(text, 70);
     
     const offsetX = 0;
     const offsetY = 0;
@@ -757,11 +829,11 @@ function drawDescriptionGroup2(p) {
 }
 
 // Gruppo 3: Nodi 17-21 - Intero blocco di testo che si muove e si inclina
-function createTextLinesGroup3(node) {
+function createTextLinesGroup3(node, text) {
     textLinesGroup3 = [];
     
     // Dividi il testo in righe
-    const lines = splitTextIntoLines(PLACEHOLDER_TEXT, 70);
+    const lines = splitTextIntoLines(text, 70);
     
     const offsetX = 0;
     const offsetY = 0;
@@ -877,11 +949,11 @@ function drawDescriptionGroup3(p) {
 }
 
 // Gruppo 4: Nodi 22-25 - Testo statico (mantenuto per completezza)
-function createTextLinesGroup4(node) {
+function createTextLinesGroup4(node, text) {
     textLinesGroup4 = [];
     
     // Dividi il testo in righe
-    const lines = splitTextIntoLines(PLACEHOLDER_TEXT, 70);
+    const lines = splitTextIntoLines(text, 70);
     
     const offsetX = 0;
     const offsetY = 0;
@@ -1333,6 +1405,11 @@ const sketch = (p) => {
     function handleNodeClick(nodeIdx) {
         const nodeNumber = nodeIdx + 1;
         
+        // Nodi 1 e 26 non mostrano descrizioni
+        if (nodeNumber === 1 || nodeNumber === 26) {
+            return;
+        }
+        
         // Determina il tipo di animazione in base al gruppo del nodo
         let animationType = 'group1'; // Predefinito
         
@@ -1344,10 +1421,11 @@ const sketch = (p) => {
             animationType = 'group3'; // Intero blocco animato
         } else if (nodeNumber >= 22 && nodeNumber <= 25) {
             animationType = 'group4'; // Testo statico
-        } else {
-            // Per i nodi 1 e 26, non mostrare descrizioni
-            return;
         }
+        
+        // Ottieni il testo corrispondente alla lettera (nodo 2-25 → testo 0-23)
+        const textIndex = nodeNumber - 2;
+        const letterText = LETTER_TEXTS[textIndex];
         
         // Gestione toggle della descrizione
         if (activeDescription && activeDescription.nodeIndex === nodeIdx) {
@@ -1358,18 +1436,19 @@ const sketch = (p) => {
             activeDescription = {
                 nodeIndex: nodeIdx,
                 animationType: animationType,
-                node: nodes[nodeIdx]
+                node: nodes[nodeIdx],
+                text: letterText
             };
             
             // Prepara le linee di testo per le animazioni
             if (animationType === 'group1') {
-                createTextLinesGroup1(nodes[nodeIdx]);
+                createTextLinesGroup1(nodes[nodeIdx], letterText);
             } else if (animationType === 'group2') {
-                createTextLinesGroup2(nodes[nodeIdx]);
+                createTextLinesGroup2(nodes[nodeIdx], letterText);
             } else if (animationType === 'group3') {
-                createTextLinesGroup3(nodes[nodeIdx]);
+                createTextLinesGroup3(nodes[nodeIdx], letterText);
             } else if (animationType === 'group4') {
-                createTextLinesGroup4(nodes[nodeIdx]);
+                createTextLinesGroup4(nodes[nodeIdx], letterText);
             }
         }
         

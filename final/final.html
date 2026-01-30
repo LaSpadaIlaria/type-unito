@@ -3,15 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Percorso Finale</title>
+    <title>WakeType - Il Risveglio Tipografico</title>
     <link rel="stylesheet" href="../global.css">
     <link rel="stylesheet" href="final.css">
 </head>
 <body>
-    <!-- Canvas principale p5 -->
+    <!-- Canvas p5.js per il filo e le immagini -->
     <div id="p5-canvas"></div>
-    <div class="scroll-space"></div>
     
+    <!-- Sezione Hero (schermata iniziale) -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <!-- Header con i tre bottoni discreti -->
+            <header class="main-header">
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../intro/intro.html">Intro</a></li>
+                        <li><a href="../experience/experience.html">Experience</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <!-- Titolo Principale -->
+            <h1 class="main-title">WakeType</h1>
+            
+            <!-- Sottotitolo -->
+            <div class="subtitle-container">
+                <span class="font-weight">Regular</span>
+                <div class="font-info">
+                    <span class="designer">La Spada, Lacchini, Tramontana, Testaverde</span>
+                    <span class="separator">•</span>
+                    <span class="year">2025</span>
+                </div>
+            </div>
+            
+            <!-- Indicatore scroll -->
+            <div class="scroll-indicator">
+                <span>Scroll down</span>
+                <div class="arrow">↓</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spazio per lo scroll -->
+    <div class="scroll-space"></div>
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <script src="final.js"></script>

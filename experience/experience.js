@@ -45,77 +45,54 @@ const NODO_IMAGE_SETTINGS = {
 
 // Testi delle lettere (nodi 2-25 corrispondono a testi 1-24)
 const LETTER_TEXTS = [
-    // Testo 1 - Nodo 2
-    "Nebulosa... non la raggiungi... la percepisci solo quando riesci a seguirla. Non sai bene dove sei... lo spazio è confuso. Le grazie si avvolgono... turbini... filamenti d'inchiostro che nascondono... La lettera c'è... forse... dietro... Ti muovi... cerchi di afferrarla... ma lei si ritrae... si nasconde nelle sue stesse curve... Lo spazio respira... ondeggia... E tu cerchi... una strada... tra quei filamenti che si intrecciano... pensieri appena formati...",
+    "Nebulosa... <br> non la raggiungi, la percepisci... <br> solo quando riesci a seguirla. Non sai bene dove sei... <br> lo spazio è confuso. Le grazie si avvolgono... turbini... filamenti d'inchiostro che nascondono...<br> La lettera c'è... <br> forse...<br> dietro... Ti muovi... cerchi di afferrarla... <br> ma lei si ritrae... si nasconde nelle sue stesse curve... Lo spazio respira... ondeggia... E tu cerchi... una strada... tra quei filamenti che si intrecciano... <br> pensieri appena formati...",
     
-    // Testo 2 - Nodo 3
-    "Qualcosa si avvolge… una curva che danza… ritmo… rapidità… Le grazie conducono alla lettera, la creano, la fanno nascere: Scende la prima asta. Veloce, spessa, non guarda dove va… poi…rallenta. La barra diventa un punto di sospensione che devia il movimento verso destra, un'altra asta … SLASH! Un taglio. E poi… rinascita.",
+    "Qualcosa si avvolge… una curva che danza…<br> ritmo… <br>rapidità…<br> Le grazie conducono alla lettera, la creano, <br>la fanno nascere: Scende la prima asta. Veloce, spessa, non guarda dove va… poi…rallenta. La barra diventa un punto di sospensione che devia il movimento verso destra, un'altra asta …<br> SLASH!<br> Un taglio. E poi… rinascita.",
     
-    // Testo 3 - Nodo 4
-    "Inizi a muoverti... inizi a definirti... forse sai dove ti trovi? Le curve salgono... scendono... salgono di nuovo... Tre archi che si inseguono... fluidi... senza interruzione. Scorre il gesto, continuo, come acqua che trova la sua strada. Non ci sono angoli, solo movimento. Il pennino danza sulla superficie, lascia tracce morbide, quasi trasparenti. Dove finisce una curva ne inizia un'altra.",
+    "Inizi a muoverti...<br> inizi a definirti... <br>forse sai dove ti trovi? Le curve salgono<br> scendono...<br> salgono di nuovo...<br> Tre archi che si inseguono... fluidi... senza interruzione. <br>Scorre il gesto, continuo, come acqua che trova la sua strada. Non ci sono angoli, solo movimento. <br> Il pennino danza sulla superficie, lascia tracce morbide, quasi trasparenti. Dove finisce una curva ne inizia un'altra.",
     
-    // Testo 4 - Nodo 5
-    "Una curva ampia si solleva... sale... cerca l'alto... poi si spezza. Si interrompe. Un taglio che attraversa, obliquo, deciso. Il tratto superiore si attorciglia su se stesso, si avvolge in una voluta che non sa dove andare, mentre quello inferiore scende, si allunga in una coda sottile che si perde nello spazio. La forma si frammenta... cerca di tenersi insieme... ma qualcosa l'ha divisa. Due parti che erano una... ora separate... sospese... La grazia finale si ripiega come un uncino, come se volesse aggrapparsi a qualcosa che non c'è più.",
+    "Una curva ampia si solleva e poi si spezza.<br>Un taglio attraversa la forma.<br>Il tratto superiore si avvolge in una voluta incerta,<br>quello inferiore si allunga in una coda sottile che si perde nello spazio.<br>La forma, divisa, tenta di restare unita:<br>due parti che erano una,<br>ora sospese.<br>Il finale si ripiega come un uncino,<br>in cerca di un appiglio assente.",
     
-    // Testo 5 - Nodo 6
-    "Qualcosa si addensa. Le forme si fanno più scure... più dense... come se il sogno stesse prendendo corpo. Aste che salgono come torri ma poi si fratturano in angoli acuti... quasi spine. C'è un'architettura qui... ma è quella di un castello che ricordi solo a metà... con guglie che bucano la nebbia. Il nero si accumula... si stratifica in zone d'ombra... Le grazie diventano artigli... la lettera si aggrappa allo spazio cercando di non dissolversi.",
+    "Qualcosa si addensa.<br>Le forme si scuriscono, il sogno prende corpo.<br>Aste salgono come torri e si fratturano in angoli acuti.<br>Un'architettura instabile, come un castello ricordato a metà,<br>con guglie che attraversano la nebbia.<br>Il nero si stratifica in zone d'ombra,<br>le grazie diventano artigli:<br>la lettera si aggrappa allo spazio per non dissolversi.",
     
-    // Testo 6 - Nodo 7
-    "Pelosa... Spinosa... Un avvolgimento? La curva si apre, ampia, generosa, ma il suo bordo è frastagliato, irregolare, come se fosse coperta di peli o spine che escono dal tracciato principale. Ricorda quasi una creatura, o forse una pianta... ma è una lettera. Il nero non è uniforme: si sfrangia, si diffonde in piccole proiezioni che sembrano vibrare, pulsare. Si avvolge come una coda, morbida all'interno, aggressiva all'esterno. La texture è tattile, quasi la senti sotto le dita. Il gesto calligrafico ha lasciato tracce organiche, vive. La forma respira... si muove... abita lo spazio?",
+    "Pelosa, spinosa.<br> Una curva si apre ampia e generosa,<br> ma il bordo è irregolare, frastagliato.<br> Ricorda una creatura, forse una pianta,<br> eppure è una lettera.<br> Si avvolge come una coda:<br> morbida all'interno, aggressiva all'esterno.<br> La forma respira,<br> forse si muove.",
     
-    // Testo 7 - Nodo 8
-    "Un unico tratto... Non si stacca mai. Inizia con un ricciolo che si volge su se stesso, come un grembo... una spirale che gira, gira, scende, poi si allunga verso l'alto. Sale in una curva morbida, quasi silvano, leggera, che si gonfia e si chiude creando sospensione. Poi scende, fluida, senza interruzione, e si apre di nuovo in una seconda pancia, più ampia, più generosa della prima... gira. Il gesto è continuo, ininterrotto, come un nastro che danza nell'aria. Non ci sono angoli, non ci sono pause. Solo movimento che si piega, si ripiega, si avvolge su se stesso cercando di contenere qualcosa... o forse di proteggerlo.",
+    "Un unico tratto nasce in un ricciolo<br> che si avvolge su sé stesso, poi scende e risale.<br>La curva si gonfia, crea sospensione, quindi ricade senza interruzione.<br>Si apre in una seconda pancia, più ampia e accogliente.<br>Il gesto è continuo, como un nastro che si piega e si ripiega,<br>nel tentativo di contenere,<br>forse di proteggere.",
     
-    // Testo 8 - Nodo 9
-    "Si spezza... Due curve opposte, una sopra e una sotto, unite da un tracciato che scende, taglia, attraversa. Ma i bordi non sono netti. La curva superiore si gonfia a sinistra, termina in una piccola punta, un accenno rapido. Il segno che le collega vibra leggermente, come se stesse perdendo definizione, come se i contorni iniziassero a sfumare. La curva inferiore riprende quella peluria della creatura di prima, ma solo un pelo, un'appendice vitale che esce dal corpo della lettera. E poi si riavvolge su se stessa, termina in quel ricciolo denso, pieno, quella coda che ancora pulsa di vita. È una forma che va in due direzioni opposte, che si strappa tra alto e basso... tra dove era e dove va.",
-    
-    // Testo 9 - Nodo 10
-    "Due occhi... Due fori circolari, perfetti, che ti fissano. La forma è massiccia, geometrica, costruita su verticali spesse e curve che si chiudono formando due pupille simmetriche. Al centro un elemento a mandorla, una forma ovale piena che divide e unisce allo stesso tempo. I terminali laterali si aprono come code, grazie che escono verso l'esterno quasi come corna o antenne. Il nero è pieno, compatto, solido... Non c'è più la fluidità dei segni precedenti: qui la forma è densa, quasi pesante... come se il sogno stesse coagulando, prendendo corpo. La lettera ti guarda, ti osserva, quasi consapevole di sé.",
-    
-    // Testo 10 - Nodo 11
-    "Massiccia... Quadrata... Una verticale ferma, pesante, quasi muta. Superiore e inferiore si espandono... si rigonfiano. Una pressione trattenuta, come aria pronta a uscire ma ancora compressa. Eppure qualcosa vibra. Non ovunque. Al centro. Si spinge verso destra, si gonfia, si incurva. Un solo ricciolo, denso, morbido, come un prolungamento del respiro. Sembra una tromba: non decora, emette. Amplifica. La struttura in sé resta immobile, ma da quel punto nasce un'onda. Silenzio e suono insieme. La lettera non si muove, eppure risuona. La senti?",
-    
-    // Testo 11 - Nodo 12
-    "Qui si ricade. Il sogno ritorna, più denso, più ornato. La verticale scende lunga, poi si ripiega in una curva ampia che si avvolge su se stessa formando una spirale generosa, irregolare. Ma non è sola: dall'asta principale nascono altri riccioli, spirali più piccole che escono come germogli, come tentacoli che cercano lo spazio. Una in alto a sinistra, una a destra a metà discesa. I contorni vibrano, si gonfiano, si assottigliano in modo irregolare. La natura qui è dinamica, infinita, si espande senza controllo. Le forme si moltiplicano, si intrecciano, creano un movimento sublime che non si ferma mai. È una lettera che cresce, che vive, che respira con un'energia organica, incontrollabile.",
-    
-    // Testo 12 - Nodo 13
-    "La curva superiore sembra tirarla indietro, come se trattenesse qualcosa che sta per sfuggire, mentre quella inferiore pare allungarla verso un altrove incerto. Le grazie ai due estremi non appaiono decorative: sembrano afferrarla, forse tenderla, forse scioglierla, e la forma si distende come una corda che qualcuno tira da due parti senza decidersi. Nei pressi dei nodi il tratto si assottiglia fino a diventare un filo, e quei due pallini d'inchiostro potrebbero essere esitazioni del pennino… o punti in cui la lettera si è stretta per un istante, come se stesse cercando di trattenere la propria forma.",
-    
-    // Testo 13 - Nodo 14
-    "La verticale a sinistra non è stabile, è morbida. Parte da destra, si piega, ondula leggermente prima di scendere. Non è dritta, non è ferma: ha un movimento interno, una curvatura che la rende viva. E poi sulla destra si apre la spirale. Cerchi concentrici che si stringono, si avvolgono sempre più vicini verso il centro, verso quel punto denso, nero, pieno. È un occhio. Un vortice. Ti guarda e ti attira, ti porta giù, sempre più giù nel suo nucleo. Non puoi resistere: il movimento è ipnotico, centripeto, ti risucchia nel buio. La forma gira, gira, si stringe fino a quel puntino finale dove tutto converge, dove tutto sprofonda. Stai cadendo nel mondo onirico, più in profondità di prima. Il centro ti chiama, ti inghiotte.",
-    
-    // Testo 14 - Nodo 15
-    "Dopo la caduta, un cerchio. Ampio, generoso, che si chiude su se stesso formando un contenitore, un grembo. Ma dentro c'è un'altra forma, una curva a cuore che si avvolge verso il centro, puntando verso il basso, creando un punto di tensione interna. La forma cerca di chiudersi, di proteggersi. Ma qualcosa sfugge… Una lunga coda, morbida, esce dal corpo circolare e si allunga obliqua verso il basso a destra. Si gonfia al centro, poi si assottiglia e termina in un ricciolo che si ripiega su se stesso. È una via di fuga. Un tentativo di uscire dal cerchio, di rompere la chiusura. Quella coda si protende nello spazio esterno, vuole staccarsi, liberarsi. Ma il ricciolo finale la trattiene ancora, esita. È sospesa tra il restare dentro e l'andare fuori, tra il contenimento e la liberazione.",
-    
-    // Testo 15 - Nodo 16
-    "La verticale scende, ferma, decisa. Sale fino a raggiungere l'altezza, poi da lì parte una spalla che si protende verso destra. Ma non si chiude. Si apre, si solleva formando un arco che termina arrotolato su se stesso in una spirale stretta, compatta. È come una testa che guarda indietro, un riccio che si avvolge. La forma è semplice nella sua struttura base, ma quella terminazione a spirale conserva ancora un ricordo del movimento onirico. Il gesto si concentra in quel punto finale, dove la curva si stringe, si raccoglie. La lettera ha un piede piantato... ma la testa ancora sogna...",
-    
-    // Testo 16 - Nodo 17
-    "La pancia si apre ampia, generosa, sul lato sinistro crea un varco che lascia entrare lo spazio, una spirale…. Sul lato destro la curva si chiude quasi completamente. La spalla parte dal punto più rotondo, sale dritto terminando con appena un accenno di chiusura. In basso a destra, una piccola appendice sporge, quasi un terminale che punta obliquo. La curva scorre continua, senza interruzioni brusche, il modulo è contenuto ma respira... ancora morbida... ma la struttura si definisce.",
-    
-    // Testo 17 - Nodo 18
-    "Due archi paralleli che salgono e scendono creando due controforme gemelle. Al centro, dove i due archi si incontrano, si forma un vertice, un rettangolo, che scende leggermente… un tronco… un albero. Le terminazioni inferiori si riavvolgono su se stesse in piccoli riccioli, guardano verso l'interno. La forma ha un ritmo binario, un movimento che si ripete, si duplica. Simmetria... battito doppio... le curve ancora morbide, non rigide... respirano insieme, sincronizzate.",
-    
-    // Testo 18 - Nodo 19
-    "La lettera si apre con due braccia diagonali che convergono verso il basso formando un apice appuntito. Ma le terminazioni superiori non sono semplici: quella di sinistra si arrotola su se stessa in un ricciolo pieno, denso, che guarda indietro. Quella di destra termina con una goccia morbida, quasi un lacrima. Il vertice inferiore è affilato, preciso. Le due aste hanno peso variabile, si assottigliano avvicinandosi al punto di incontro. È una lettera che ancora si volta, che conserva memoria di dove è stata... nostalgica.",
-    
-    // Testo 19 - Nodo 20
-    "Sinuosità. Liquida, ondulata, scorre come acqua o come un serpente che si erge. Si gonfia, si assottiglia, ha un movimento interno che la fa vibrare. La curva basale collega questo flusso a un'asta destra più stabile, più dritta, che termina con una grazia appena accennata, quasi geometrica. La controforma è ampia, generosa, l'apertura superiore lascia respirare lo spazio interno. Il contrasto tra la parte sinistra organica e quella destra più controllata crea tensione... guarda, osserva.",
-    
-    // Testo 20 - Nodo 21
-    "La D ha un'asta sinistra stabile che termina in due piccole grazie leggermente abbozzate, e un arco destro ampio che culmina in una curva schiacciata. I tratti superiori e inferiori oscillano andando a creare una maggiore tensione nella controforma interna portando quasi ad una sorta di vibrazione all'occhio… o forse si sta proprio muovendo?",
-    
-    // Testo 21 - Nodo 22
-    "Controforma ampia, quasi circolare, con apertura sul lato destro che interrompe la continuità della forma. Lo sperone orizzontale si inserisce perpendicolarmente, estendendosi verso l'interno della controforma creando una chiusura parziale. Ma i bordi esterni... i bordi vibrano. Piccole escrescenze triangolari si proiettano verso l'esterno: una nella zona superiore destra, come una punta acuminata che fuoriesce dalla curva, un'altra inferiore sinistra che sporge asimmetrica. Non sono grazie convenzionali, sono interruzioni del contorno, come se la forma stesse respirando, pulsando. Il peso del tratto è sostanzialmente uniforme ma queste proiezioni creano tensione visiva. La struttura è geometrica, definita... ma qualcosa sfugge, si protende.",
-    
-    // Testo 22 - Nodo 23
-    "Due aste inclinate di peso consistente, simmetrico. Scendono parallele dall'altezza maiuscola e si congiungono in una curva basale regolare, ad arco. La controforma interna è stretta, una fenditura creata da due aste parallele, a distanza costante. I terminali superiori sono netti, tagliati in diagonale senza grazie. La curva inferiore ha raggio uniforme, collega le due verticali con fluidità, eppure... se guardi bene... il bordo esterno sinistro vibra appena, impercettibilmente. Un'oscillazione minima del contorno, come un tremito. Il tratto non è perfettamente liscio, ha microvariazioni che l'occhio quasi non coglie. Stabilità che trema.",
-    
-    // Testo 23 - Nodo 24
-    "Costruzione binoculare con occhio orizzontale regolare. La barra mediana attraversa lo spazio posizionandosi leggermente sotto la linea mediana dell'altezza. L'apertura verso destra è contenuta, terminale superiore con becco pronunciato rivolto verso l'alto. Il peso è distribuito uniformemente lungo tutto il tracciato, le curve hanno raggio costante. Ma il bordo... il bordo della curva superiore presenta irregolarità, ondulazioni del contorno come se la superficie stesse per dissolversi, come se l'occhio si assottigliasse per scrutare meglio… osservare. La forma è definita, leggibile, funzionale. Eppure qualcosa sotto la pelle si muove ancora.",
-    
-    // Testo 24 - Nodo 25
-    "È l'unica che osa ancora scendere. Mentre tutto intorno fluttua, lei affonda. La sua asta verticale, dritta e decisa, taglia la linea di base, la attraversa, come a cercare un terreno solido, reale. L'occhiello ellittico tende verso l'alto, un asse verticale lo attraversa. All'estremità inferiore dell'asta, la grazia si fa pesante, appuntita, si aggrappa attraverso un raccordo, un pesante incudine. Il tratto è uniforme, costruito con precisione tecnica, ma la sua forma racconta un'altra storia: quella di una radice che non si arrende, che fa piccole incursioni nel buio prima di tornare in superficie. Un becco sottile sulla sommità dell'asta punta verso sinistra, ripensando al viaggio percorso… ti stai svegliando?"
+    "Si spezza…<br>Due curve opposte, una sopra e una sotto, unite da un segno che scende e attraversa.<br>I bordi non sono netti: la curva superiore si gonfia, accenna una punta rapida.<br>Il tratto vibra, perde definizione, i contorni sfumano.<br>La curva inferiore conserva una peluria vitale, si riavvolge in un ricciolo denso, pulsante.<br>Una forma che si tende in direzioni opposte,<br>strappata tra alto e basso,<br>tra ciò che era e ciò che diventa.",
+
+    "Due occhi si aprono nella forma.<br> Due fori circolari, simmetrici, scuri.<br> La struttura è massiccia, geometrica, costruita su verticali spesse e curve chiuse.<br> Al centro una forma a mandorla divide e tiene insieme.<br> I terminali laterali si aprono verso l'esterno, come corna o antenne.<br> Il nero è compatto, denso.<br> La fluidità si è fermata:<br> la lettera prende corpo e ti guarda.",
+
+    "Massiccia, quadrata.<br> Una verticale ferma trattiene pressione.<br> Sopra e sotto si gonfiano come aria compressa.<br> Al centro qualcosa vibra:<br> un ricciolo morfologicoo, denso, che spinge verso destra.<br> La struttura resta immobile,<br> ma da lì nasce un'onda.<br> Silenzio e suono insieme.",
+
+    "Il sogno ricade e si fa ornamento.<br> Una verticale scende e si avvolge in una spirale ampia, irregolare.<br> Altri riccioli germogliano dall'asta principale.<br> I contorni vibrano, si moltiplicano.<br> La forma cresce, si espande senza controllo.<br> È una lettera viva, organica, in continua trasformazione.",
+
+    "La forma è tirata in due direzioni.<br> La curva superiore trattiene,<br> quella inferiore trascina altrove.<br> Le grazie non decorano:<br> afferrano, tendono, sciolgono.<br> Il tratto si assottiglia nei nodi,<br> come una lettera che fatica a restare intera.",
+
+    "La verticale è morbida, instabile.<br> Ondula prima di scendere.<br> A destra si apre una spirale.<br> Cerchi che si stringono verso un centro nero.<br> È un occhio, un vortice.<br> Ti attira, ti trascina dentro.<br> Tutto converge, tutto sprofonda.",
+
+    "Dopo la caduta, un cerchio.<br> Ampio, chiuso, contenitivo.<br> Dentro, una curva a cuore crea tensione.<br> La forma tenta di proteggersi.<br> Ma una coda emerge e scivola fuori.<br> È una via di fuga.<br> Sospesa tra restare e liberarsi.",
+
+    "Una verticale ferma scende decisa.<br> Da lì nasce una spalla verso destra.<br> Non si chiude: si solleva e si arrotola<br> in una spirale stretta.<br> La struttura è stabile,<br> ma il finale conserva il sogno.<br> Un piede piantato,<br> la testa ancora altrove.",
+
+    "La pancia si apre ampia sul lato sinistro.<br> Accoglie lo spazio, respira.<br> A destra la curva si chiude quasi del tutto.<br> La spalla sale dritta, con una chiusura accennata.<br> Il gesto è continuo, controllato.<br> La forma si definisce, ma resta morbida.",
+
+    "Due archi paralleli si rispecchiano.<br> Creano controforme gemelle.<br> Al centro nasce un tronco.<br> Le terminazioni si riavvolgono verso l'interno.<br> Ritmo binario, doppio battito.<br> Curve sincronizzate che respirano insieme.",
+
+    "Due braccia diagonali scendono verso un apice affilato.<br> In alto, un ricciolo guarda indietro,<br> una goccia cade dall'altro lato.<br> I tratti si assottigliano verso l'incontro.<br> È una forma che conserva memoria,<br> ancora rivolta al passato.",
+
+    "Liquida, ondulata.<br> La forma scorre e vibra.<br> A sinistra è organica,<br> a destra un'asta più stabile la contiene.<br> La controforma è ampia, aperta.<br> Il contrasto crea tensione.<br> La lettera osserva.",
+
+    "Un'asta sinistra stabile sostiene la forma.<br> A destra un arco ampio si schiaccia.<br> I tratti oscillano creando tensione interna.<br> La controforma vibra.<br> Forse la lettera si muove davvero.",
+
+    "Controforma ampia, quasi circolare.<br> Un'apertura interrompe la continuità.<br> Uno sperone entra nello spazio interno.<br> I bordi vibraono.<br> Piccole punte emergono dal contorno.<br> La struttura è geometrica,<br> ma qualcosa si protende oltre.",
+
+    "Due aste inclinate scendono parallele.<br> Si uniscono in una curva regolare.<br> La controforma è una fenditura stretta.<br> Tutto appare stabile.<br> Eppure il bordo vibra appena.<br> Un tremito minimo nella forma.",
+
+    "Struttura binoculare, equilibrata.<br> La barra attraversa lo spazio.<br> Le curve sono regolari, leggibili.<br> Ma il bordo superiore si increspa.<br> La superficie sembra assottigliarsi.<br> La forma osserva, sotto la pelle si muove.",
+
+    "È l'unica che scende davvero.<br> L'asta attraversa la linea di base.<br> Cerca un terreno solido.<br> In basso una grazia pesante si ancora.<br> La forma è precisa, tecnica.<br> Ma racconta una radice che resiste.<br> Ti stai svegliando?",
+
 ];
 
 // ============ COSTANTI ============
@@ -126,6 +103,83 @@ const NODO_IMAGE_TARGET_ALPHA = 200;
 const NODO_IMAGE_FADE_SPEED = 5;
 const DESCRIPTION_FADE_SPEED = 8;
 const IMAGE_TRANSITION_SPEED = 0.05;
+
+// Costanti per le descrizioni in schermo - RIDOTTE a font 14px e interlinea 16px
+const SCREEN_BASE_TEXT_SIZE = 14;
+const SCREEN_CHAR_SPACING = 10;
+const SCREEN_WORD_SPACING = 12;
+const SCREEN_LINE_HEIGHT = 28;
+const SCREEN_PARAGRAPH_SPACING = 10;
+
+// Costanti per il centramento e spaziatura
+const SCREEN_TEXT_MARGIN_X = 30;
+const SCREEN_TEXT_MARGIN_Y = 30;
+
+// ============ NUOVE COSTANTI PER IL MOVIMENTO ONDULATORIO ============
+const WAVE_INTENSITIES = Array.from({length: 24}, (_, i) => 0.72 - (i * 0.03));
+const WAVE_AMPLITUDE = 6;  // Ridotto proporzionalmente
+const WAVE_FREQUENCY = 1.02;
+const WAVE_SPEED = 2.5;
+const WAVE_PROPAGATION_SPEED = 1.8;
+
+// ============ POSIZIONI PERSONALIZZATE DELLE DESCRIZIONI (in pixel schermo) ============
+const CUSTOM_DESCRIPTION_POSITIONS = {
+    2: { x: 400, y: 300 },
+    3: { x: window.innerWidth - 500, y: 550 },
+    4: { x: 400, y: window.innerHeight - 350 },
+    5: { x: window.innerWidth - 400, y: window.innerHeight - 300 },
+    6: { x: window.innerWidth - 1100, y: 450 },
+    7: { x: window.innerWidth - 1000, y: window.innerHeight - 280 },
+    8: { x: 820, y: window.innerHeight - 200},
+    9: { x: window.innerWidth - 400, y: window.innerHeight - 350 },
+    10: { x: window.innerWidth / 2, y: window.innerHeight - 200 },
+    11: { x: 350, y: 280 },
+    12: { x: window.innerWidth - 550, y: 520 },
+    13: { x: window.innerWidth - 1000, y: 200 },
+    14: { x: window.innerWidh - 520, y: window.innerHeight - 450 },
+    15: { x: 1120, y: window.innerHeight - 300 },
+    16: { x: window.innerWidth - 1100, y: 500 },
+    17: { x: 360, y: window.innerHeight - 300 },
+    18: { x: window.innerWidth - 500, y: window.innerHeight / 2 },
+    19: { x: window.innerWidth -1000, y: window.innerHeight - 260 },
+    20: { x: 1000, y: 400 },
+    21: { x: window.innerWidth - 500, y: 500 },
+    22: { x: window.innerWidth / 2, y: window.innerHeight - 280 },
+    23: { x: 800, y: window.innerHeight - 280 },
+    24: { x: window.innerWidth -750, y: window.innerHeight - 280 },
+    25: { x: window.innerWidth - 500, y: window.innerHeight - 400 }
+};
+
+// ============ POSIZIONAMENTO DESCRIZIONI DI DEFAULT (in pixel schermo) ============
+const DEFAULT_DESCRIPTION_POSITIONS = {
+    'group1': {
+        baseX: window.innerWidth / 2,
+        baseY: window.innerHeight / 2,
+        paragraphSpacing: 24,
+        lineSpacing: SCREEN_LINE_HEIGHT
+    },
+    
+    'group2': {
+        baseX: window.innerWidth / 2,
+        baseY: window.innerHeight / 3,
+        lineHeight: SCREEN_LINE_HEIGHT,
+        marginX: 80
+    },
+    
+    'group3': {
+        baseX: window.innerWidth / 2,
+        baseY: window.innerHeight / 1.5,
+        lineHeight: SCREEN_LINE_HEIGHT,
+        marginX: 80
+    },
+    
+    'group4': {
+        baseX: window.innerWidth / 2,
+        baseY: window.innerHeight / 2,
+        lineHeight: SCREEN_LINE_HEIGHT,
+        marginX: 80
+    }
+};
 
 // ============ STATO GLOBALE ============
 let scrollProgress = 0;
@@ -144,16 +198,17 @@ let nodoImageFadeProgress = {};
 let starParticles = [];
 
 // Stato per le descrizioni
-let activeDescription = null; // { nodeIndex: number, animationType: 'group1' | 'group2' | 'group3' | 'group4', text: string }
+let activeDescription = null;
 let descriptionAlpha = 0;
 
 // Variabili per le animazioni delle descrizioni
-let textLinesGroup1 = []; // Per nodi 2-9
-let textLinesGroup2 = []; // Per nodi 10-16
-let textLinesGroup3 = []; // Per nodi 17-21 (blocco intero animato)
-let textLinesGroup4 = []; // Per nodi 22-25 (statico)
+let textLinesGroup1 = [];
+let textLinesGroup2 = [];
+let textLinesGroup3 = [];
+let textLinesGroup4 = [];
 
 let nodeCounter;
+let wakeTypeFont;
 
 // Inizializza gli stati delle immagini
 for (let i = 1; i <= 26; i++) {
@@ -170,10 +225,8 @@ function scalePoints(points, multiplier) {
 
 function createSmoothPath(points, segmentsPerCurve = 20) {
     const smooth = [];
-    
     for (let i = 0; i < points.length - 1; i++) {
         let p0, p1, p2, p3;
-        
         if (i === 0) {
             p0 = points[0];
             p1 = points[0];
@@ -195,21 +248,11 @@ function createSmoothPath(points, segmentsPerCurve = 20) {
             const t = j / segmentsPerCurve;
             const t2 = t * t;
             const t3 = t2 * t;
-            
-            const x = 0.5 * ((2 * p1.x) +
-                            (-p0.x + p2.x) * t +
-                            (2*p0.x - 5*p1.x + 4*p2.x - p3.x) * t2 +
-                            (-p0.x + 3*p1.x - 3*p2.x + p3.x) * t3);
-            
-            const y = 0.5 * ((2 * p1.y) +
-                            (-p0.y + p2.y) * t +
-                            (2*p0.y - 5*p1.y + 4*p2.y - p3.y) * t2 +
-                            (-p0.y + 3*p1.y - 3*p2.y + p3.y) * t3);
-            
+            const x = 0.5 * ((2 * p1.x) + (-p0.x + p2.x) * t + (2*p0.x - 5*p1.x + 4*p2.x - p3.x) * t2 + (-p0.x + 3*p1.x - 3*p2.x + p3.x) * t3);
+            const y = 0.5 * ((2 * p1.y) + (-p0.y + p2.y) * t + (2*p0.y - 5*p1.y + 4*p2.y - p3.y) * t2 + (-p0.y + 3*p1.y - 3*p2.y + p3.y) * t3);
             smooth.push({x, y});
         }
     }
-    
     return smooth;
 }
 
@@ -225,12 +268,9 @@ function calculatePathLength(points) {
 
 function getPointOnPath(t, points, totalLength) {
     t = Math.max(0, Math.min(1, t));
-    
     if (t === 0) return points[0];
     if (t === 1) return points[points.length - 1];
-    
     const targetLength = t * totalLength;
-    
     let accumulated = 0;
     for (let i = 0; i < points.length - 1; i++) {
         const p1 = points[i];
@@ -238,38 +278,26 @@ function getPointOnPath(t, points, totalLength) {
         const dx = p2.x - p1.x;
         const dy = p2.y - p1.y;
         const segmentLength = Math.sqrt(dx*dx + dy*dy);
-        
         if (accumulated + segmentLength >= targetLength) {
             const segmentT = (targetLength - accumulated) / segmentLength;
-            return {
-                x: p1.x + dx * segmentT,
-                y: p1.y + dy * segmentT
-            };
+            return { x: p1.x + dx * segmentT, y: p1.y + dy * segmentT };
         }
         accumulated += segmentLength;
     }
-    
     return points[points.length - 1];
 }
 
-function calculateNodes() {
+function calculateNodes() {                                                                                                             
     nodes = [];
     const numNodes = 26;
-    
     for (let i = 0; i < numNodes; i++) {
         const t = i / (numNodes - 1);
         const point = getPointOnPath(t, smoothPath, pathLength);
-        
         nodes.push({
             x: point.x,
             y: point.y,
             t: t,
-            color: [
-                [220, 220, 220],
-                [240, 240, 240],
-                [255, 255, 255],
-                [200, 200, 200]
-            ][i % 4]
+            color: [[220, 220, 220], [240, 240, 240], [255, 255, 255], [200, 200, 200]][i % 4]
         });
     }
 }
@@ -278,6 +306,671 @@ function distance(x1, y1, x2, y2) {
     const dx = x2 - x1;
     const dy = y2 - y1;
     return Math.sqrt(dx * dx + dy * dy);
+}
+
+function smoothstep(edge0, edge1, x) {
+    x = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+    return x * x * (3.0 - 2.0 * x);
+}
+
+// ============ NUOVE FUNZIONI PER POSIZIONI FISSE ============
+function getFixedDescriptionPosition(nodeNumber) {
+    if (CUSTOM_DESCRIPTION_POSITIONS[nodeNumber]) {
+        return CUSTOM_DESCRIPTION_POSITIONS[nodeNumber];
+    }
+    return null;
+}
+
+// ============ NUOVE FUNZIONI PER IL MOVIMENTO ONDULATORIO ============
+function getWaveIntensity(descriptionIndex) {
+    if (descriptionIndex < 0 || descriptionIndex >= WAVE_INTENSITIES.length) {
+        return 0;
+    }
+    return Math.max(0, WAVE_INTENSITIES[descriptionIndex]);
+}
+
+function calculateWaveOffset(p, wordIndex, totalWords, time, descriptionIndex) {
+    const waveIntensity = getWaveIntensity(descriptionIndex);
+    
+    if (waveIntensity <= 0) {
+        return { x: 0, y: 0 };
+    }
+    
+    const normalizedPosition = totalWords > 1 ? wordIndex / (totalWords - 1) : 0.5;
+    const wavePhase = time * WAVE_SPEED + normalizedPosition * Math.PI * 2;
+    
+    const waveOffsetY = Math.sin(wavePhase) * WAVE_AMPLITUDE * waveIntensity;
+    const waveOffsetX = Math.cos(wavePhase * 0.7) * WAVE_AMPLITUDE * waveIntensity * 0.3;
+    const secondaryWaveOffsetY = Math.sin(wavePhase * 2.3 + 1.5) * WAVE_AMPLITUDE * waveIntensity * 0.5;
+    
+    return {
+        x: waveOffsetX,
+        y: waveOffsetY + secondaryWaveOffsetY
+    };
+}
+
+// ============ FUNZIONI PER LE DESCRIZIONI ============
+function splitTextWithManualBreaks(text, maxCharsPerLine = 60) {  // Aumentato per font più piccolo
+    const segments = text.split(/<br\s*\/?>/i);
+    const allLines = [];
+    
+    segments.forEach(segment => {
+        if (!segment.trim()) return;
+        
+        const words = segment.split(' ');
+        let currentLine = '';
+        
+        words.forEach((word, index) => {
+            const wordWithSpace = currentLine ? ' ' + word : word;
+            
+            if (currentLine.length + wordWithSpace.length <= maxCharsPerLine) {
+                currentLine += wordWithSpace;
+            } else {
+                if (currentLine) allLines.push(currentLine);
+                
+                if (word.length > maxCharsPerLine) {
+                    for (let i = 0; i < word.length; i += maxCharsPerLine) {
+                        const chunk = word.slice(i, i + maxCharsPerLine);
+                        allLines.push(chunk);
+                    }
+                    currentLine = '';
+                } else {
+                    currentLine = word;
+                }
+            }
+            
+            if (index === words.length - 1 && currentLine) {
+                allLines.push(currentLine);
+            }
+        });
+    });
+    
+    return allLines;
+}
+
+// Gruppo 1: Nodi 2-9 (descrizioni 1-8)
+function createTextLinesGroup1(node, text, nodeNumber) {
+    textLinesGroup1 = [];
+    
+    const lines = splitTextWithManualBreaks(text, 50);  // Più caratteri per linea con font piccolo
+    const customPos = getFixedDescriptionPosition(nodeNumber);
+    const groupSettings = DEFAULT_DESCRIPTION_POSITIONS.group1;
+    
+    // Usa coordinate personalizzate se disponibili, altrimenti posizione di default
+    let baseX, baseY;
+    if (customPos) {
+        baseX = customPos.x;
+        baseY = customPos.y;
+    } else {
+        baseX = groupSettings.baseX;
+        baseY = groupSettings.baseY;
+    }
+    
+    const lineHeight = SCREEN_LINE_HEIGHT;  // 16px
+    const startY = baseY - ((lines.length - 1) * lineHeight) / 2;
+    
+    lines.forEach((line, lineIndex) => {
+        if (!line.trim()) return;
+        
+        const words = line.split(' ');
+        const wordsInLine = [];
+        
+        let totalLineWidth = 0;
+        words.forEach(word => {
+            totalLineWidth += word.length * SCREEN_CHAR_SPACING + SCREEN_WORD_SPACING;
+        });
+        totalLineWidth -= SCREEN_WORD_SPACING;
+        
+        let currentX = baseX - totalLineWidth / 2;
+        
+        const lineAmplitude = 3 + Math.random() * 6;  // Ridotto per font piccolo
+        const lineFrequency = 0.01 + Math.random() * 0.02;
+        const linePhase = Math.random() * 1000;
+        const lineAngle = (Math.random() - 0.5) * 0.4;
+        
+        words.forEach((word, wordIndex) => {
+            const wordWidth = word.length * SCREEN_CHAR_SPACING;
+            const wordCenterX = currentX + wordWidth / 2;
+            
+            const lowerWord = word.toLowerCase();
+            const isSpecial = lowerWord.includes('slash') || 
+                              lowerWord.includes('curva') || 
+                              lowerWord.includes('ritmo') || 
+                              lowerWord.includes('rapidità') ||
+                              lowerWord.includes('vortici') ||
+                              lowerWord.includes('nebulosa');
+            
+            const wordParams = {
+                text: word,
+                baseX: wordCenterX,
+                baseY: startY + lineIndex * lineHeight,
+                width: wordWidth,
+                
+                delay: 100 + wordIndex * 150 + lineIndex * 300,
+                startX: (Math.random() - 0.5) * 60,  // Ridotto
+                startY: (Math.random() - 0.5) * 40,  // Ridotto
+                startRotation: (Math.random() - 0.5) * 0.15,  // Ridotto
+                moveSpeed: 0.9 + Math.random() * 0.4,
+                snapIntensity: 0.8 + Math.random() * 0.4,
+                postEntryWobble: 0.2 + Math.random() * 0.3,
+                entryDuration: 400 + Math.random() * 300,
+                
+                waveAmplitudeX: isSpecial ? 8 + Math.random() * 12 : 2 + Math.random() * 1.5,  // Ridotto
+                waveFrequencyX: isSpecial ? 0.03 + Math.random() * 0.03 : 0.015 + Math.random() * 0.01,
+                waveOffsetX: Math.random() * 1000,
+                
+                waveAmplitudeY: isSpecial ? 6 + Math.random() * 8 : 1.5 + Math.random() * 2,  // Ridotto
+                waveFrequencyY: isSpecial ? 0.025 + Math.random() * 0.025 : 0.01 + Math.random() * 0.01,
+                waveOffsetY: Math.random() * 1000,
+                
+                rotationAmplitude: isSpecial ? 0.02 + Math.random() * 0.01 : 0.005 + Math.random() * 0.005,  // Ridotto
+                rotationFrequency: isSpecial ? 0.04 + Math.random() * 0.02 : 0.02 + Math.random() * 0.01,
+                rotationOffset: Math.random() * 1000,
+                
+                pulseAmplitude: isSpecial ? 3 + Math.random() * 3 : 0.8 + Math.random() * 0.5,  // Ridotto
+                pulseFrequency: isSpecial ? 0.05 + Math.random() * 0.02 : 0.03 + Math.random() * 0.02,
+                pulseOffset: Math.random() * 1000,
+                
+                wobbleAmount: isSpecial ? 0.5 + Math.random() * 0.5 : 0,
+                wobbleFrequency: isSpecial ? 2.5 + Math.random() * 1.0 : 0,
+                wobbleOffset: Math.random() * 1000,
+                
+                isSpecial: isSpecial,
+                isLineStart: wordIndex === 0,
+                isLineEnd: wordIndex === words.length - 1,
+                wordIndex: wordIndex,
+                totalWords: words.length,
+                charRotations: [],
+                charSpacings: [],
+                charScales: []
+            };
+            
+            for (let i = 0; i < word.length; i++) {
+                wordParams.charRotations.push((Math.random() - 0.5) * (isSpecial ? 0.04 : 0.01));  // Ridotto
+                wordParams.charSpacings.push(SCREEN_CHAR_SPACING + (Math.random() - 0.5) * (isSpecial ? 6 : 2));  // Ridotto
+                wordParams.charScales.push(0.9 + Math.random() * (isSpecial ? 0.02 : 0.01));  // Ridotto
+            }
+            
+            wordsInLine.push(wordParams);
+            currentX += wordWidth + SCREEN_WORD_SPACING;
+        });
+        
+        textLinesGroup1.push({
+            words: wordsInLine,
+            lineParams: {
+                amplitude: lineAmplitude,
+                frequency: lineFrequency,
+                phase: linePhase,
+                angle: lineAngle
+            }
+        });
+    });
+}
+
+function drawDescriptionGroup1(p) {
+    if (descriptionAlpha <= 0 || !activeDescription) return;
+    
+    const time = p.millis() * 0.001;
+    if (wakeTypeFont) p.textFont(wakeTypeFont);
+    
+    const activeTime = time - (activeDescription.startTime || 0);
+    const waveIntensity = Math.min(1, activeTime / 2);
+    const descriptionIndex = activeDescription.nodeNumber - 2;
+    
+    textLinesGroup1.forEach((line, lineIndex) => {
+        const lineParams = line.lineParams;
+        
+        line.words.forEach((word, wordIndex) => {
+            p.push();
+            
+            const wordTime = activeTime - (word.delay / 1000);
+            if (wordTime < 0) { p.pop(); return; }
+            
+            const entryProgress = Math.min(wordTime / (word.entryDuration / 1000), 1);
+            const easedProgress = entryProgress < 0.5 ? 
+                2 * entryProgress * entryProgress : 
+                1 - Math.pow(-2 * entryProgress + 2, 2) / 2;
+            
+            let currentX = word.baseX;
+            let currentY = word.baseY;
+            let currentRotation = 0;
+            let currentScale = 1.0;
+            
+            if (entryProgress < 1) {
+                const startX = word.baseX + word.startX;
+                const startY = word.baseY + word.startY;
+                currentX = startX + (word.baseX - startX) * easedProgress;
+                currentY = startY + (word.baseY - startY) * easedProgress;
+                currentRotation = word.startRotation * (1 - easedProgress);
+                
+                if (word.isSpecial && entryProgress > 0.7) {
+                    const overshoot = (entryProgress - 0.7) / 0.3;
+                    currentX += Math.sin(overshoot * Math.PI) * 2.5 * word.snapIntensity;  // Ridotto
+                    currentY += Math.cos(overshoot * Math.PI) * 1.5 * word.snapIntensity;  // Ridotto
+                }
+            } else {
+                const waveOffset = calculateWaveOffset(p, word.wordIndex, word.totalWords, time, descriptionIndex);
+                
+                const waveX = Math.sin(time * word.waveFrequencyX + word.waveOffsetX) * word.waveAmplitudeX * waveIntensity + waveOffset.x;
+                const waveY = Math.cos(time * word.waveFrequencyY + word.waveOffsetY) * word.waveAmplitudeY * waveIntensity + waveOffset.y;
+                const wave2X = Math.sin(time * word.waveFrequencyX * 1.7 + word.waveOffsetX) * word.waveAmplitudeX * 0.5 * waveIntensity;
+                const wave2Y = Math.cos(time * word.waveFrequencyY * 1.3 + word.waveOffsetY) * word.waveAmplitudeY * 0.5 * waveIntensity;
+                
+                currentX += waveX + wave2X;
+                currentY += waveY + wave2Y;
+                currentRotation = Math.sin(time * word.rotationFrequency + word.rotationOffset) * word.rotationAmplitude * waveIntensity;
+                
+                const pulse = Math.sin(time * word.pulseFrequency + word.pulseOffset) * word.pulseAmplitude * waveIntensity;
+                currentScale = 1.0 + pulse / 100;
+                
+                let wobble = 0;
+                if (word.isSpecial && word.wobbleAmount > 0) {
+                    wobble = Math.sin(time * word.wobbleFrequency + word.wobbleOffset) * word.wobbleAmount * 2;  // Ridotto
+                }
+                
+                if (word.isLineStart) {
+                    currentX += Math.sin(time * 1.2) * 1.5;  // Ridotto
+                    currentY += Math.cos(time * 1.2) * 0.8;  // Ridotto
+                }
+                if (word.isLineEnd) {
+                    currentX += Math.cos(time * 1.0) * 1.5;  // Ridotto
+                    currentY += Math.sin(time * 1.0) * 0.8;  // Ridotto
+                }
+                
+                currentX += wobble;
+                currentY += wobble * 0.5;
+            }
+            
+            p.translate(currentX, currentY);
+            p.rotate(currentRotation);
+            
+            let glowAlpha = 0;
+            let sizeVariation = 0;
+            if (word.isSpecial && entryProgress >= 1) {
+                p.rotate(Math.sin(time * 1.5) * 0.015 + Math.cos(time * 1.1 + wordIndex) * 0.008);  // Ridotto
+                const extraWobble = Math.sin(time * word.wobbleFrequency + wordIndex) * word.wobbleAmount * 2;  // Ridotto
+                p.translate(extraWobble, extraWobble * 0.3);
+                sizeVariation = (Math.sin(time * 1.5) * 2 + Math.cos(time * 1.4) * 0.8);  // Ridotto
+                glowAlpha = 25 + Math.sin(time * 2.0) * 15;
+            }
+            
+            const totalWidth = word.charSpacings.reduce((a, b) => a + b, 0);
+            const startX = -totalWidth / 2;
+            
+            p.translate(startX, 0);
+            
+            let currentCharX = 0;
+            for (let i = 0; i < word.text.length; i++) {
+                p.push();
+                p.translate(currentCharX, 0);
+                const charRotation = word.charRotations[i] + Math.sin(time * 0.05 + i) * 0.005;  // Ridotto
+                p.rotate(charRotation);
+                const charScale = word.charScales[i] * currentScale + (word.isSpecial ? Math.sin(time * 0.1 + i) * 0.005 : 0);  // Ridotto
+                p.scale(charScale);
+                const baseTextSize = SCREEN_BASE_TEXT_SIZE;  // 14px
+                let charSize = baseTextSize + sizeVariation;
+                
+                const brightness = 255;
+                const r = brightness, g = brightness, b = brightness;
+                p.fill(r, g, b, descriptionAlpha);
+                p.noStroke();
+                p.textSize(charSize);
+                p.textAlign(p.CENTER, p.CENTER);
+                p.text(word.text[i], 0, 0);
+                
+                if (word.isSpecial && glowAlpha > 0) {
+                    p.fill(255, 255, 255, glowAlpha * (descriptionAlpha / 255));
+                    p.textSize(charSize + 0.4);  // Ridotto
+                    p.text(word.text[i], 0, 0);
+                }
+                
+                p.pop();
+                currentCharX += word.charSpacings[i];
+            }
+            
+            p.pop();
+        });
+    });
+}
+
+// Gruppo 2: Nodi 10-16
+function createTextLinesGroup2(node, text, nodeNumber) {
+    textLinesGroup2 = [];
+    
+    const lines = splitTextWithManualBreaks(text, 50);  // Più caratteri per linea
+    const customPos = getFixedDescriptionPosition(nodeNumber);
+    const groupSettings = DEFAULT_DESCRIPTION_POSITIONS.group2;
+    
+    // Usa coordinate personalizzate se disponibili, altrimenti posizione di default
+    let baseX, baseY;
+    if (customPos) {
+        baseX = customPos.x;
+        baseY = customPos.y;
+    } else {
+        baseX = groupSettings.baseX;
+        baseY = groupSettings.baseY;
+    }
+    
+    const lineHeight = SCREEN_LINE_HEIGHT;  // 16px
+    const startY = baseY - ((lines.length - 1) * lineHeight) / 2;
+    
+    lines.forEach((line, lineIndex) => {
+        if (!line.trim()) return;
+        
+        const words = line.split(' ');
+        const wordsInLine = [];
+        
+        const wordSpacing = SCREEN_WORD_SPACING;
+        const estimatedCharWidth = SCREEN_CHAR_SPACING;
+        
+        let totalLineWidth = 0;
+        words.forEach(word => {
+            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
+        });
+        totalLineWidth -= wordSpacing;
+        
+        let currentX = baseX - totalLineWidth / 2;
+        
+        words.forEach((word, wordIndex) => {
+            const wordWidth = word.length * estimatedCharWidth;
+            
+            wordsInLine.push({
+                text: word,
+                x: currentX + wordWidth / 2,
+                y: startY + lineIndex * lineHeight,
+                baseX: currentX + wordWidth / 2,
+                baseY: startY + lineIndex * lineHeight,
+                width: wordWidth,
+                wordIndex: wordIndex,
+                totalWords: words.length
+            });
+            
+            currentX += wordWidth + wordSpacing;
+        });
+        
+        const lineObj = {
+            words: wordsInLine,
+            baseY: startY + lineIndex * lineHeight,
+            waveType: lineIndex % 3,
+            waveAmp: 2 + Math.random() * 3,  // Ridotto
+            waveSpeed: 0.02 + Math.random() * 0.02,
+            waveOffset: Math.random() * 1000,
+            tiltAmp: (Math.random() - 0.5) * 0.006,  // Ridotto
+            tiltSpeed: 0.005 + Math.random() * 0.01,
+            tiltOffset: Math.random() * 1000
+        };
+        
+        textLinesGroup2.push(lineObj);
+    });
+}
+
+function drawDescriptionGroup2(p) {
+    if (descriptionAlpha <= 0 || !activeDescription) return;
+    
+    const time = p.millis() * 0.001;
+    if (wakeTypeFont) p.textFont(wakeTypeFont);
+    
+    const descriptionIndex = activeDescription.nodeNumber - 2;
+    const waveIntensity = getWaveIntensity(descriptionIndex);
+    
+    textLinesGroup2.forEach((line, lineIndex) => {
+        p.push();
+        const tilt = Math.sin(time * line.tiltSpeed + line.tiltOffset) * line.tiltAmp;
+        const globalWave = Math.sin(time * line.waveSpeed + line.waveOffset) * line.waveAmp;
+        
+        line.words.forEach((word, wordIndex) => {
+            p.push();
+            p.translate(word.baseX, word.baseY);
+            p.rotate(tilt);
+            
+            const waveOffset = calculateWaveOffset(p, word.wordIndex, word.totalWords, time, descriptionIndex);
+            
+            let waveX = 0, waveY = 0;
+            switch (line.waveType) {
+                case 0:
+                    waveX = Math.sin(time * line.waveSpeed * 2 + wordIndex * 0.3) * line.waveAmp * 0.7;
+                    waveY = globalWave * 0.5;
+                    break;
+                case 1:
+                    waveY = Math.sin(time * line.waveSpeed * 1.5 + wordIndex * 0.2) * line.waveAmp;
+                    waveX = globalWave * 0.3;
+                    break;
+                case 2:
+                    const angle = wordIndex * 0.5 + time * line.waveSpeed * 3;
+                    waveX = Math.cos(angle) * line.waveAmp * 0.6;
+                    waveY = Math.sin(angle) * line.waveAmp * 0.6;
+                    break;
+            }
+            
+            waveX += waveOffset.x * waveIntensity;
+            waveY += waveOffset.y * waveIntensity;
+            
+            p.translate(waveX, waveY);
+            const wordRotation = Math.sin(time * line.waveSpeed * 1.2 + wordIndex * 0.4) * 0.003;  // Ridotto
+            p.rotate(wordRotation);
+            
+            p.textSize(SCREEN_BASE_TEXT_SIZE);  // 14px
+            p.textAlign(p.CENTER, p.CENTER);
+            const brightness = 255;
+            p.fill(brightness, brightness, brightness, descriptionAlpha);
+            p.noStroke();
+            p.text(word.text, 0, 0);
+            p.pop();
+        });
+        p.pop();
+    });
+}
+
+// Gruppo 3: Nodi 17-21
+function createTextLinesGroup3(node, text, nodeNumber) {
+    textLinesGroup3 = [];
+    
+    const lines = splitTextWithManualBreaks(text, 50);  // Più caratteri per linea
+    const customPos = getFixedDescriptionPosition(nodeNumber);
+    const groupSettings = DEFAULT_DESCRIPTION_POSITIONS.group3;
+    
+    // Usa coordinate personalizzate se disponibili, altrimenti posizione di default
+    let baseX, baseY;
+    if (customPos) {
+        baseX = customPos.x;
+        baseY = customPos.y;
+    } else {
+        baseX = groupSettings.baseX;
+        baseY = groupSettings.baseY;
+    }
+    
+    const lineHeight = SCREEN_LINE_HEIGHT;  // 16px
+    const startY = baseY - ((lines.length - 1) * lineHeight) / 2;
+    
+    lines.forEach((line, lineIndex) => {
+        if (!line.trim()) return;
+        
+        const words = line.split(' ');
+        const wordsInLine = [];
+        
+        const wordSpacing = SCREEN_WORD_SPACING;
+        const estimatedCharWidth = SCREEN_CHAR_SPACING;
+        
+        let totalLineWidth = 0;
+        words.forEach(word => {
+            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
+        });
+        totalLineWidth -= wordSpacing;
+        
+        let currentX = baseX - totalLineWidth / 2;
+        
+        words.forEach((word, wordIndex) => {
+            const wordWidth = word.length * estimatedCharWidth;
+            
+            wordsInLine.push({
+                text: word,
+                x: currentX + wordWidth / 2,
+                y: startY + lineIndex * lineHeight,
+                baseX: currentX + wordWidth / 2,
+                baseY: startY + lineIndex * lineHeight,
+                width: wordWidth,
+                wordIndex: wordIndex,
+                totalWords: words.length
+            });
+            
+            currentX += wordWidth + wordSpacing;
+        });
+        
+        textLinesGroup3.push({
+            words: wordsInLine,
+            baseY: startY + lineIndex * lineHeight
+        });
+    });
+    
+    textLinesGroup3.blockParams = {
+        waveAmpY: 3,  // Ridotto
+        waveSpeedY: 0.012,
+        waveOffsetY: Math.random() * 1000,
+        waveAmpX: 2,  // Ridotto
+        waveSpeedX: 0.008,
+        waveOffsetX: Math.random() * 1000,
+        rotationAmp: 0.002,  // Ridotto
+        rotationSpeed: 0.006,
+        rotationOffset: Math.random() * 1000,
+        lineWaveAmp: 1,  // Ridotto
+        lineWaveSpeed: 0.02,
+        lineWaveOffset: Math.random() * 1000
+    };
+}
+
+function drawDescriptionGroup3(p) {
+    if (descriptionAlpha <= 0 || !activeDescription) return;
+    
+    const time = p.millis() * 0.001;
+    const block = textLinesGroup3.blockParams;
+    if (wakeTypeFont) p.textFont(wakeTypeFont);
+    
+    const descriptionIndex = activeDescription.nodeNumber - 2;
+    const waveIntensity = getWaveIntensity(descriptionIndex);
+    
+    const blockWaveY = Math.sin(time * block.waveSpeedY + block.waveOffsetY) * block.waveAmpY;
+    const blockWaveX = Math.sin(time * block.waveSpeedX + block.waveOffsetX) * block.waveAmpX;
+    const blockRotation = Math.sin(time * block.rotationSpeed + block.rotationOffset) * block.rotationAmp;
+    
+    p.push();
+    p.translate(blockWaveX, blockWaveY);
+    p.rotate(blockRotation);
+    
+    textLinesGroup3.forEach((line, lineIndex) => {
+        if (line.words) {
+            const lineWaveY = Math.sin(time * block.lineWaveSpeed + block.lineWaveOffset + lineIndex * 0.3) * block.lineWaveAmp;
+            line.words.forEach((word, wordIndex) => {
+                p.push();
+                
+                const waveOffset = calculateWaveOffset(p, word.wordIndex, word.totalWords, time, descriptionIndex);
+                const finalWaveX = waveOffset.x * waveIntensity;
+                const finalWaveY = lineWaveY + waveOffset.y * waveIntensity;
+                
+                p.translate(word.baseX + finalWaveX, word.baseY + finalWaveY);
+                
+                p.textSize(SCREEN_BASE_TEXT_SIZE);  // 14px
+                p.textAlign(p.CENTER, p.CENTER);
+                p.fill(255, 255, 255, descriptionAlpha);
+                p.noStroke();
+                p.text(word.text, 0, 0);
+                p.pop();
+            });
+        }
+    });
+    p.pop();
+}
+
+// Gruppo 4: Nodi 22-25
+function createTextLinesGroup4(node, text, nodeNumber) {
+    textLinesGroup4 = [];
+    
+    const lines = splitTextWithManualBreaks(text, 50);  // Più caratteri per linea
+    const customPos = getFixedDescriptionPosition(nodeNumber);
+    const groupSettings = DEFAULT_DESCRIPTION_POSITIONS.group4;
+    
+    // Usa coordinate personalizzate se disponibili, altrimenti posizione di default
+    let baseX, baseY;
+    if (customPos) {
+        baseX = customPos.x;
+        baseY = customPos.y;
+    } else {
+        baseX = groupSettings.baseX;
+        baseY = groupSettings.baseY;
+    }
+    
+    const lineHeight = SCREEN_LINE_HEIGHT;  // 16px
+    const startY = baseY - ((lines.length - 1) * lineHeight) / 2;
+    
+    lines.forEach((line, lineIndex) => {
+        if (!line.trim()) return;
+        
+        const words = line.split(' ');
+        const wordsInLine = [];
+        
+        const wordSpacing = SCREEN_WORD_SPACING;
+        const estimatedCharWidth = SCREEN_CHAR_SPACING;
+        
+        let totalLineWidth = 0;
+        words.forEach(word => {
+            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
+        });
+        totalLineWidth -= wordSpacing;
+        
+        let currentX = baseX - totalLineWidth / 2;
+        
+        words.forEach((word, wordIndex) => {
+            const wordWidth = word.length * estimatedCharWidth;
+            
+            wordsInLine.push({
+                text: word,
+                x: currentX + wordWidth / 2,
+                y: startY + lineIndex * lineHeight,
+                baseX: currentX + wordWidth / 2,
+                baseY: startY + lineIndex * lineHeight,
+                width: wordWidth,
+                wordIndex: wordIndex,
+                totalWords: words.length
+            });
+            
+            currentX += wordWidth + wordSpacing;
+        });
+        
+        textLinesGroup4.push({
+            words: wordsInLine,
+            baseY: startY + lineIndex * lineHeight
+        });
+    });
+}
+
+function drawDescriptionGroup4(p) {
+    if (descriptionAlpha <= 0 || !activeDescription) return;
+    
+    const time = p.millis() * 0.001;
+    if (wakeTypeFont) p.textFont(wakeTypeFont);
+    
+    const descriptionIndex = activeDescription.nodeNumber - 2;
+    const waveIntensity = getWaveIntensity(descriptionIndex);
+    
+    textLinesGroup4.forEach((line, lineIndex) => {
+        if (line.words) {
+            line.words.forEach((word, wordIndex) => {
+                p.push();
+                
+                const waveOffset = calculateWaveOffset(p, word.wordIndex, word.totalWords, time, descriptionIndex);
+                const finalX = word.baseX + waveOffset.x * waveIntensity;
+                const finalY = word.baseY + waveOffset.y * waveIntensity;
+                
+                p.translate(finalX, finalY);
+                
+                p.textSize(SCREEN_BASE_TEXT_SIZE);  // 14px
+                p.textAlign(p.CENTER, p.CENTER);
+                p.fill(255, 255, 255, descriptionAlpha);
+                p.noStroke();
+                p.text(word.text, 0, 0);
+                p.pop();
+            });
+        }
+    });
 }
 
 // ============ GESTIONE UI ============
@@ -289,18 +982,13 @@ function initUIElements() {
 function updateUI() {
     const nodeNumber = currentNodeIndex + 1;
     document.querySelector('.node-number').textContent = `Nodo ${nodeNumber}/26`;
-    
-    if (nodeCounter) {
-        nodeCounter.style.opacity = '1';
-    }
-    
+    if (nodeCounter) nodeCounter.style.opacity = '1';
     updateStatusMessage();
 }
 
 function updateStatusMessage() {
     const statusMessageElement = nodeCounter.querySelector('.status-message');
     if (!statusMessageElement) return;
-    
     if (activeDescription !== null) {
         statusMessageElement.textContent = "Click per chiudere la descrizione";
         statusMessageElement.style.display = 'block';
@@ -317,14 +1005,10 @@ function startMoving(direction) {
     if (movementState === 'STOPPED' && !isProcessing) {
         let newTargetNodeIndex = currentNodeIndex + direction;
         newTargetNodeIndex = Math.max(0, Math.min(newTargetNodeIndex, NODE_COUNT - 1));
-        
         if (newTargetNodeIndex === currentNodeIndex) return;
-        
         targetNodeIndex = newTargetNodeIndex;
         movementState = 'MOVING_TO_NODE';
         isProcessing = true;
-        
-        // Nascondi tutte le immagini
         for (let i = 1; i <= 26; i++) {
             showNodoImages[i] = false;
             nodoImageAlphas[i] = 0;
@@ -333,8 +1017,6 @@ function startMoving(direction) {
                 nodoImageFadeProgress[i] = 0;
             }
         }
-        
-        // Mostra l'immagine del nodo target
         if (targetNodeIndex >= 0 && targetNodeIndex < 26) {
             const nodeNumber = targetNodeIndex + 1;
             showNodoImages[nodeNumber] = true;
@@ -343,11 +1025,8 @@ function startMoving(direction) {
                 nodoImageFadeProgress[nodeNumber] = 0;
             }
         }
-        
-        // Nascondi tutte le descrizioni
         activeDescription = null;
         descriptionAlpha = 0;
-        
         updateStatusMessage();
     }
 }
@@ -356,34 +1035,24 @@ function updateMovement() {
     if (movementState === 'MOVING_TO_NODE') {
         const targetT = nodes[targetNodeIndex].t;
         const distanceToTarget = Math.abs(targetT - scrollProgress);
-        
         const nodoIndex = targetNodeIndex + 1;
         if (nodoIndex >= 1 && nodoIndex <= 26 && showNodoImages[nodoIndex]) {
             if (distanceToTarget < 0.008) {
-                nodoImageAlphas[nodoIndex] = Math.min(
-                    nodoImageAlphas[nodoIndex] + NODO_IMAGE_FADE_SPEED, 
-                    NODO_IMAGE_TARGET_ALPHA
-                );
+                nodoImageAlphas[nodoIndex] = Math.min(nodoImageAlphas[nodoIndex] + NODO_IMAGE_FADE_SPEED, NODO_IMAGE_TARGET_ALPHA);
             }
         }
-        
         scrollProgress += (targetT - scrollProgress) * MOVEMENT_SPEED;
-        
         if (distanceToTarget < 0.0005) {
             scrollProgress = targetT;
             currentNodeIndex = targetNodeIndex;
             movementState = 'STOPPED';
             isProcessing = false;
-            
             updateStatusMessage();
-            
             const nodoIndex = currentNodeIndex + 1;
             if (nodoIndex >= 1 && nodoIndex <= 26) {
                 nodoImageAlphas[nodoIndex] = NODO_IMAGE_TARGET_ALPHA;
-                if (nodoIndex <= 10) {
-                    nodoImageStates[nodoIndex] = 'bis';
-                    nodoImageFadeProgress[nodoIndex] = 0;
-                }
+                if (nodoIndex <= 10) nodoImageStates[nodoIndex] = 'bis';
+                nodoImageFadeProgress[nodoIndex] = 0;
             } else {
                 for (let i = 1; i <= 26; i++) {
                     showNodoImages[i] = false;
@@ -397,634 +1066,21 @@ function updateMovement() {
 function updateImageTransitions() {
     for (let i = 1; i <= 10; i++) {
         const nodeNumber = i;
-        
         let hasActiveDescription = false;
-        if (activeDescription && activeDescription.nodeIndex === i-1) {
-            hasActiveDescription = true;
-        }
-        
+        if (activeDescription && activeDescription.nodeIndex === i-1) hasActiveDescription = true;
         if (hasActiveDescription) {
-            if (nodoImageStates[nodeNumber] !== 'original') {
-                nodoImageStates[nodeNumber] = 'original';
-            }
-            nodoImageFadeProgress[nodeNumber] = Math.min(
-                nodoImageFadeProgress[nodeNumber] + IMAGE_TRANSITION_SPEED, 
-                1
-            );
+            if (nodoImageStates[nodeNumber] !== 'original') nodoImageStates[nodeNumber] = 'original';
+            nodoImageFadeProgress[nodeNumber] = Math.min(nodoImageFadeProgress[nodeNumber] + IMAGE_TRANSITION_SPEED, 1);
         } else {
-            if (nodoImageStates[nodeNumber] !== 'bis') {
-                nodoImageStates[nodeNumber] = 'bis';
-            }
-            nodoImageFadeProgress[nodeNumber] = Math.max(
-                nodoImageFadeProgress[nodeNumber] - IMAGE_TRANSITION_SPEED, 
-                0
-            );
+            if (nodoImageStates[nodeNumber] !== 'bis') nodoImageStates[nodeNumber] = 'bis';
+            nodoImageFadeProgress[nodeNumber] = Math.max(nodoImageFadeProgress[nodeNumber] - IMAGE_TRANSITION_SPEED, 0);
         }
     }
 }
 
 function updateDescriptionAlpha() {
-    if (activeDescription !== null) {
-        descriptionAlpha = Math.min(descriptionAlpha + DESCRIPTION_FADE_SPEED, 255);
-    } else {
-        descriptionAlpha = Math.max(descriptionAlpha - DESCRIPTION_FADE_SPEED, 0);
-    }
-}
-
-// ============ FUNZIONI PER LE DESCRIZIONI ============
-
-// Funzione per dividere il testo in righe di circa 70 caratteri
-function splitTextIntoLines(text, maxCharsPerLine = 70) {
-    const words = text.split(' ');
-    const lines = [];
-    let currentLine = '';
-    
-    words.forEach(word => {
-        if (currentLine.length + word.length + 1 <= maxCharsPerLine) {
-            currentLine += (currentLine ? ' ' : '') + word;
-        } else {
-            lines.push(currentLine);
-            currentLine = word;
-        }
-    });
-    
-    if (currentLine) {
-        lines.push(currentLine);
-    }
-    
-    return lines;
-}
-
-// Gruppo 1: Nodi 2-9 - Animazioni molto diverse tra loro, parole che ondeggiano, inclinano, esplodono
-function createTextLinesGroup1(node, text) {
-    textLinesGroup1 = [];
-    
-    // Dividi il testo in righe
-    const lines = splitTextIntoLines(text, 70);
-    
-    const offsetX = 0;
-    const offsetY = 0;
-    const lineHeight = 1200;
-    const startY = node.y + offsetY - ((lines.length - 1) * lineHeight) / 2;
-    
-    lines.forEach((line, lineIndex) => {
-        const words = line.split(' ');
-        const wordsInLine = [];
-        
-        const wordSpacing = 350;
-        const estimatedCharWidth = 320;
-        
-        // Calcola larghezza approssimativa della riga per centrare
-        let totalLineWidth = 0;
-        words.forEach(word => {
-            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
-        });
-        totalLineWidth -= wordSpacing;
-        
-        let currentX = node.x + offsetX - totalLineWidth / 2;
-        
-        words.forEach((word, wordIndex) => {
-            const wordWidth = word.length * estimatedCharWidth;
-            
-            // Tipo di animazione RANDOM per ogni parola
-            const animationType = Math.random();
-            
-            wordsInLine.push({
-                text: word,
-                x: currentX + wordWidth / 2,
-                y: startY + lineIndex * lineHeight,
-                baseX: currentX + wordWidth / 2,
-                baseY: startY + lineIndex * lineHeight,
-                width: wordWidth,
-                
-                // Determinazione del tipo di animazione
-                animationType: animationType < 0.2 ? 'wave' : 
-                              animationType < 0.4 ? 'tilt' :
-                              animationType < 0.6 ? 'bounce' :
-                              animationType < 0.8 ? 'explode' : 'float',
-                
-                // Parametri specifici per ogni tipo di animazione
-                waveAmp: 30 + Math.random() * 40,
-                waveSpeed: 0.02 + Math.random() * 0.03,
-                waveOffset: Math.random() * 1000,
-                
-                tiltAmp: (Math.random() - 0.5) * 0.3,
-                tiltSpeed: 0.01 + Math.random() * 0.02,
-                tiltOffset: Math.random() * 1000,
-                
-                bounceAmp: 40 + Math.random() * 50,
-                bounceSpeed: 0.03 + Math.random() * 0.04,
-                bounceOffset: Math.random() * 1000,
-                
-                explodeAmp: 60 + Math.random() * 80,
-                explodeSpeed: 0.04 + Math.random() * 0.05,
-                explodeOffset: Math.random() * 1000,
-                explodeScale: 0.5 + Math.random() * 1.0,
-                
-                floatAmpX: 30 + Math.random() * 40,
-                floatAmpY: 20 + Math.random() * 30,
-                floatSpeedX: 0.015 + Math.random() * 0.02,
-                floatSpeedY: 0.01 + Math.random() * 0.015,
-                floatOffsetX: Math.random() * 1000,
-                floatOffsetY: Math.random() * 1000,
-                
-                // Animazioni dei caratteri (diverse per ogni tipo)
-                charRotations: [],
-                charSpacings: [],
-                charScales: []
-            });
-            
-            // Inizializza animazioni per ogni carattere
-            const lastWord = wordsInLine[wordsInLine.length - 1];
-            const baseCharSpacing = 320;
-            
-            for (let i = 0; i < word.length; i++) {
-                // Per l'effetto "explode", i caratteri hanno spaziatura variabile
-                if (lastWord.animationType === 'explode') {
-                    lastWord.charSpacings.push(baseCharSpacing * (1.5 + Math.random() * 1.0));
-                    lastWord.charRotations.push((Math.random() - 0.5) * 0.5);
-                    lastWord.charScales.push(0.8 + Math.random() * 0.6);
-                } 
-                // Per l'effetto "tilt", caratteri inclinati uniformemente
-                else if (lastWord.animationType === 'tilt') {
-                    lastWord.charSpacings.push(baseCharSpacing);
-                    lastWord.charRotations.push((i / word.length - 0.5) * 0.4);
-                    lastWord.charScales.push(1.0);
-                }
-                // Per altri effetti, spaziatura e rotazioni normali
-                else {
-                    lastWord.charSpacings.push(baseCharSpacing + (Math.random() - 0.5) * 50);
-                    lastWord.charRotations.push((Math.random() - 0.5) * 0.1);
-                    lastWord.charScales.push(0.9 + Math.random() * 0.3);
-                }
-            }
-            
-            currentX += wordWidth + wordSpacing;
-        });
-        
-        textLinesGroup1.push(wordsInLine);
-    });
-    
-    // Aggiungi inclinazione alle righe
-    textLinesGroup1.forEach((wordsInLine, lineIndex) => {
-        const lineRotation = (Math.random() - 0.5) * 0.15;
-        
-        if (wordsInLine[0]) {
-            wordsInLine[0].lineRotation = lineRotation;
-        }
-    });
-}
-
-function drawDescriptionGroup1(p) {
-    if (descriptionAlpha <= 0 || !activeDescription) return;
-    
-    const time = p.millis() * 0.001;
-    
-    textLinesGroup1.forEach((wordsInLine, lineIndex) => {
-        const lineRotation = wordsInLine[0]?.lineRotation || 0;
-        
-        wordsInLine.forEach((word, wordIndex) => {
-            p.push();
-            
-            // Applica rotazione della riga
-            p.translate(word.baseX, word.baseY);
-            p.rotate(lineRotation);
-            
-            // Calcola animazione in base al tipo
-            let animX = 0, animY = 0, animRotation = 0, animScale = 1.0;
-            
-            switch (word.animationType) {
-                case 'wave':
-                    animY = Math.sin(time * word.waveSpeed + word.waveOffset) * word.waveAmp;
-                    animRotation = Math.sin(time * word.waveSpeed * 0.7 + word.waveOffset) * 0.1;
-                    break;
-                    
-                case 'tilt':
-                    animRotation = Math.sin(time * word.tiltSpeed + word.tiltOffset) * word.tiltAmp;
-                    animY = Math.abs(Math.sin(time * word.tiltSpeed * 1.5 + word.tiltOffset)) * 20;
-                    break;
-                    
-                case 'bounce':
-                    const bounceT = Math.abs(Math.sin(time * word.bounceSpeed + word.bounceOffset));
-                    animY = -bounceT * word.bounceAmp;
-                    animScale = 1.0 + bounceT * 0.2;
-                    break;
-                    
-                case 'explode':
-                    const explodeT = Math.sin(time * word.explodeSpeed + word.explodeOffset);
-                    const explodeFactor = Math.max(0, explodeT);
-                    animX = (Math.random() - 0.5) * explodeFactor * word.explodeAmp;
-                    animY = (Math.random() - 0.5) * explodeFactor * word.explodeAmp;
-                    animScale = 1.0 + explodeFactor * word.explodeScale;
-                    break;
-                    
-                case 'float':
-                    animX = Math.sin(time * word.floatSpeedX + word.floatOffsetX) * word.floatAmpX;
-                    animY = Math.cos(time * word.floatSpeedY + word.floatOffsetY) * word.floatAmpY;
-                    animRotation = Math.sin(time * 0.02 + wordIndex * 0.1) * 0.05;
-                    break;
-            }
-            
-            // Applica animazione della parola
-            p.translate(animX, animY);
-            p.rotate(animRotation);
-            p.scale(animScale);
-            
-            // Dimensione testo uniforme
-            const baseTextSize = 700;
-            
-            // Disegna ogni carattere individualmente
-            const totalWidth = word.charSpacings.reduce((a, b) => a + b, 0) - 
-                             (word.charSpacings.length > 0 ? word.charSpacings[word.charSpacings.length - 1] : 0);
-            const startX = -totalWidth / 2;
-            
-            p.translate(startX, 0);
-            
-            let currentCharX = 0;
-            for (let i = 0; i < word.text.length; i++) {
-                p.push();
-                
-                // Sposta alla posizione del carattere
-                p.translate(currentCharX, 0);
-                
-                // Rotazione individuale del carattere
-                const charRotation = word.charRotations[i] + 
-                    Math.sin(time * 0.03 + i * 0.1) * 0.1;
-                p.rotate(charRotation);
-                
-                // Scala individuale del carattere
-                const charScale = word.charScales[i] + 
-                    (word.animationType === 'explode' ? Math.sin(time * 0.05 + i) * 0.2 : 0);
-                p.scale(charScale);
-                
-                // Colore con effetti speciali
-                let brightness = 220;
-                let r = brightness, g = brightness, b = brightness;
-                
-                // Effetti di colore in base al tipo di animazione
-                if (word.animationType === 'explode') {
-                    const colorPulse = Math.sin(time * 0.1 + i * 0.2) * 50;
-                    r = Math.min(255, brightness + colorPulse);
-                    g = Math.max(0, brightness - colorPulse * 0.5);
-                    b = Math.max(0, brightness - colorPulse);
-                } else if (word.animationType === 'float') {
-                    r = brightness + Math.sin(time * 0.05 + i) * 30;
-                    g = brightness + Math.sin(time * 0.05 + i + 1) * 30;
-                    b = brightness + Math.sin(time * 0.05 + i + 2) * 30;
-                }
-                
-                p.fill(r, g, b, descriptionAlpha);
-                p.noStroke();
-                
-                // Disegna il carattere
-                p.textSize(baseTextSize);
-                p.textAlign(p.CENTER, p.CENTER);
-                p.text(word.text[i], 0, 0);
-                
-                p.pop();
-                
-                // Sposta alla posizione del prossimo carattere
-                currentCharX += word.charSpacings[i];
-            }
-            
-            p.pop();
-        });
-    });
-}
-
-// Gruppo 2: Nodi 10-16 - Parole che ondeggiano in sincrono per riga
-function createTextLinesGroup2(node, text) {
-    textLinesGroup2 = [];
-    
-    // Dividi il testo in righe
-    const lines = splitTextIntoLines(text, 70);
-    
-    const offsetX = 0;
-    const offsetY = 0;
-    const lineHeight = 1200;
-    
-    const startY = node.y + offsetY - ((lines.length - 1) * lineHeight) / 2;
-    
-    lines.forEach((line, lineIndex) => {
-        const words = line.split(' ');
-        const wordsInLine = [];
-        
-        const wordSpacing = 350;
-        const estimatedCharWidth = 320;
-        
-        // Calcola larghezza approssimativa della riga per centrare
-        let totalLineWidth = 0;
-        words.forEach(word => {
-            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
-        });
-        totalLineWidth -= wordSpacing;
-        
-        let currentX = node.x + offsetX - totalLineWidth / 2;
-        
-        words.forEach((word, wordIndex) => {
-            const wordWidth = word.length * estimatedCharWidth;
-            
-            wordsInLine.push({
-                text: word,
-                x: currentX + wordWidth / 2,
-                y: startY + lineIndex * lineHeight,
-                baseX: currentX + wordWidth / 2,
-                baseY: startY + lineIndex * lineHeight,
-                width: wordWidth
-            });
-            
-            currentX += wordWidth + wordSpacing;
-        });
-        
-        // Parametri di animazione SINCRONI per l'intera riga
-        const lineObj = {
-            words: wordsInLine,
-            baseY: startY + lineIndex * lineHeight,
-            
-            // Onde sincrone per tutta la riga
-            waveType: lineIndex % 3, // 0: onda orizzontale, 1: onda verticale, 2: onda circolare
-            waveAmp: 40 + Math.random() * 50,
-            waveSpeed: 0.02 + Math.random() * 0.02,
-            waveOffset: Math.random() * 1000,
-            
-            // Inclinazione della riga
-            tiltAmp: (Math.random() - 0.5) * 0.12,
-            tiltSpeed: 0.005 + Math.random() * 0.01,
-            tiltOffset: Math.random() * 1000
-        };
-        
-        textLinesGroup2.push(lineObj);
-    });
-}
-
-function drawDescriptionGroup2(p) {
-    if (descriptionAlpha <= 0 || !activeDescription) return;
-    
-    const time = p.millis() * 0.001;
-    
-    textLinesGroup2.forEach((line, lineIndex) => {
-        p.push();
-        
-        // Calcola inclinazione della riga
-        const tilt = Math.sin(time * line.tiltSpeed + line.tiltOffset) * line.tiltAmp;
-        
-        // Calcola movimento d'onda per tutta la riga
-        const globalWave = Math.sin(time * line.waveSpeed + line.waveOffset) * line.waveAmp;
-        
-        // Disegna ogni parola della riga in SINCRONIA
-        line.words.forEach((word, wordIndex) => {
-            p.push();
-            
-            // Posizione base della parola
-            p.translate(word.baseX, word.baseY);
-            
-            // Applica inclinazione della riga
-            p.rotate(tilt);
-            
-            // Calcola movimento d'onda sincrono in base al tipo
-            let waveX = 0, waveY = 0;
-            
-            switch (line.waveType) {
-                case 0: // Onda orizzontale
-                    waveX = Math.sin(time * line.waveSpeed * 2 + wordIndex * 0.3) * line.waveAmp * 0.7;
-                    waveY = globalWave * 0.5;
-                    break;
-                    
-                case 1: // Onda verticale
-                    waveY = Math.sin(time * line.waveSpeed * 1.5 + wordIndex * 0.2) * line.waveAmp;
-                    waveX = globalWave * 0.3;
-                    break;
-                    
-                case 2: // Onda circolare
-                    const angle = wordIndex * 0.5 + time * line.waveSpeed * 3;
-                    waveX = Math.cos(angle) * line.waveAmp * 0.6;
-                    waveY = Math.sin(angle) * line.waveAmp * 0.6;
-                    break;
-            }
-            
-            // Applica movimento d'onda
-            p.translate(waveX, waveY);
-            
-            // Rotazione leggera della parola in sincrono con l'onda
-            const wordRotation = Math.sin(time * line.waveSpeed * 1.2 + wordIndex * 0.4) * 0.05;
-            p.rotate(wordRotation);
-            
-            // Dimensione testo uniforme
-            p.textSize(700);
-            p.textAlign(p.CENTER, p.CENTER);
-            
-            // Colore con leggera modulazione in sincrono
-            const brightness = 220 + Math.sin(time * line.waveSpeed + wordIndex * 0.1) * 20;
-            p.fill(brightness, brightness, brightness, descriptionAlpha);
-            p.noStroke();
-            
-            // Disegna la parola
-            p.text(word.text, 0, 0);
-            
-            p.pop();
-        });
-        
-        p.pop();
-    });
-}
-
-// Gruppo 3: Nodi 17-21 - Intero blocco di testo che si muove e si inclina
-function createTextLinesGroup3(node, text) {
-    textLinesGroup3 = [];
-    
-    // Dividi il testo in righe
-    const lines = splitTextIntoLines(text, 70);
-    
-    const offsetX = 0;
-    const offsetY = 0;
-    const lineHeight = 1200;
-    
-    const startY = node.y + offsetY - ((lines.length - 1) * lineHeight) / 2;
-    
-    lines.forEach((line, lineIndex) => {
-        const words = line.split(' ');
-        const wordsInLine = [];
-        
-        const wordSpacing = 350;
-        const estimatedCharWidth = 320;
-        
-        // Calcola larghezza approssimativa della riga per centrare
-        let totalLineWidth = 0;
-        words.forEach(word => {
-            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
-        });
-        totalLineWidth -= wordSpacing;
-        
-        let currentX = node.x + offsetX - totalLineWidth / 2;
-        
-        words.forEach((word, wordIndex) => {
-            const wordWidth = word.length * estimatedCharWidth;
-            
-            wordsInLine.push({
-                text: word,
-                x: currentX + wordWidth / 2,
-                y: startY + lineIndex * lineHeight,
-                baseX: currentX + wordWidth / 2,
-                baseY: startY + lineIndex * lineHeight,
-                width: wordWidth
-            });
-            
-            currentX += wordWidth + wordSpacing;
-        });
-        
-        textLinesGroup3.push({
-            words: wordsInLine,
-            baseY: startY + lineIndex * lineHeight
-        });
-    });
-    
-    // Parametri per l'animazione dell'intero blocco
-    textLinesGroup3.blockParams = {
-        // Movimento del blocco
-        waveAmpY: 50,
-        waveSpeedY: 0.012,
-        waveOffsetY: Math.random() * 1000,
-        
-        waveAmpX: 30,
-        waveSpeedX: 0.008,
-        waveOffsetX: Math.random() * 1000,
-        
-        // Inclinazione del blocco
-        rotationAmp: 0.04,
-        rotationSpeed: 0.006,
-        rotationOffset: Math.random() * 1000,
-        
-        // Oscillazione verticale delle righe all'interno del blocco
-        lineWaveAmp: 20,
-        lineWaveSpeed: 0.02,
-        lineWaveOffset: Math.random() * 1000
-    };
-}
-
-function drawDescriptionGroup3(p) {
-    if (descriptionAlpha <= 0 || !activeDescription) return;
-    
-    const time = p.millis() * 0.001;
-    const block = textLinesGroup3.blockParams;
-    
-    // Calcola movimento dell'intero blocco
-    const blockWaveY = Math.sin(time * block.waveSpeedY + block.waveOffsetY) * block.waveAmpY;
-    const blockWaveX = Math.sin(time * block.waveSpeedX + block.waveOffsetX) * block.waveAmpX;
-    const blockRotation = Math.sin(time * block.rotationSpeed + block.rotationOffset) * block.rotationAmp;
-    
-    p.push();
-    
-    // Applica trasformazione all'intero blocco
-    p.translate(blockWaveX, blockWaveY);
-    p.rotate(blockRotation);
-    
-    // Disegna tutte le righe con oscillazione verticale aggiuntiva
-    textLinesGroup3.forEach((line, lineIndex) => {
-        if (line.words) {
-            const lineWaveY = Math.sin(time * block.lineWaveSpeed + block.lineWaveOffset + lineIndex * 0.3) * block.lineWaveAmp;
-            
-            // Disegna ogni parola della riga
-            line.words.forEach((word, wordIndex) => {
-                p.push();
-                
-                p.translate(word.baseX, word.baseY + lineWaveY);
-                
-                // Dimensione testo uniforme
-                p.textSize(700);
-                p.textAlign(p.CENTER, p.CENTER);
-                
-                // Colore
-                p.fill(220, 220, 220, descriptionAlpha);
-                p.noStroke();
-                
-                // Disegna la parola
-                p.text(word.text, 0, 0);
-                
-                p.pop();
-            });
-        }
-    });
-    
-    p.pop();
-}
-
-// Gruppo 4: Nodi 22-25 - Testo statico (mantenuto per completezza)
-function createTextLinesGroup4(node, text) {
-    textLinesGroup4 = [];
-    
-    // Dividi il testo in righe
-    const lines = splitTextIntoLines(text, 70);
-    
-    const offsetX = 0;
-    const offsetY = 0;
-    const lineHeight = 1200;
-    
-    const startY = node.y + offsetY - ((lines.length - 1) * lineHeight) / 2;
-    
-    lines.forEach((line, lineIndex) => {
-        const words = line.split(' ');
-        const wordsInLine = [];
-        
-        const wordSpacing = 350;
-        const estimatedCharWidth = 320;
-        
-        // Calcola larghezza approssimativa della riga per centrare
-        let totalLineWidth = 0;
-        words.forEach(word => {
-            totalLineWidth += word.length * estimatedCharWidth + wordSpacing;
-        });
-        totalLineWidth -= wordSpacing;
-        
-        let currentX = node.x + offsetX - totalLineWidth / 2;
-        
-        words.forEach((word, wordIndex) => {
-            const wordWidth = word.length * estimatedCharWidth;
-            
-            wordsInLine.push({
-                text: word,
-                x: currentX + wordWidth / 2,
-                y: startY + lineIndex * lineHeight,
-                baseX: currentX + wordWidth / 2,
-                baseY: startY + lineIndex * lineHeight,
-                width: wordWidth
-            });
-            
-            currentX += wordWidth + wordSpacing;
-        });
-        
-        textLinesGroup4.push({
-            words: wordsInLine,
-            baseY: startY + lineIndex * lineHeight
-        });
-    });
-}
-
-function drawDescriptionGroup4(p) {
-    if (descriptionAlpha <= 0 || !activeDescription) return;
-    
-    // Disegna tutte le righe staticamente
-    textLinesGroup4.forEach((line, lineIndex) => {
-        if (line.words) {
-            line.words.forEach((word, wordIndex) => {
-                p.push();
-                
-                p.translate(word.baseX, word.baseY);
-                
-                // Dimensione testo uniforme
-                p.textSize(700);
-                p.textAlign(p.CENTER, p.CENTER);
-                
-                // Colore
-                p.fill(220, 220, 220, descriptionAlpha);
-                p.noStroke();
-                
-                // Disegna la parola
-                p.text(word.text, 0, 0);
-                
-                p.pop();
-            });
-        }
-    });
+    if (activeDescription !== null) descriptionAlpha = Math.min(descriptionAlpha + DESCRIPTION_FADE_SPEED, 255);
+    else descriptionAlpha = Math.max(descriptionAlpha - DESCRIPTION_FADE_SPEED, 0);
 }
 
 // ============ SKETCH P5 ============
@@ -1080,15 +1136,12 @@ const sketch = (p) => {
     function drawStars(currentPoint) {
         const time = p.millis() * 0.001;
         const zoom = 0.025;
-        
         starParticles.forEach(star => {
             const relX = (star.x - currentPoint.x * zoom) * zoom;
             const relY = (star.y - currentPoint.y * zoom) * zoom;
-            
             if (relX > -p.width/2 && relX < p.width/2 && relY > -p.height/2 && relY < p.height/2) {
                 const twinkle = p.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.5 + 0.5;
                 const brightness = star.brightness * twinkle;
-                
                 p.noStroke();
                 p.fill(200, 200, 200, brightness);
                 p.ellipse(p.width/2 + relX / zoom, p.height/2 + relY / zoom, star.size, star.size);
@@ -1098,59 +1151,39 @@ const sketch = (p) => {
     
     function drawSpiralThreads() {
         const time = p.millis();
-        
         const colors = [
-            [180, 180, 180],
-            [200, 200, 200],
-            [220, 220, 220],
-            [240, 240, 240],
-            [255, 255, 255],
-            [230, 230, 230],
-            [210, 210, 210],
-            [190, 190, 190]
+            [180, 180, 180], [200, 200, 200], [220, 220, 220], [240, 240, 240],
+            [255, 255, 255], [230, 230, 230], [210, 210, 210], [190, 190, 190]
         ];
-        
         for (let threadIndex = 0; threadIndex < 8; threadIndex++) {
             const phaseOffset = (threadIndex / 8) * p.TWO_PI;
             const speed = 0.001;
             const radius = 200 * (0.7 + p.random(0.6));
-            
             const threadPoints = [];
-            
             for (let i = 0; i < smoothPath.length; i += 3) {
                 const basePoint = smoothPath[i];
                 const t = i / smoothPath.length;
-                
                 let nextIndex = Math.min(i + 1, smoothPath.length - 1);
                 const dx = smoothPath[nextIndex].x - basePoint.x;
                 const dy = smoothPath[nextIndex].y - basePoint.y;
                 const length = Math.sqrt(dx * dx + dy * dy);
-                
                 let normal = {x: 0, y: 1};
-                if (length > 0) {
-                    normal = { x: -dy / length, y: dx / length };
-                }
-                
+                if (length > 0) normal = { x: -dy / length, y: dx / length };
                 const spiralAngle = t * p.PI * 4 + phaseOffset + time * speed;
                 const offsetX = Math.cos(spiralAngle) * radius;
                 const offsetY = Math.sin(spiralAngle) * radius;
-                
                 threadPoints.push({
                     x: basePoint.x + normal.x * offsetX + normal.y * offsetY,
                     y: basePoint.y + normal.y * offsetX - normal.x * offsetY
                 });
             }
-            
             const color = colors[threadIndex % colors.length];
             p.stroke(color[0], color[1], color[2], 120);
             p.strokeWeight(15);
             p.strokeCap(p.ROUND);
             p.noFill();
-            
             p.beginShape();
-            threadPoints.forEach(point => {
-                p.vertex(point.x, point.y);
-            });
+            threadPoints.forEach(point => p.vertex(point.x, point.y));
             p.endShape();
         }
     }
@@ -1158,41 +1191,30 @@ const sketch = (p) => {
     function drawMainPath() {
         const pulse = p.sin(p.millis() * 0.002) * 20;
         const currentThickness = 80 + pulse;
-        
         p.stroke(255, 255, 255, 220);
         p.strokeWeight(currentThickness);
         p.strokeCap(p.ROUND);
-        
         p.drawingContext.setLineDash([100, 40]);
         p.noFill();
         p.beginShape();
-        for (let i = 0; i < smoothPath.length; i += 1) {
-            p.vertex(smoothPath[i].x, smoothPath[i].y);
-        }
+        for (let i = 0; i < smoothPath.length; i += 1) p.vertex(smoothPath[i].x, smoothPath[i].y);
         p.endShape();
         p.drawingContext.setLineDash([]);
-        
         for (let i = 1; i <= 3; i++) {
             p.stroke(200, 200, 200, 40 - i * 10);
             p.strokeWeight(currentThickness + i * 60);
-            
             p.beginShape();
-            for (let j = 0; j < smoothPath.length; j += 2) {
-                p.vertex(smoothPath[j].x, smoothPath[j].y);
-            }
+            for (let j = 0; j < smoothPath.length; j += 2) p.vertex(smoothPath[j].x, smoothPath[j].y);
             p.endShape();
         }
     }
     
     function drawNodes() {
         const time = p.millis() * 0.001;
-        
         nodes.forEach((node, index) => {
             const isCurrent = index === currentNodeIndex;
-            
             const basePulse = p.sin(time * 3 + index * 0.5) * 0.3 + 0.7;
             const nodeSize = 200 * basePulse;
-            
             if (isCurrent) {
                 for (let i = 5; i > 0; i--) {
                     const alpha = 20 - i * 3;
@@ -1203,36 +1225,28 @@ const sketch = (p) => {
                     p.ellipse(node.x, node.y, size + extraPulse, size + extraPulse);
                 }
             }
-            
             p.push();
             p.translate(node.x, node.y);
             p.rotate(time * 0.5 + index * 0.1);
-            
             p.strokeWeight(30);
             p.stroke(node.color[0], node.color[1], node.color[2], isCurrent ? 200 : 100);
             p.noFill();
             p.ellipse(0, 0, nodeSize * 1.5, nodeSize * 1.5);
-            
             for (let i = 0; i < 8; i++) {
                 const angle = (i / 8) * p.TWO_PI;
                 const pointX = p.cos(angle) * nodeSize * 0.75;
                 const pointY = p.sin(angle) * nodeSize * 0.75;
                 const pointPulse = p.sin(time * 4 + i) * 10;
-                
                 p.fill(240, 240, 240, 200);
                 p.noStroke();
                 p.ellipse(pointX, pointY, 40 + pointPulse, 40 + pointPulse);
             }
-            
             p.pop();
-            
             p.noStroke();
             p.fill(node.color[0], node.color[1], node.color[2], isCurrent ? 255 : 150);
             p.ellipse(node.x, node.y, nodeSize * 0.6, nodeSize * 0.6);
-            
             p.fill(255, 255, 255, 255);
             p.ellipse(node.x, node.y, 40, 40);
-            
             p.fill(255, 255, 255, 255);
             p.ellipse(node.x, node.y, 10, 10);
         });
@@ -1240,27 +1254,17 @@ const sketch = (p) => {
     
     function drawNodoImage(nodeIndex, alpha) {
         if (!nodes || nodes.length <= nodeIndex || alpha <= 0) return;
-        
         const node = nodes[nodeIndex];
         const nodeNumber = nodeIndex + 1;
-        
         if (!nodoImages[nodeNumber]) return;
-        
         const settings = NODO_IMAGE_SETTINGS[nodeNumber];
-        if (!settings) {
-            console.log(`Nessuna impostazione per l'immagine del nodo ${nodeNumber}`);
-            return;
-        }
-        
+        if (!settings) return;
         p.push();
-        
         try {
             const imageX = node.x + settings.offsetX;
             const imageY = node.y + settings.offsetY;
-            
             if (nodeNumber <= 10 && nodoImages[nodeNumber].bis && nodoImages[nodeNumber].original) {
                 const fadeProgress = nodoImageFadeProgress[nodeNumber];
-                
                 if (fadeProgress < 1) {
                     const img = nodoImages[nodeNumber].bis;
                     if (img && img.width && img.height) {
@@ -1271,7 +1275,6 @@ const sketch = (p) => {
                         p.image(img, imageX, imageY, desiredWidth, desiredHeight);
                     }
                 }
-                
                 if (fadeProgress > 0) {
                     const img = nodoImages[nodeNumber].original;
                     if (img && img.width && img.height) {
@@ -1290,47 +1293,35 @@ const sketch = (p) => {
                 p.tint(255, alpha);
                 p.image(img, imageX, imageY, desiredWidth, desiredHeight);
             }
-            
-        } catch (e) {
-            console.warn("Errore nel disegno dell'immagine del nodo", nodeNumber, e);
-        }
-        
+        } catch (e) { console.warn("Errore nel disegno dell'immagine del nodo", nodeNumber, e); }
         p.pop();
     }
     
     function drawMovingDot(currentPoint) {
         const time = p.millis() * 0.001;
-        
         for (let i = 15; i > 0; i--) {
             const size = 300 + i * 40;
             const alpha = 8 - i * 0.4;
             const pulse = p.sin(time * 2 + i * 0.3) * 20;
-            
             p.noStroke();
             p.fill(255, 255, 255, alpha);
             p.ellipse(currentPoint.x, currentPoint.y, size + pulse, size + pulse);
         }
-        
         for (let i = 5; i > 0; i--) {
             const size = 150 + i * 30;
             const alpha = 15 - i * 2;
             const pulse = p.sin(time * 3 + i) * 15;
-            
             p.fill(255, 255, 255, alpha);
             p.ellipse(currentPoint.x, currentPoint.y, size + pulse, size + pulse);
         }
-        
         const mainPulse = p.sin(time * 5) * 25;
         p.noStroke();
         p.fill(255, 255, 255, 220);
         p.ellipse(currentPoint.x, currentPoint.y, 100 + mainPulse, 100 + mainPulse);
-        
         p.fill(200, 200, 200, 255);
         p.ellipse(currentPoint.x, currentPoint.y, 50, 50);
-        
         p.fill(255, 255, 255, 255);
         p.ellipse(currentPoint.x, currentPoint.y, 15, 15);
-        
         if (movementState === 'MOVING_TO_NODE') {
             for (let i = 0; i < 12; i++) {
                 const angle = time * 8 + (i / 12) * p.TWO_PI;
@@ -1338,7 +1329,6 @@ const sketch = (p) => {
                 const trailX = currentPoint.x + p.cos(angle) * distance;
                 const trailY = currentPoint.y + p.sin(angle) * distance;
                 const trailSize = 20 + p.sin(time * 7 + i) * 10;
-                
                 p.fill(255, 255, 255, 150);
                 p.ellipse(trailX, trailY, trailSize, trailSize);
             }
@@ -1349,33 +1339,30 @@ const sketch = (p) => {
         const rect = e.target.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
         const clickY = e.clientY - rect.top;
-        
         const currentPoint = getPointOnPath(scrollProgress, smoothPath, pathLength);
         const zoom = 0.025;
-        
         const worldX = (clickX - p.width/2) / zoom + currentPoint.x;
         const worldY = (clickY - p.height/2) / zoom + currentPoint.y;
         
-        // Prima controlla se il click è su un'immagine (lettera)
+        // Prima controlla se c'è una descrizione attiva per chiuderla
+        if (activeDescription !== null) {
+            activeDescription = null;
+            updateStatusMessage();
+            return;
+        }
+        
+        // Poi controlla i nodi
         for (let nodeIdx = 0; nodeIdx < nodes.length; nodeIdx++) {
             const node = nodes[nodeIdx];
             const nodeNumber = nodeIdx + 1;
-            
-            // Controlla se c'è un'immagine visibile per questo nodo
             if (showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0) {
                 const settings = NODO_IMAGE_SETTINGS[nodeNumber];
                 if (settings && settings.scale > 0) {
                     const imageX = node.x + settings.offsetX;
                     const imageY = node.y + settings.offsetY;
-                    
-                    // Stima le dimensioni dell'immagine (semplificata)
                     let imgWidth = 1000 * settings.scale;
                     let imgHeight = 1000 * settings.scale;
-                    
-                    // Controlla se il click è dentro l'area dell'immagine
-                    if (Math.abs(worldX - imageX) < imgWidth/2 && 
-                        Math.abs(worldY - imageY) < imgHeight/2) {
-                        
+                    if (Math.abs(worldX - imageX) < imgWidth/2 && Math.abs(worldY - imageY) < imgHeight/2) {
                         handleNodeClick(nodeIdx);
                         return;
                     }
@@ -1383,111 +1370,70 @@ const sketch = (p) => {
             }
         }
         
-        // Se non è stato cliccato su un'immagine, controlla i nodi
+        // Infine controlla i nodi direttamente
         for (let nodeIdx = 0; nodeIdx < nodes.length; nodeIdx++) {
             const node = nodes[nodeIdx];
             const nodeNumber = nodeIdx + 1;
-            
             const dist = distance(worldX, worldY, node.x, node.y);
             if (dist < 1500) {
                 handleNodeClick(nodeIdx);
                 return;
             }
         }
-        
-        // Se si clicca altrove, chiudi la descrizione
-        if (activeDescription) {
-            activeDescription = null;
-            updateStatusMessage();
-        }
     }
     
     function handleNodeClick(nodeIdx) {
         const nodeNumber = nodeIdx + 1;
+        if (nodeNumber === 1 || nodeNumber === 26) return;
         
-        // Nodi 1 e 26 non mostrano descrizioni
-        if (nodeNumber === 1 || nodeNumber === 26) {
-            return;
-        }
+        let animationType = 'group1';
+        if (nodeNumber >= 2 && nodeNumber <= 9) animationType = 'group1';
+        else if (nodeNumber >= 10 && nodeNumber <= 16) animationType = 'group2';
+        else if (nodeNumber >= 17 && nodeNumber <= 21) animationType = 'group3';
+        else if (nodeNumber >= 22 && nodeNumber <= 25) animationType = 'group4';
         
-        // Determina il tipo di animazione in base al gruppo del nodo
-        let animationType = 'group1'; // Predefinito
-        
-        if (nodeNumber >= 2 && nodeNumber <= 9) {
-            animationType = 'group1'; // Animazioni molto diverse tra loro
-        } else if (nodeNumber >= 10 && nodeNumber <= 16) {
-            animationType = 'group2'; // Onde sincrone per riga
-        } else if (nodeNumber >= 17 && nodeNumber <= 21) {
-            animationType = 'group3'; // Intero blocco animato
-        } else if (nodeNumber >= 22 && nodeNumber <= 25) {
-            animationType = 'group4'; // Testo statico
-        }
-        
-        // Ottieni il testo corrispondente alla lettera (nodo 2-25 → testo 0-23)
         const textIndex = nodeNumber - 2;
         const letterText = LETTER_TEXTS[textIndex];
         
-        // Gestione toggle della descrizione
         if (activeDescription && activeDescription.nodeIndex === nodeIdx) {
-            // Chiudi la descrizione se clicchi sullo stesso nodo
             activeDescription = null;
         } else {
-            // Apri una nuova descrizione
             activeDescription = {
                 nodeIndex: nodeIdx,
                 animationType: animationType,
                 node: nodes[nodeIdx],
-                text: letterText
+                text: letterText,
+                startTime: p.millis() * 0.001,
+                nodeNumber: nodeNumber,
+                waveIntensity: getWaveIntensity(textIndex)
             };
             
-            // Prepara le linee di testo per le animazioni
-            if (animationType === 'group1') {
-                createTextLinesGroup1(nodes[nodeIdx], letterText);
-            } else if (animationType === 'group2') {
-                createTextLinesGroup2(nodes[nodeIdx], letterText);
-            } else if (animationType === 'group3') {
-                createTextLinesGroup3(nodes[nodeIdx], letterText);
-            } else if (animationType === 'group4') {
-                createTextLinesGroup4(nodes[nodeIdx], letterText);
-            }
+            if (animationType === 'group1') createTextLinesGroup1(nodes[nodeIdx], letterText, nodeNumber);
+            else if (animationType === 'group2') createTextLinesGroup2(nodes[nodeIdx], letterText, nodeNumber);
+            else if (animationType === 'group3') createTextLinesGroup3(nodes[nodeIdx], letterText, nodeNumber);
+            else if (animationType === 'group4') createTextLinesGroup4(nodes[nodeIdx], letterText, nodeNumber);
         }
-        
         updateStatusMessage();
     }
     
     p.preload = async function() {
         console.log("Caricamento immagini dei nodi...");
+        wakeTypeFont = p.loadFont('../assets/WakeType.ttf');
+        console.log("Font WakeType caricato");
         
         for (let imageFileIndex = 1; imageFileIndex <= 26; imageFileIndex++) {
-            let nodeIndexForImage;
-            if (imageFileIndex === 26) {
-                nodeIndexForImage = 0;
-            } else {
-                nodeIndexForImage = imageFileIndex;
-            }
-            
+            let nodeIndexForImage = imageFileIndex === 26 ? 0 : imageFileIndex;
             const nodeNumber = nodeIndexForImage + 1;
             const originalPath = `assets/nodo_${imageFileIndex}.png`;
-            
-            if (!nodoImages[nodeNumber]) {
-                nodoImages[nodeNumber] = {};
-            }
-            
+            if (!nodoImages[nodeNumber]) nodoImages[nodeNumber] = {};
             try {
-                const originalImg = await loadImageSafely(
-                    originalPath, 
-                    `Img ${imageFileIndex} -> Nodo ${nodeNumber}`
-                );
+                const originalImg = await loadImageSafely(originalPath, `Img ${imageFileIndex} -> Nodo ${nodeNumber}`);
                 nodoImages[nodeNumber].original = originalImg;
                 console.log(`✅ Immagine originale nodo_${imageFileIndex}.png assegnata al Nodo ${nodeNumber}`);
-                
                 if (imageFileIndex <= 10) {
                     const bisPath = `assets/nodo_${imageFileIndex}bis.png`;
                     try {
-                        const bisImg = await loadImageSafely(
-                            bisPath, 
-                            `Img ${imageFileIndex}bis -> Nodo ${nodeNumber}`
-                        );
+                        const bisImg = await loadImageSafely(bisPath, `Img ${imageFileIndex}bis -> Nodo ${nodeNumber}`);
                         nodoImages[nodeNumber].bis = bisImg;
                         console.log(`✅ Immagine bis nodo_${imageFileIndex}bis.png assegnata al Nodo ${nodeNumber}`);
                     } catch (e) {
@@ -1508,24 +1454,17 @@ const sketch = (p) => {
     };
     
     p.setup = function() {
-        console.log("Setup p5.js - 26 nodi con sistema di transizione immagini");
+        console.log("Setup p5.js - Descrizioni ridotte: font 14px, interlinea 16px");
         canvas = p.createCanvas(p.windowWidth, p.windowHeight);
         canvas.parent('p5-canvas');
-        
         window.width = p.width;
         window.height = p.height;
-        
         pathPoints = scalePoints(ORIGINAL_POINTS, 8);
         smoothPath = createSmoothPath(pathPoints, 30);
         pathLength = calculatePathLength(smoothPath);
-        
         calculateNodes();
-        
         initStarParticles();
-        
         initUIElements();
-        
-        // Aggiungi elemento per il messaggio di stato
         const navigationInfo = document.querySelector('.navigation-info');
         if (navigationInfo && !document.querySelector('.status-message')) {
             const statusMessage = document.createElement('div');
@@ -1533,22 +1472,15 @@ const sketch = (p) => {
             statusMessage.style.display = 'none';
             navigationInfo.appendChild(statusMessage);
         }
-        
         canvas.elt.addEventListener('click', handleCanvasClick);
         canvas.elt.style.cursor = 'pointer';
-        
-        // Scrolling in avanti e indietro
         window.addEventListener('wheel', function(e) {
             if (isProcessing || movementState !== 'STOPPED') return;
-            
             const direction = e.deltaY > 0 ? 1 : -1;
             startMoving(direction);
         });
-        
-        // Tasti freccia per navigazione
         window.addEventListener('keydown', function(e) {
             if (isProcessing || movementState !== 'STOPPED') return;
-            
             if (e.code === 'ArrowDown' || e.code === 'ArrowRight' || e.code === 'Space') {
                 e.preventDefault();
                 startMoving(1);
@@ -1557,27 +1489,24 @@ const sketch = (p) => {
                 startMoving(-1);
             }
         });
-        
         console.log("Setup completato con", nodes.length, "nodi");
+        console.log("Dimensioni descrizioni: font=" + SCREEN_BASE_TEXT_SIZE + "px, interlinea=" + SCREEN_LINE_HEIGHT + "px");
     };
-    
+                      
     p.draw = function() {
         updateMovement();
         updateImageTransitions();
         updateDescriptionAlpha();
-        
         const currentPoint = getPointOnPath(scrollProgress, smoothPath, pathLength);
-        
         drawLightGradient();
         drawStars(currentPoint);
-        
         p.push();
         const zoom = 0.025;
         p.translate(p.width/2, p.height/2);
         p.scale(zoom);
         p.translate(-currentPoint.x, -currentPoint.y);
         
-        // Disegna le immagini dei nodi con il sistema di transizione
+        // Disegna elementi del mondo
         for (let nodeIdx = 0; nodeIdx < 26; nodeIdx++) {
             const nodeNumber = nodeIdx + 1;
             if (showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0) {
@@ -1589,26 +1518,27 @@ const sketch = (p) => {
         drawMainPath();
         drawNodes();
         drawMovingDot(currentPoint);
+        p.pop(); // Fine del contesto mondo
         
-        // Disegna la descrizione attiva se presente
+        // ===== DISEGNA LE DESCRIZIONI IN COORDINATE SCHERMO =====
         if (activeDescription && descriptionAlpha > 0) {
+            p.push();
+            
+            // Applica un overlay semi-trasparente per migliorare la leggibilità
+            p.fill(0, 0, 0, 30);  // Ridotto l'opacità per font piccolo
+            p.noStroke();
+            p.rect(0, 0, p.width, p.height);
+            
+            // Disegna la descrizione appropriata
             switch (activeDescription.animationType) {
-                case 'group1':
-                    drawDescriptionGroup1(p);
-                    break;
-                case 'group2':
-                    drawDescriptionGroup2(p);
-                    break;
-                case 'group3':
-                    drawDescriptionGroup3(p);
-                    break;
-                case 'group4':
-                    drawDescriptionGroup4(p);
-                    break;
+                case 'group1': drawDescriptionGroup1(p); break;
+                case 'group2': drawDescriptionGroup2(p); break;
+                case 'group3': drawDescriptionGroup3(p); break;
+                case 'group4': drawDescriptionGroup4(p); break;
             }
+            
+            p.pop();
         }
-        
-        p.pop();
         
         updateUI();
     };
@@ -1618,6 +1548,29 @@ const sketch = (p) => {
         window.width = p.width;
         window.height = p.height;
         initStarParticles();
+        
+        // Aggiorna le posizioni di default per le nuove dimensioni
+        DEFAULT_DESCRIPTION_POSITIONS.group1.baseX = p.width / 2;
+        DEFAULT_DESCRIPTION_POSITIONS.group1.baseY = p.height / 2;
+        DEFAULT_DESCRIPTION_POSITIONS.group2.baseX = p.width / 2;
+        DEFAULT_DESCRIPTION_POSITIONS.group2.baseY = p.height / 3;
+        DEFAULT_DESCRIPTION_POSITIONS.group3.baseX = p.width / 2;
+        DEFAULT_DESCRIPTION_POSITIONS.group3.baseY = p.height / 1.5;
+        DEFAULT_DESCRIPTION_POSITIONS.group4.baseX = p.width / 2;
+        DEFAULT_DESCRIPTION_POSITIONS.group4.baseY = p.height / 2;
+        
+        // Se c'è una descrizione attiva, ricreala con le nuove dimensioni
+        if (activeDescription) {
+            const nodeIdx = activeDescription.nodeIndex;
+            const nodeNumber = nodeIdx + 1;
+            const textIndex = nodeNumber - 2;
+            const letterText = LETTER_TEXTS[textIndex];
+            
+            if (activeDescription.animationType === 'group1') createTextLinesGroup1(nodes[nodeIdx], letterText, nodeNumber);
+            else if (activeDescription.animationType === 'group2') createTextLinesGroup2(nodes[nodeIdx], letterText, nodeNumber);
+            else if (activeDescription.animationType === 'group3') createTextLinesGroup3(nodes[nodeIdx], letterText, nodeNumber);
+            else if (activeDescription.animationType === 'group4') createTextLinesGroup4(nodes[nodeIdx], letterText, nodeNumber);
+        }
     };
 };
 

@@ -1,0 +1,23 @@
+/* RESET E BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CANVAS PRINCIPALE P5 */
+#p5-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 3;
+    cursor: pointer;
+    background: transparent !important;
+    pointer-events: auto;
+}
+
+.scroll-space {
+    height: 50000px;
+}

@@ -6,7 +6,7 @@
 }
 
 html {
-    scroll-behavior: auto; /* Disabilita lo scroll smooth nativo per più controllo */
+    scroll-behavior: auto;
 }
 
 body {
@@ -15,7 +15,7 @@ body {
     font-family: 'WakeType', sans-serif;
     overflow-x: hidden;
     position: relative;
-    overscroll-behavior: none; /* Previene comportamenti di rimbalzo */
+    overscroll-behavior: none;
 }
 
 /* CANVAS P5.JS */
@@ -25,16 +25,16 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 1; /* Dietro la hero section */
+    z-index: 1;
     background: transparent;
     pointer-events: none;
-    opacity: 0; /* Inizia invisibile */
+    opacity: 0;
     transition: opacity 1s ease;
-    will-change: transform; /* Ottimizzazione per animazioni fluide */
+    will-change: transform;
 }
 
 #p5-canvas.active {
-    opacity: 1; /* Diventa visibile quando il titolo scompare */
+    opacity: 1;
 }
 
 /* ============ SEZIONE HERO ============ */
@@ -48,13 +48,13 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #ffffff;
-    z-index: 10; /* Sopra il canvas */
+    z-index: 10;
     transition: opacity 1s ease;
 }
 
 .hero-section.hidden {
-    opacity: 0; /* Scompare completamente */
-    pointer-events: none; /* Non intercetta più eventi */
+    opacity: 0;
+    pointer-events: none;
 }
 
 .hero-container {
@@ -66,7 +66,7 @@ body {
     transition: transform 1s ease, opacity 1s ease;
 }
 
-/* HEADER MINIMO E DISCRETO - CORRETTO */
+/* HEADER MINIMO E DISCRETO */
 .main-header {
     position: fixed;
     top: 0;
@@ -127,10 +127,6 @@ body {
     line-height: 1;
     transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
-}
-
-/* Stato iniziale: nitido e con spaziatura normale */
-.main-title {
     filter: blur(0);
     opacity: 1;
     transform: scale(1);
@@ -194,7 +190,7 @@ body {
     filter: blur(3px);
 }
 
-/* INDICATORE SCROLL - CORRETTO */
+/* INDICATORE SCROLL */
 .scroll-indicator {
     position: fixed;
     bottom: 3rem;
@@ -237,7 +233,7 @@ body {
 .scroll-space {
     height: 25000px;
     position: relative;
-    z-index: 2; /* Sopra tutto ma invisibile */
+    z-index: 2;
 }
 
 /* Migliora la performance dello scroll */

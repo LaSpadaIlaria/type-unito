@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // ============ FORZA LA PAGINA A INIZIARE DALL'ALTO ============
+    window.scrollTo(0, 0);
+    
+    // Previeni il comportamento di scroll restoration del browser
+    if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+    
     // ============ VARIABILI GLOBALI ============
     const mainTitle = document.querySelector('.main-title');
     const heroSection = document.querySelector('.hero-section');
@@ -9,14 +17,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const p5Canvas = document.getElementById('p5-canvas');
     const mainHeader = document.querySelector('.main-header');
     
-    // Variabili per lo scrolling lineare
+    // Resetta tutte le classi e stili iniziali
+    heroSection.classList.remove('scrolled', 'hidden');
+    mainTitle.classList.remove('scrolled');
+    p5Canvas.classList.remove('active');
+    
+    // Variabili per lo scrolling
     let linearScrollProgress = 0;
     let targetLinearProgress = 0;
     let smoothLinearProgress = 0;
-    let lastScrollY = 0;
-    let lastScrollTime = Date.now();
     let isInP5Section = false;
     let heroTransitionComplete = false;
+    let hasUserScrolled = false;
+    let initialScrollY = window.scrollY;
 
     // ============ ANIMAZIONE DEL TITOLO E DELLA HERO SECTION ============
     function animateHeroSection() {
@@ -24,12 +37,46 @@ document.addEventListener('DOMContentLoaded', function() {
         const windowHeight = window.innerHeight;
         const heroHeight = heroSection.offsetHeight;
         
+        // Rileva il primo scroll dell'utente
+        if (!hasUserScrolled && scrollY > 5) {
+            hasUserScrolled = true;
+            initialScrollY = scrollY;
+        }
+        
+        // Se l'utente non ha ancora scrollato o è tornato all'inizio, mantieni tutto visibile
+        if (!hasUserScrolled || scrollY < 10) {
+            // Stato iniziale - tutto visibile
+            mainTitle.classList.remove('scrolled');
+            heroSection.classList.remove('scrolled');
+            heroSection.classList.remove('hidden');
+            
+            mainTitle.style.letterSpacing = '0.15em';
+            mainTitle.style.filter = 'blur(0px)';
+            mainTitle.style.opacity = '1';
+            mainTitle.style.transform = 'scale(1)';
+            
+            fontWeight.style.opacity = '1';
+            fontWeight.style.transform = 'translateY(0)';
+            fontWeight.style.filter = 'blur(0px)';
+            
+            designer.style.opacity = '1';
+            year.style.opacity = '1';
+            
+            mainHeader.style.opacity = '1';
+            scrollIndicator.style.opacity = '0.7';
+            p5Canvas.classList.remove('active');
+            
+            isInP5Section = false;
+            heroTransitionComplete = false;
+            return;
+        }
+        
         // Calcola l'intensità dello scroll (0-1) nella hero section
-        // Il titolo scompare completamente a metà dello scroll della hero section
-        const scrollIntensity = Math.min(scrollY / (heroHeight * 0.5), 1);
+        const adjustedScrollY = scrollY - initialScrollY;
+        const scrollIntensity = Math.min(adjustedScrollY / (heroHeight * 0.5), 1);
         
         // Controlla se siamo entrati nella sezione P5
-        if (scrollY > heroHeight * 0.7 && !heroTransitionComplete) {
+        if (adjustedScrollY > heroHeight * 0.7 && !heroTransitionComplete) {
             heroTransitionComplete = true;
             isInP5Section = true;
         }
@@ -95,21 +142,21 @@ document.addEventListener('DOMContentLoaded', function() {
             heroSection.classList.remove('hidden');
             
             // Ripristina lo stato originale del titolo
-            mainTitle.style.letterSpacing = '';
-            mainTitle.style.filter = '';
-            mainTitle.style.opacity = '';
-            mainTitle.style.transform = '';
+            mainTitle.style.letterSpacing = '0.15em';
+            mainTitle.style.filter = 'blur(0px)';
+            mainTitle.style.opacity = '1';
+            mainTitle.style.transform = 'scale(1)';
             
             // Ripristina il sottotitolo
-            fontWeight.style.opacity = '';
-            fontWeight.style.transform = '';
-            fontWeight.style.filter = '';
+            fontWeight.style.opacity = '1';
+            fontWeight.style.transform = 'translateY(0)';
+            fontWeight.style.filter = 'blur(0px)';
             
-            designer.style.opacity = '';
-            year.style.opacity = '';
+            designer.style.opacity = '1';
+            year.style.opacity = '1';
             
             // Ripristina header
-            mainHeader.style.opacity = '';
+            mainHeader.style.opacity = '1';
             
             // Mostra l'indicatore scroll
             scrollIndicator.style.opacity = '0.7';
@@ -121,8 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ============ CODICE P5.JS FORNITO ============
-    // ============ DATI DEL PERCORSO ============
+    // ============ CODICE P5.JS ============
     const ORIGINAL_POINTS = [
         {x: 82771, y: -40310},
         {x: 87465, y: -38233},
@@ -151,7 +197,6 @@ document.addEventListener('DOMContentLoaded', function() {
         {x: 89173, y: -3938},
     ];
 
-    // ============ NODI CON IMMAGINI ============
     const NODES = [
         {
             name: "nodo1",
@@ -226,13 +271,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const TOTAL_SCROLL_HEIGHT = 25000;
     const ZOOM_FACTOR = 0.012;
     const PATH_SCALE = 6;
-    const SCROLL_SENSITIVITY = 0.4; // RIDOTTO per movimento più lento
-    const SCROLL_THRESHOLD = 3; // AUMENTATA sensibilità
-    const BALL_SMOOTHING = 0.03; // Aggiunto smoothing per pallino
+    const SCROLL_SENSITIVITY = 0.4;
+    const SCROLL_THRESHOLD = 3;
+    const BALL_SMOOTHING = 0.03;
 
     // ============ STATO GLOBALE P5 ============
     let scrollProgress = 0;
-    let ballProgress = 0; // Progresso separato per il pallino (più lento)
+    let ballProgress = 0;
     let pathPoints = [], smoothPath = [], pathLength = 0;
     let starParticles = [];
     let wireCenterX = 0;
@@ -243,8 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Variabili per il tracking dello scroll lineare
     let accumulatedScroll = 0;
     let lastWheelDirection = 0;
-    let scrollVelocity = 0;
-    let lastVelocityUpdate = Date.now();
 
     // ============ FUNZIONI UTILITY ============
     function scalePoints(points, multiplier) {
@@ -325,18 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Funzione per gestire lo scroll lineare
     function updateLinearScroll() {
-        const currentTime = Date.now();
-        const timeDelta = currentTime - lastScrollTime;
-        
-        // Calcola la velocità dello scroll
-        if (timeDelta > 0) {
-            const currentScrollY = window.scrollY;
-            scrollVelocity = (currentScrollY - lastScrollY) / timeDelta;
-            lastScrollY = currentScrollY;
-            lastVelocityUpdate = currentTime;
-        }
-        
-        // Smoothing del progresso lineare - più lento
+        // Smoothing del progresso lineare
         smoothLinearProgress += (targetLinearProgress - smoothLinearProgress) * 0.05;
         
         // Calcola il progresso dello scroll basato sul progresso lineare
@@ -344,15 +376,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Aggiorna il progresso del pallino più lentamente
         ballProgress += (scrollProgress - ballProgress) * BALL_SMOOTHING;
-        
-        lastScrollTime = currentTime;
     }
 
     // Gestione dello scroll del mouse per progresso lineare
     function handleWheelScroll(e) {
         // Solo nella sezione P5
         if (!isInP5Section) {
-            return; // Lascia lo scroll normale nella hero section
+            return;
         }
         
         const delta = e.deltaY;
@@ -363,19 +393,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Rileva cambio di direzione
         if (lastWheelDirection !== 0 && currentDirection !== lastWheelDirection) {
-            accumulatedScroll = 0; // Reset su cambio direzione
+            accumulatedScroll = 0;
         }
         
         lastWheelDirection = currentDirection;
         
         // Applica solo dopo aver superato la soglia
         if (accumulatedScroll > SCROLL_THRESHOLD) {
-            const scrollAmount = delta * 0.0008 * SCROLL_SENSITIVITY; // RALLENTATO
+            const scrollAmount = delta * 0.0008 * SCROLL_SENSITIVITY;
             
-            // Sempre aggiornare il progresso in entrambe le direzioni
+            // Aggiorna il progresso in entrambe le direzioni
             targetLinearProgress = Math.min(1, Math.max(0, targetLinearProgress + scrollAmount));
             
-            // Aggiorna la posizione di scroll della pagina per mantenere sincronizzazione
+            // Aggiorna la posizione di scroll della pagina
             const heroHeight = heroSection.offsetHeight;
             const p5ScrollPosition = (heroHeight * 0.3) + (targetLinearProgress * TOTAL_SCROLL_HEIGHT);
             window.scrollTo(0, p5ScrollPosition);
@@ -411,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         function drawLightGradient() {
             p.clear();
-            p.background(255, 255, 255, 0); // Trasparente
+            p.background(255, 255, 255, 0);
         }
         
         function drawStars() {
@@ -595,7 +625,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         p.setup = function() {
-            console.log("Setup p5.js - Percorso con filo e immagini");
+            console.log("Setup p5.js");
             canvas = p.createCanvas(p.windowWidth, p.windowHeight);
             canvas.parent('p5-canvas');
             
@@ -618,27 +648,25 @@ document.addEventListener('DOMContentLoaded', function() {
             
             wireCenterX = (minX + maxX) / 2;
             console.log("Centro orizzontale del filo:", wireCenterX);
-            console.log("Y min/max del percorso:", minPathY, maxPathY);
             
             initStarParticles();
             
             // Imposta l'altezza dello spazio di scroll
             document.querySelector('.scroll-space').style.height = TOTAL_SCROLL_HEIGHT + 'px';
             
-            console.log("Setup completato. Altezza scroll:", TOTAL_SCROLL_HEIGHT);
+            console.log("Setup completato");
         };
         
         p.draw = function() {
             updateLinearScroll();
             
-            // Usa ballProgress (più lento) per il pallino
+            // Usa ballProgress per il pallino
             const currentPoint = getPointOnPath(ballProgress, smoothPath, pathLength);
             
-            // Calcola una posizione verticale lineare invece di seguire esattamente il percorso
-            const linearY = p.lerp(minPathY, maxPathY, scrollProgress); // Usa scrollProgress per la vista
+            // Calcola una posizione verticale lineare
+            const linearY = p.lerp(minPathY, maxPathY, scrollProgress);
             
-            // Usa una media ponderata tra la y del percorso e quella lineare
-            // 80% lineare, 20% del percorso per mantenere il pallino visibile
+            // Usa una media ponderata
             const targetViewY = currentPoint.y * 0.2 + linearY * 0.8;
             
             // Smooth della posizione verticale
@@ -657,7 +685,7 @@ document.addEventListener('DOMContentLoaded', function() {
             drawSpiralThreads();
             drawMainPath();
             drawNodes();
-            drawMovingDot(currentPoint); // Il pallino segue il percorso con ballProgress (più lento)
+            drawMovingDot(currentPoint);
             p.pop();
         };
         
@@ -675,64 +703,55 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('wheel', handleWheelScroll, { passive: false });
     
     // Aggiorna le animazioni durante lo scroll
-    function updateAnimations() {
+    function handleScroll() {
         animateHeroSection();
+        updateLinearScroll();
+        
+        // Se siamo nella sezione P5, aggiorna il progresso lineare
+        if (isInP5Section) {
+            const heroHeight = heroSection.offsetHeight;
+            const scrollY = window.scrollY;
+            const p5ScrollY = Math.max(0, scrollY - (heroHeight * 0.3));
+            targetLinearProgress = Math.min(1, p5ScrollY / TOTAL_SCROLL_HEIGHT);
+        }
     }
     
-    window.addEventListener('scroll', updateAnimations);
-    window.addEventListener('resize', updateAnimations);
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
     
-    // Aggiungi scorciatoie da tastiera per scroll più veloce
+    // Inizializza le animazioni
+    handleScroll();
+    
+    // Aggiungi scorciatoie da tastiera
     document.addEventListener('keydown', function(e) {
         // Solo nella sezione P5
         if (!isInP5Section) {
             return;
         }
         
-        // Freccia giù per avanzare lentamente
         if (e.key === 'ArrowDown') {
             targetLinearProgress = Math.min(1, targetLinearProgress + 0.01);
-            const heroHeight = heroSection.offsetHeight;
-            const p5ScrollPosition = (heroHeight * 0.3) + (targetLinearProgress * TOTAL_SCROLL_HEIGHT);
-            window.scrollTo(0, p5ScrollPosition);
+            updateScrollPosition();
             e.preventDefault();
-        } 
-        // Freccia su per tornare lentamente indietro
-        else if (e.key === 'ArrowUp') {
+        } else if (e.key === 'ArrowUp') {
             targetLinearProgress = Math.max(0, targetLinearProgress - 0.01);
-            const heroHeight = heroSection.offsetHeight;
-            const p5ScrollPosition = (heroHeight * 0.3) + (targetLinearProgress * TOTAL_SCROLL_HEIGHT);
-            window.scrollTo(0, p5ScrollPosition);
+            updateScrollPosition();
             e.preventDefault();
-        }
-        // Pagina giù per avanzare più velocemente
-        else if (e.key === 'PageDown') {
+        } else if (e.key === 'PageDown') {
             targetLinearProgress = Math.min(1, targetLinearProgress + 0.05);
-            const heroHeight = heroSection.offsetHeight;
-            const p5ScrollPosition = (heroHeight * 0.3) + (targetLinearProgress * TOTAL_SCROLL_HEIGHT);
-            window.scrollTo(0, p5ScrollPosition);
+            updateScrollPosition();
             e.preventDefault();
-        } 
-        // Pagina su per tornare più velocemente indietro
-        else if (e.key === 'PageUp') {
+        } else if (e.key === 'PageUp') {
             targetLinearProgress = Math.max(0, targetLinearProgress - 0.05);
-            const heroHeight = heroSection.offsetHeight;
-            const p5ScrollPosition = (heroHeight * 0.3) + (targetLinearProgress * TOTAL_SCROLL_HEIGHT);
-            window.scrollTo(0, p5ScrollPosition);
+            updateScrollPosition();
             e.preventDefault();
-        }
-    });
-    
-    // Tasto Home per tornare all'inizio
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Home') {
+        } else if (e.key === 'Home') {
             targetLinearProgress = 0;
-            const heroHeight = heroSection.offsetHeight;
-            window.scrollTo(0, heroHeight * 0.3);
+            window.scrollTo(0, 0);
+            hasUserScrolled = false;
+            handleScroll();
             e.preventDefault();
-        }
-        // Tasto End per andare alla fine
-        else if (e.key === 'End') {
+        } else if (e.key === 'End') {
             targetLinearProgress = 1;
             const heroHeight = heroSection.offsetHeight;
             window.scrollTo(0, heroHeight * 0.3 + TOTAL_SCROLL_HEIGHT);
@@ -740,12 +759,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Inizializza le animazioni
-    updateAnimations();
-    
-    // Effetto di entrata iniziale
-    setTimeout(() => {
-        mainTitle.style.opacity = '1';
-        mainTitle.style.transform = 'translateY(0)';
-    }, 300);
+    function updateScrollPosition() {
+        const heroHeight = heroSection.offsetHeight;
+        const p5ScrollPosition = (heroHeight * 0.3) + (targetLinearProgress * TOTAL_SCROLL_HEIGHT);
+        window.scrollTo(0, p5ScrollPosition);
+    }
 });

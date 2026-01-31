@@ -18,6 +18,76 @@ body {
     overscroll-behavior: none;
 }
 
+/* ============ TESTO OVERLAY ============ */
+.text-overlay {
+    position: fixed;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    font-family: 'WakeType', sans-serif;
+    color: #000000;
+    text-align: left; /* Bandiera a sinistra */
+    max-width: 600px;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    mix-blend-mode: normal;
+    display: none;
+}
+
+.text-overlay.active {
+    opacity: 1;
+    display: block;
+}
+
+/* Stili specifici per i diversi testi */
+#text1 {
+    width: 500px;
+    font-size: 9pt;
+    line-height: 13pt;
+}
+
+#text2 {
+    width: 500px;
+    font-size: 10pt;
+    line-height: 14pt;
+}
+
+#text3 {
+    width: 500px;
+    font-size: 11pt;
+    line-height: 15pt;
+}
+
+#text4 {
+    width: 500px;
+    font-size: 12pt;
+    line-height: 16pt;
+}
+
+#text5 {
+    width: 500px;
+    font-size: 21pt; 
+    line-height: 25pt;
+}
+
+#text6 {
+    width: 500px;
+    font-size: 14pt;
+    line-height: 18pt;
+}
+
+/* Stile per le specifiche del font (7pt/9pt) */
+.font-specs {
+    font-size: 7pt !important;
+    line-height: 9pt !important;
+    display: block;
+    margin-bottom: 8pt;
+    color: #666;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
 /* CANVAS P5.JS */
 #p5-canvas {
     position: fixed;
@@ -28,13 +98,17 @@ body {
     z-index: 1;
     background: transparent;
     pointer-events: none;
-    opacity: 0;
-    transition: opacity 1s ease;
+    opacity: 1; /* Inizia visibile */
+    transition: opacity 1.5s ease;
     will-change: transform;
 }
 
-#p5-canvas.active {
-    opacity: 1;
+#p5-canvas.fading {
+    opacity: 0.5; /* Sfuma gradualmente */
+}
+
+#p5-canvas.hidden {
+    opacity: 0; /* Completamente nascosto alla fine */
 }
 
 /* ============ SEZIONE HERO ============ */
@@ -236,6 +310,160 @@ body {
     z-index: 2;
 }
 
+/* ============ SEZIONE GRIGLIA GLIFI ============ */
+.glyph-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+    overflow: hidden;
+}
+
+.glyph-section.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.glyph-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    height: 100vh;
+    padding: 2rem;
+    gap: 4rem;
+}
+
+.big-letter {
+    font-size: 35vw;
+    font-weight: normal;
+    color: #000000;
+    line-height: 0.8;
+    flex-shrink: 0;
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.glyph-grids-container {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+
+.glyph-grid-category {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.glyph-title {
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.glyph-grid-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1rem;
+}
+
+.glyph-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 1rem;
+    min-width: min-content;
+    padding: 0.5rem 0;
+}
+
+.glyph-item {
+    font-size: 1.8rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'WakeType', sans-serif;
+    user-select: none;
+}
+
+.glyph-item:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.glyph-item.active {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Stile per la scrollbar */
+.glyph-grid-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.glyph-grid-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.glyph-grid-scroll::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.glyph-grid-scroll::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.glyph-grids-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.glyph-grids-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.glyph-grids-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.glyph-grids-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 /* Migliora la performance dello scroll */
 ::-webkit-scrollbar {
     width: 6px;
@@ -254,8 +482,23 @@ body {
     background: #555;
 }
 
-/* MEDIA QUERIES */
+/* Media queries per i testi */
 @media (max-width: 768px) {
+    .text-overlay {
+        max-width: 80vw;
+        transform: translate(-50%, -50%) scale(0.8);
+        text-align: left;
+    }
+    
+    #text1, #text2, #text3, #text4, #text5, #text6 {
+        width: 80vw;
+    }
+    
+    .font-specs {
+        font-size: 6pt !important;
+        line-height: 8pt !important;
+    }
+    
     .hero-container {
         padding: 0 1rem;
     }
@@ -292,9 +535,45 @@ body {
     .scroll-indicator {
         bottom: 2rem;
     }
+    
+    /* Media queries per la sezione glifi */
+    .glyph-container {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 1rem;
+        height: calc(100vh - 60px);
+        margin-top: 60px;
+    }
+    
+    .big-letter {
+        font-size: 40vw;
+        width: 100%;
+        height: auto;
+        min-height: 200px;
+    }
+    
+    .glyph-grids-container {
+        width: 100%;
+        height: auto;
+        max-height: calc(100vh - 300px);
+    }
+    
+    .glyph-grid {
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    }
+    
+    .glyph-item {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
 }
 
 @media (max-width: 480px) {
+    .text-overlay {
+        transform: translate(-50%, -50%) scale(0.7);
+    }
+    
     .main-header {
         padding: 0.8rem;
     }
@@ -323,5 +602,19 @@ body {
     
     .scroll-indicator span {
         font-size: 0.7rem;
+    }
+    
+    .glyph-grid {
+        grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+    }
+    
+    .glyph-item {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .glyph-title {
+        font-size: 1rem;
     }
 }

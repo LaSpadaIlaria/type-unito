@@ -16,11 +16,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollIndicator = document.querySelector('.scroll-indicator');
     const p5Canvas = document.getElementById('p5-canvas');
     const mainHeader = document.querySelector('.main-header');
+    const glyphSection = document.querySelector('.glyph-section');
+    const bigLetter = document.querySelector('.big-letter');
+    const glyphItems = document.querySelectorAll('.glyph-item');
     
     // Resetta tutte le classi e stili iniziali
     heroSection.classList.remove('scrolled', 'hidden');
     mainTitle.classList.remove('scrolled');
-    p5Canvas.classList.remove('active');
+    p5Canvas.classList.remove('active', 'fading', 'hidden');
+    p5Canvas.style.opacity = '1';
+    glyphSection.classList.remove('active');
+    
+    // ============ COSTANTI PER I TESTI ============
+    const TEXT_COORDINATES = [
+        { id: 'text1', x: 84064, y: -25000 },
+        { id: 'text2', x: 93893, y: -22000 },
+        { id: 'text3', x: 84064, y: -18500 },
+        { id: 'text4', x: 92893, y: -15500 },
+        { id: 'text5', x: 84064, y: -12500 },
+        { id: 'text6', x: 92100, y: -9500 }
+    ];
+
+    const TEXT_OFFSET_X = -1000;
+    const TEXT_OFFSET_Y = -2000;
+    
+    // Variabili per i testi
+    let textElements = [];
     
     // Variabili per lo scrolling
     let linearScrollProgress = 0;
@@ -30,6 +51,209 @@ document.addEventListener('DOMContentLoaded', function() {
     let heroTransitionComplete = false;
     let hasUserScrolled = false;
     let initialScrollY = window.scrollY;
+    let isInGlyphSection = false;
+    let activeGlyph = 'a';
+
+    // ============ INIZIALIZZAZIONE TESTI ============
+    function initializeTextElements() {
+        textElements = [];
+        TEXT_COORDINATES.forEach(coord => {
+            const element = document.getElementById(coord.id);
+            if (element) {
+                textElements.push({
+                    element: element,
+                    originalX: coord.x,
+                    originalY: coord.y,
+                    scaledX: coord.x * PATH_SCALE,
+                    scaledY: coord.y * PATH_SCALE
+                });
+                element.style.display = 'none';
+            }
+        });
+        console.log(`Inizializzati ${textElements.length} elementi di testo`);
+    }
+
+    // ============ INIZIALIZZAZIONE GLYPH ============
+    function initializeGlyphInteraction() {
+        // Imposta il glifo attivo iniziale
+        const initialGlyph = document.querySelector('.glyph-item[data-glyph="a"]');
+        if (initialGlyph) {
+            initialGlyph.classList.add('active');
+        }
+        
+        // Aggiungi event listener a tutti i glifi
+        glyphItems.forEach(glyph => {
+            glyph.addEventListener('click', handleGlyphClick);
+            glyph.addEventListener('mouseenter', handleGlyphHover);
+            glyph.addEventListener('mouseleave', handleGlyphLeave);
+        });
+        
+        console.log(`Inizializzati ${glyphItems.length} glifi interattivi`);
+    }
+    
+    function handleGlyphClick(event) {
+        const glyph = event.currentTarget;
+        const glyphChar = glyph.getAttribute('data-glyph');
+        
+        // Rimuovi la classe active da tutti i glifi
+        glyphItems.forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // Aggiungi la classe active al glifi cliccato
+        glyph.classList.add('active');
+        
+        // Aggiorna la lettera grande
+        updateBigLetter(glyphChar);
+        
+        // Salva il glifo attivo
+        activeGlyph = glyphChar;
+        
+        // Aggiungi un effetto di animazione
+        glyph.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            glyph.style.transform = '';
+        }, 150);
+    }
+    
+    function handleGlyphHover(event) {
+        const glyph = event.currentTarget;
+        if (!glyph.classList.contains('active')) {
+            glyph.style.backgroundColor = '#f0f0f0';
+        }
+    }
+    
+    function handleGlyphLeave(event) {
+        const glyph = event.currentTarget;
+        if (!glyph.classList.contains('active')) {
+            glyph.style.backgroundColor = '#f9f9f9';
+        }
+    }
+    
+    function updateBigLetter(char) {
+        // Effetto di transizione
+        bigLetter.style.opacity = '0';
+        bigLetter.style.transform = 'scale(0.9)';
+        
+        setTimeout(() => {
+            bigLetter.textContent = char;
+            bigLetter.style.opacity = '1';
+            bigLetter.style.transform = 'scale(1)';
+        }, 150);
+    }
+
+    // ============ GESTIONE POSIZIONAMENTO TESTI ============
+    function updateTextPositions() {
+        if (!textElements.length || !isInP5Section) return;
+        
+        const zoom = ZOOM_FACTOR;
+        const viewCenterX = wireCenterX;
+        const viewCenterY = viewOffsetY;
+        
+        textElements.forEach(text => {
+            // Calcola la posizione nello spazio del canvas
+            const canvasX = (text.scaledX - viewCenterX) * zoom + window.innerWidth / 2;
+            const canvasY = (text.scaledY - viewCenterY) * zoom + window.innerHeight / 2;
+            
+            // Applica offset per centrare meglio
+            const screenX = canvasX + TEXT_OFFSET_X * zoom;
+            const screenY = canvasY + TEXT_OFFSET_Y * zoom;
+            
+            // Aggiorna la posizione
+            text.element.style.left = `${screenX}px`;
+            text.element.style.top = `${screenY}px`;
+            
+            // Calcola la visibilità in base alla posizione nello scroll
+            const textFadeStart = 0.05;  // Inizia a 5% dello scroll
+            const textFadeEnd = 0.85;    // Finisce a 85% dello scroll (prima della sezione glyph)
+            
+            if (scrollProgress >= textFadeStart && scrollProgress <= textFadeEnd) {
+                // Calcola l'opacità in base alla vicinanza al centro dello scroll
+                const middleScroll = (textFadeStart + textFadeEnd) / 2;
+                const distanceFromMiddle = Math.abs(scrollProgress - middleScroll);
+                const maxDistance = middleScroll - textFadeStart;
+                let opacity = Math.max(0, 1 - (distanceFromMiddle / maxDistance));
+                
+                // Assicurati che l'opacità non scenda troppo
+                opacity = Math.max(0.3, opacity);
+                
+                text.element.style.opacity = opacity;
+                
+                // Attiva/Disattiva la classe active
+                if (opacity > 0.1) {
+                    text.element.classList.add('active');
+                } else {
+                    text.element.classList.remove('active');
+                }
+            } else {
+                text.element.style.opacity = 0;
+                text.element.classList.remove('active');
+            }
+        });
+    }
+
+    // ============ GESTIONE OPACITÀ CANVAS P5 ============
+    function updateCanvasOpacity() {
+        if (!isInP5Section) {
+            p5Canvas.classList.remove('active', 'fading', 'hidden');
+            return;
+        }
+        
+        // Il canvas inizia a scomparire dopo l'85% dello scroll
+        const canvasFadeStart = 0.85;  // Inizia a scomparire a 85%
+        const canvasFadeEnd = 0.95;    // Completamente nascosto a 95%
+        
+        if (scrollProgress >= canvasFadeStart && scrollProgress <= canvasFadeEnd) {
+            const fadeProgress = (scrollProgress - canvasFadeStart) / (canvasFadeEnd - canvasFadeStart);
+            const opacity = 1 - fadeProgress;
+            
+            p5Canvas.style.opacity = opacity;
+            
+            if (fadeProgress > 0.5) {
+                p5Canvas.classList.add('fading');
+                p5Canvas.classList.remove('active');
+            } else {
+                p5Canvas.classList.add('active');
+                p5Canvas.classList.remove('fading');
+            }
+            
+            if (fadeProgress >= 0.95) {
+                p5Canvas.classList.add('hidden');
+            } else {
+                p5Canvas.classList.remove('hidden');
+            }
+        } else if (scrollProgress < canvasFadeStart) {
+            p5Canvas.style.opacity = '1';
+            p5Canvas.classList.add('active');
+            p5Canvas.classList.remove('fading', 'hidden');
+        }
+    }
+
+    // ============ GESTIONE SEZIONE GLYPH ============
+    function updateGlyphSection() {
+        // Mostra la sezione glyph solo dopo il 95% dello scroll
+        const glyphFadeStart = 0.95;
+        const glyphFadeEnd = 1.0;
+        
+        if (scrollProgress >= glyphFadeStart && scrollProgress <= glyphFadeEnd) {
+            const fadeProgress = (scrollProgress - glyphFadeStart) / (glyphFadeEnd - glyphFadeStart);
+            const opacity = Math.min(1, fadeProgress * 5); // Più rapida
+            
+            glyphSection.style.opacity = opacity;
+            
+            if (opacity > 0.1) {
+                glyphSection.classList.add('active');
+                isInGlyphSection = true;
+                
+                // Quando la sezione glyph diventa attiva, assicurati che l'header sia visibile
+                mainHeader.style.opacity = '1';
+            }
+        } else if (scrollProgress < glyphFadeStart) {
+            glyphSection.style.opacity = '0';
+            glyphSection.classList.remove('active');
+            isInGlyphSection = false;
+        }
+    }
 
     // ============ ANIMAZIONE DEL TITOLO E DELLA HERO SECTION ============
     function animateHeroSection() {
@@ -64,7 +288,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             mainHeader.style.opacity = '1';
             scrollIndicator.style.opacity = '0.7';
-            p5Canvas.classList.remove('active');
+            p5Canvas.classList.remove('active', 'fading', 'hidden');
+            p5Canvas.style.opacity = '1';
+            
+            // Nascondi tutti i testi
+            textElements.forEach(text => {
+                text.element.style.display = 'none';
+                text.element.classList.remove('active');
+            });
             
             isInP5Section = false;
             heroTransitionComplete = false;
@@ -123,9 +354,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const headerOpacity = 1 - (scrollIntensity * 2);
             mainHeader.style.opacity = Math.max(0, headerOpacity);
             
-            // Quando il titolo è quasi scomparso, mostra il canvas p5
+            // Quando il titolo è quasi scomparso, mostra il canvas p5 e i testi
             if (scrollIntensity > 0.7) {
-                p5Canvas.classList.add('active');
+                // Mostra i testi
+                textElements.forEach(text => {
+                    text.element.style.display = 'block';
+                });
+                
+                // Aggiorna l'opacità del canvas
+                updateCanvasOpacity();
             }
             
             // Quando il titolo è completamente scomparso, nascondi la hero section
@@ -161,8 +398,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Mostra l'indicatore scroll
             scrollIndicator.style.opacity = '0.7';
             
-            // Nascondi il canvas p5
-            p5Canvas.classList.remove('active');
+            // Nascondi il canvas p5 e i testi
+            p5Canvas.classList.remove('active', 'fading', 'hidden');
+            p5Canvas.style.opacity = '1';
+            textElements.forEach(text => {
+                text.element.style.display = 'none';
+                text.element.classList.remove('active');
+            });
+            
             isInP5Section = false;
             heroTransitionComplete = false;
         }
@@ -269,8 +512,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============ COSTANTI ============
     const STAR_COUNT = 150;
     const TOTAL_SCROLL_HEIGHT = 25000;
-    const ZOOM_FACTOR = 0.012;
     const PATH_SCALE = 6;
+    const ZOOM_FACTOR = 0.012;
     const SCROLL_SENSITIVITY = 0.4;
     const SCROLL_THRESHOLD = 3;
     const BALL_SMOOTHING = 0.03;
@@ -380,6 +623,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gestione dello scroll del mouse per progresso lineare
     function handleWheelScroll(e) {
+        // Se siamo nella sezione glyph, gestisci lo scroll verticale normalmente
+        if (isInGlyphSection) {
+            // Permetti lo scroll verticale normale nella sezione glyph
+            return;
+        }
+        
         // Solo nella sezione P5
         if (!isInP5Section) {
             return;
@@ -659,6 +908,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         p.draw = function() {
             updateLinearScroll();
+            updateTextPositions();
+            updateCanvasOpacity();
+            updateGlyphSection();
             
             // Usa ballProgress per il pallino
             const currentPoint = getPointOnPath(ballProgress, smoothPath, pathLength);
@@ -692,10 +944,19 @@ document.addEventListener('DOMContentLoaded', function() {
         p.windowResized = function() {
             p.resizeCanvas(p.windowWidth, p.windowHeight);
             initStarParticles();
+            updateTextPositions();
+            updateCanvasOpacity();
+            updateGlyphSection();
         };
     };
 
     // ============ INIZIALIZZAZIONE ============
+    // Inizializza gli elementi di testo
+    initializeTextElements();
+    
+    // Inizializza l'interazione con i glifi
+    initializeGlyphInteraction();
+    
     // Avvia il sketch p5
     new p5(sketch);
     
@@ -706,6 +967,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleScroll() {
         animateHeroSection();
         updateLinearScroll();
+        updateTextPositions();
+        updateCanvasOpacity();
+        updateGlyphSection();
         
         // Se siamo nella sezione P5, aggiorna il progresso lineare
         if (isInP5Section) {
@@ -724,8 +988,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Aggiungi scorciatoie da tastiera
     document.addEventListener('keydown', function(e) {
-        // Solo nella sezione P5
-        if (!isInP5Section) {
+        // Solo nella sezione P5 o glyph
+        if (!isInP5Section && !isInGlyphSection) {
             return;
         }
         

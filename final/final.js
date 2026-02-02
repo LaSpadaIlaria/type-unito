@@ -30,11 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============ COSTANTI PER I TESTI ============
     const TEXT_COORDINATES = [
         { id: 'text1', x: 84064, y: -25000 },
-        { id: 'text2', x: 93893, y: -22000 },
+        { id: 'text2', x: 93900, y: -22000 },
         { id: 'text3', x: 84064, y: -18500 },
-        { id: 'text4', x: 92893, y: -15500 },
+        { id: 'text4', x: 93900, y: -15500 },
         { id: 'text5', x: 84064, y: -12500 },
-        { id: 'text6', x: 92100, y: -9500 }
+        { id: 'text6', x: 93900, y: -8000 }
     ];
 
     const TEXT_OFFSET_X = -1000;
@@ -164,22 +164,19 @@ document.addEventListener('DOMContentLoaded', function() {
             text.element.style.top = `${screenY}px`;
             
             // Calcola la visibilità in base alla posizione nello scroll
-            const textFadeStart = 0.05;  // Inizia a 5% dello scroll
-            const textFadeEnd = 0.85;    // Finisce a 85% dello scroll (prima della sezione glyph)
+            const textFadeStart = 0.05;
+            const textFadeEnd = 1.05;
             
             if (scrollProgress >= textFadeStart && scrollProgress <= textFadeEnd) {
-                // Calcola l'opacità in base alla vicinanza al centro dello scroll
                 const middleScroll = (textFadeStart + textFadeEnd) / 2;
                 const distanceFromMiddle = Math.abs(scrollProgress - middleScroll);
                 const maxDistance = middleScroll - textFadeStart;
                 let opacity = Math.max(0, 1 - (distanceFromMiddle / maxDistance));
                 
-                // Assicurati che l'opacità non scenda troppo
                 opacity = Math.max(0.3, opacity);
                 
                 text.element.style.opacity = opacity;
                 
-                // Attiva/Disattiva la classe active
                 if (opacity > 0.1) {
                     text.element.classList.add('active');
                 } else {
@@ -199,9 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Il canvas inizia a scomparire dopo l'85% dello scroll
-        const canvasFadeStart = 0.85;  // Inizia a scomparire a 85%
-        const canvasFadeEnd = 0.95;    // Completamente nascosto a 95%
+        const canvasFadeStart = 0.85;
+        const canvasFadeEnd = 0.95;
         
         if (scrollProgress >= canvasFadeStart && scrollProgress <= canvasFadeEnd) {
             const fadeProgress = (scrollProgress - canvasFadeStart) / (canvasFadeEnd - canvasFadeStart);
@@ -231,22 +227,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ============ GESTIONE SEZIONE GLYPH ============
     function updateGlyphSection() {
-        // Mostra la sezione glyph solo dopo il 95% dello scroll
         const glyphFadeStart = 0.95;
         const glyphFadeEnd = 1.0;
         
         if (scrollProgress >= glyphFadeStart && scrollProgress <= glyphFadeEnd) {
             const fadeProgress = (scrollProgress - glyphFadeStart) / (glyphFadeEnd - glyphFadeStart);
-            const opacity = Math.min(1, fadeProgress * 5); // Più rapida
+            const opacity = Math.min(1, fadeProgress * 5);
             
             glyphSection.style.opacity = opacity;
             
             if (opacity > 0.1) {
                 glyphSection.classList.add('active');
                 isInGlyphSection = true;
-                
-                // Quando la sezione glyph diventa attiva, assicurati che l'header sia visibile
-                mainHeader.style.opacity = '1';
             }
         } else if (scrollProgress < glyphFadeStart) {
             glyphSection.style.opacity = '0';
@@ -286,7 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
             designer.style.opacity = '1';
             year.style.opacity = '1';
             
-            mainHeader.style.opacity = '1';
             scrollIndicator.style.opacity = '0.7';
             p5Canvas.classList.remove('active', 'fading', 'hidden');
             p5Canvas.style.opacity = '1';
@@ -350,10 +341,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const indicatorOpacity = 1 - (scrollIntensity * 3);
             scrollIndicator.style.opacity = Math.max(0, indicatorOpacity);
             
-            // Nascondi l'header gradualmente
-            const headerOpacity = 1 - (scrollIntensity * 2);
-            mainHeader.style.opacity = Math.max(0, headerOpacity);
-            
             // Quando il titolo è quasi scomparso, mostra il canvas p5 e i testi
             if (scrollIntensity > 0.7) {
                 // Mostra i testi
@@ -391,9 +378,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             designer.style.opacity = '1';
             year.style.opacity = '1';
-            
-            // Ripristina header
-            mainHeader.style.opacity = '1';
             
             // Mostra l'indicatore scroll
             scrollIndicator.style.opacity = '0.7';
@@ -625,7 +609,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleWheelScroll(e) {
         // Se siamo nella sezione glyph, gestisci lo scroll verticale normalmente
         if (isInGlyphSection) {
-            // Permetti lo scroll verticale normale nella sezione glyph
             return;
         }
         

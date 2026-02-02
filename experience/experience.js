@@ -85,7 +85,7 @@ const LETTER_TEXTS = [
 
     "Un'asta sinistra stabile sostiene la forma.<br> A destra un arco ampio si schiaccia.<br> I tratti oscillano creando tensione interna.<br> La controforma vibra.<br> Forse la lettera si muove davvero.",
 
-    "Controforma ampia, quasi circolare.<br> Un'apertura interrompe la continuità.<br> Uno sperone entra nello spazio interno.<br> I bordi vibraono.<br> Piccole punte emergono dal contorno.<br> La struttura è geometrica,<br> ma qualcosa si protende oltre.",
+    "Controforma ampia, quasi circolare.<br> Un'apertura interrompe la continuità.<br> Uno sperone entra nello spazio interno.<br> I bordi vibrano.<br> Piccole punte emergono dal contorno.<br> La struttura è geometrica,<br> ma qualcosa si protende oltre.",
 
     "Due aste inclinate scendono parallele.<br> Si uniscono in una curva regolare.<br> La controforma è una fenditura stretta.<br> Tutto appare stabile.<br> Eppure il bordo vibra appena.<br> Un tremito minimo nella forma.",
 
@@ -104,7 +104,7 @@ const NODO_IMAGE_FADE_SPEED = 5;
 const DESCRIPTION_FADE_SPEED = 8;
 const IMAGE_TRANSITION_SPEED = 0.05;
 
-// Costanti per le descrizioni in schermo - RIDOTTE a font 14px e interlinea 16px
+// Costanti per le descrizioni in schermo
 const SCREEN_BASE_TEXT_SIZE = 14;
 const SCREEN_CHAR_SPACING = 10;
 const SCREEN_WORD_SPACING = 12;
@@ -117,69 +117,16 @@ const SCREEN_TEXT_MARGIN_Y = 30;
 
 // ============ NUOVE COSTANTI PER IL MOVIMENTO ONDULATORIO ============
 const WAVE_INTENSITIES = Array.from({length: 24}, (_, i) => 0.72 - (i * 0.03));
-const WAVE_AMPLITUDE = 6;  // Ridotto proporzionalmente
+const WAVE_AMPLITUDE = 6;
 const WAVE_FREQUENCY = 1.02;
 const WAVE_SPEED = 2.5;
 const WAVE_PROPAGATION_SPEED = 1.8;
 
 // ============ POSIZIONI PERSONALIZZATE DELLE DESCRIZIONI (in pixel schermo) ============
-const CUSTOM_DESCRIPTION_POSITIONS = {
-    2: { x: 400, y: 300 },
-    3: { x: window.innerWidth - 500, y: 550 },
-    4: { x: 400, y: window.innerHeight - 350 },
-    5: { x: window.innerWidth - 400, y: window.innerHeight - 300 },
-    6: { x: window.innerWidth - 1100, y: 450 },
-    7: { x: window.innerWidth - 1000, y: window.innerHeight - 280 },
-    8: { x: 820, y: window.innerHeight - 200},
-    9: { x: window.innerWidth - 400, y: window.innerHeight - 350 },
-    10: { x: window.innerWidth / 2, y: window.innerHeight - 200 },
-    11: { x: 350, y: 280 },
-    12: { x: window.innerWidth - 550, y: 520 },
-    13: { x: window.innerWidth - 1000, y: 200 },
-    14: { x: window.innerWidh - 520, y: window.innerHeight - 450 },
-    15: { x: 1120, y: window.innerHeight - 300 },
-    16: { x: window.innerWidth - 1100, y: 500 },
-    17: { x: 360, y: window.innerHeight - 300 },
-    18: { x: window.innerWidth - 500, y: window.innerHeight / 2 },
-    19: { x: window.innerWidth -1000, y: window.innerHeight - 260 },
-    20: { x: 1000, y: 400 },
-    21: { x: window.innerWidth - 500, y: 500 },
-    22: { x: window.innerWidth / 2, y: window.innerHeight - 280 },
-    23: { x: 800, y: window.innerHeight - 280 },
-    24: { x: window.innerWidth -750, y: window.innerHeight - 280 },
-    25: { x: window.innerWidth - 500, y: window.innerHeight - 400 }
-};
+let CUSTOM_DESCRIPTION_POSITIONS = {};
 
 // ============ POSIZIONAMENTO DESCRIZIONI DI DEFAULT (in pixel schermo) ============
-const DEFAULT_DESCRIPTION_POSITIONS = {
-    'group1': {
-        baseX: window.innerWidth / 2,
-        baseY: window.innerHeight / 2,
-        paragraphSpacing: 24,
-        lineSpacing: SCREEN_LINE_HEIGHT
-    },
-    
-    'group2': {
-        baseX: window.innerWidth / 2,
-        baseY: window.innerHeight / 3,
-        lineHeight: SCREEN_LINE_HEIGHT,
-        marginX: 80
-    },
-    
-    'group3': {
-        baseX: window.innerWidth / 2,
-        baseY: window.innerHeight / 1.5,
-        lineHeight: SCREEN_LINE_HEIGHT,
-        marginX: 80
-    },
-    
-    'group4': {
-        baseX: window.innerWidth / 2,
-        baseY: window.innerHeight / 2,
-        lineHeight: SCREEN_LINE_HEIGHT,
-        marginX: 80
-    }
-};
+let DEFAULT_DESCRIPTION_POSITIONS = {};
 
 // ============ STATO GLOBALE ============
 let scrollProgress = 0;
@@ -190,6 +137,7 @@ let targetNodeIndex = 0;
 let isProcessing = false;
 
 let nodoImages = {};
+let nodoImageDimensions = {};
 let showNodoImages = {};
 let nodoImageAlphas = {};
 let nodoImageStates = {};
@@ -209,13 +157,282 @@ let textLinesGroup4 = [];
 
 let nodeCounter;
 let wakeTypeFont;
+let descriptionOverlay;
 
-// Inizializza gli stati delle immagini
-for (let i = 1; i <= 26; i++) {
-    showNodoImages[i] = false;
-    nodoImageAlphas[i] = 0;
-    nodoImageStates[i] = 'bis';
-    nodoImageFadeProgress[i] = 0;
+// ============ VARIABILI PER ANIMAZIONE USCITA ============
+let exitAnimationActive = false;
+let exitTriggered = false; // Per evitare di attivare l'uscita più volte
+let exitOverlay;
+let sceneOverlay;
+let exitMessage;
+let upperBand;
+let lowerBand;
+let whiteOpening;
+
+// ============ FUNZIONI PER INIZIALIZZARE LE POSIZIONI DINAMICHE ============
+function initDynamicPositions() {
+    CUSTOM_DESCRIPTION_POSITIONS = {
+        2: { x: 400, y: 300 },
+        3: { x: window.innerWidth - 500, y: 550 },
+        4: { x: 400, y: window.innerHeight - 350 },
+        5: { x: window.innerWidth - 400, y: window.innerHeight - 300 },
+        6: { x: window.innerWidth - 1100, y: 450 },
+        7: { x: window.innerWidth - 1000, y: window.innerHeight - 280 },
+        8: { x: 820, y: window.innerHeight - 200},
+        9: { x: window.innerWidth - 400, y: window.innerHeight - 350 },
+        10: { x: window.innerWidth / 2, y: window.innerHeight - 200 },
+        11: { x: 350, y: 280 },
+        12: { x: window.innerWidth - 550, y: 520 },
+        13: { x: window.innerWidth - 1000, y: 200 },
+        14: { x: window.innerWidth - 520, y: window.innerHeight - 450 },
+        15: { x: 1120, y: window.innerHeight - 300 },
+        16: { x: window.innerWidth - 1100, y: 500 },
+        17: { x: 360, y: window.innerHeight - 300 },
+        18: { x: window.innerWidth - 500, y: window.innerHeight / 2 },
+        19: { x: window.innerWidth -1000, y: window.innerHeight - 260 },
+        20: { x: 1000, y: 400 },
+        21: { x: window.innerWidth - 500, y: 500 },
+        22: { x: window.innerWidth / 2, y: window.innerHeight - 280 },
+        23: { x: 800, y: window.innerHeight - 280 },
+        24: { x: window.innerWidth -750, y: window.innerHeight - 280 },
+        25: { x: window.innerWidth - 500, y: window.innerHeight - 400 }
+    };
+
+    DEFAULT_DESCRIPTION_POSITIONS = {
+        'group1': {
+            baseX: window.innerWidth / 2,
+            baseY: window.innerHeight / 2,
+            paragraphSpacing: 24,
+            lineSpacing: SCREEN_LINE_HEIGHT
+        },
+        
+        'group2': {
+            baseX: window.innerWidth / 2,
+            baseY: window.innerHeight / 3,
+            lineHeight: SCREEN_LINE_HEIGHT,
+            marginX: 80
+        },
+        
+        'group3': {
+            baseX: window.innerWidth / 2,
+            baseY: window.innerHeight / 1.5,
+            lineHeight: SCREEN_LINE_HEIGHT,
+            marginX: 80
+        },
+        
+        'group4': {
+            baseX: window.innerWidth / 2,
+            baseY: window.innerHeight / 2,
+            lineHeight: SCREEN_LINE_HEIGHT,
+            marginX: 80
+        }
+    };
+}
+
+// ============ INIZIALIZZAZIONE STATI ELEMENTI ============
+function initElementStates() {
+    // Inizializza gli stati delle immagini
+    for (let i = 1; i <= 26; i++) {
+        showNodoImages[i] = false;
+        nodoImageAlphas[i] = 0;
+        nodoImageStates[i] = 'bis';
+        nodoImageFadeProgress[i] = 0;
+    }
+    
+    // Aggiungi pulsazione al contatore nodi dopo la comparsa iniziale
+    setTimeout(() => {
+        const counter = document.querySelector('.node-counter');
+        if (counter) {
+            counter.classList.add('attention');
+        }
+    }, 4000);
+}
+
+// ============ INIZIALIZZAZIONE ANIMAZIONE USCITA ============
+function initExitAnimation() {
+    exitOverlay = document.querySelector('.exit-overlay');
+    sceneOverlay = document.querySelector('.scene-overlay');
+    exitMessage = document.querySelector('.exit-message');
+    upperBand = document.querySelector('.exit-band.upper');
+    lowerBand = document.querySelector('.exit-band.lower');
+    whiteOpening = document.querySelector('.white-opening');
+    
+    if (!exitOverlay) {
+        // Crea gli elementi se non esistono
+        exitOverlay = document.createElement('div');
+        exitOverlay.className = 'exit-overlay';
+        
+        whiteOpening = document.createElement('div');
+        whiteOpening.className = 'white-opening';
+        
+        upperBand = document.createElement('div');
+        upperBand.className = 'exit-band upper';
+        
+        lowerBand = document.createElement('div');
+        lowerBand.className = 'exit-band lower';
+        
+        exitOverlay.appendChild(whiteOpening);
+        exitOverlay.appendChild(upperBand);
+        exitOverlay.appendChild(lowerBand);
+        document.body.appendChild(exitOverlay);
+        
+        sceneOverlay = document.createElement('div');
+        sceneOverlay.className = 'scene-overlay';
+        document.body.appendChild(sceneOverlay);
+        
+        exitMessage = document.createElement('div');
+        exitMessage.className = 'exit-message';
+        exitMessage.textContent = 'Ti stai svegliando...';
+        document.body.appendChild(exitMessage);
+    }
+    
+    // Reset delle animazioni
+    resetExitAnimation();
+}
+
+function resetExitAnimation() {
+    if (exitOverlay) {
+        exitOverlay.classList.remove('active');
+        exitOverlay.style.opacity = '0';
+    }
+    
+    if (sceneOverlay) {
+        sceneOverlay.classList.remove('active');
+    }
+    
+    if (exitMessage) {
+        exitMessage.classList.remove('show');
+    }
+    
+    if (upperBand) {
+        upperBand.style.animation = 'none';
+        upperBand.style.transform = 'translateY(0)';
+    }
+    
+    if (lowerBand) {
+        lowerBand.style.animation = 'none';
+        lowerBand.style.transform = 'translateY(0)';
+    }
+    
+    if (whiteOpening) {
+        whiteOpening.style.animation = 'none';
+        whiteOpening.style.height = '0%';
+    }
+    
+    exitAnimationActive = false;
+    exitTriggered = false;
+    
+    // Forza un reflow per resettare le animazioni
+    setTimeout(() => {
+        if (upperBand) upperBand.style.animation = '';
+        if (lowerBand) lowerBand.style.animation = '';
+        if (whiteOpening) whiteOpening.style.animation = '';
+    }, 50);
+}
+
+// ============ FUNZIONE ANIMAZIONE USCITA ============
+function startExitAnimation() {
+    if (exitAnimationActive || exitTriggered) return;
+    
+    exitAnimationActive = true;
+    exitTriggered = true;
+    console.log('Inizio animazione di uscita verso final.html');
+    
+    // Disabilita interazioni durante l'animazione
+    const p5Canvas = document.getElementById('p5-canvas');
+    if (p5Canvas) {
+        p5Canvas.style.pointerEvents = 'none';
+    }
+    
+    // Nascondi il contatore nodi
+    const nodeCounter = document.querySelector('.node-counter');
+    if (nodeCounter) {
+        nodeCounter.style.opacity = '0';
+    }
+    
+    // Attiva gli overlay
+    if (sceneOverlay) {
+        sceneOverlay.classList.add('active');
+    }
+    
+    if (exitOverlay) {
+        exitOverlay.classList.add('active');
+        exitOverlay.style.opacity = '1';
+    }
+    
+    // Fase 1: Mostra il messaggio (dopo 500ms)
+    setTimeout(() => {
+        if (exitMessage) {
+            exitMessage.classList.add('show');
+        }
+    }, 500);
+    
+    // Fase 2: Avvia l'animazione (dopo 1500ms)
+    setTimeout(() => {
+        if (whiteOpening && upperBand && lowerBand) {
+            // Rimuovi e riaggiungi le animazioni per forzarle
+            whiteOpening.style.animation = 'none';
+            upperBand.style.animation = 'none';
+            lowerBand.style.animation = 'none';
+            
+            setTimeout(() => {
+                whiteOpening.style.animation = 'whiteOpening 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                upperBand.style.animation = 'slideOutUp 2s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                lowerBand.style.animation = 'slideOutDown 2s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+            }, 10);
+        }
+    }, 1500);
+    
+    // Fase 3: Reindirizza alla pagina finale (dopo 3500ms)
+    setTimeout(() => {
+        console.log('Reindirizzamento a ../final/final.html');
+        window.location.href = '../final/final.html';
+    }, 3500);
+}
+
+// ============ MODIFICA PER RILEVARE AUTOMATICAMENTE L'ULTIMO NODO ============
+function updateMovement() {
+    if (movementState === 'MOVING_TO_NODE') {
+        const targetT = nodes[targetNodeIndex].t;
+        const distanceToTarget = Math.abs(targetT - scrollProgress);
+        const nodoIndex = targetNodeIndex + 1;
+        
+        if (nodoIndex >= 1 && nodoIndex <= 26 && showNodoImages[nodoIndex]) {
+            if (distanceToTarget < 0.008) {
+                nodoImageAlphas[nodoIndex] = Math.min(nodoImageAlphas[nodoIndex] + NODO_IMAGE_FADE_SPEED, NODO_IMAGE_TARGET_ALPHA);
+            }
+        }
+        
+        scrollProgress += (targetT - scrollProgress) * MOVEMENT_SPEED;
+        
+        if (distanceToTarget < 0.0005) {
+            scrollProgress = targetT;
+            currentNodeIndex = targetNodeIndex;
+            movementState = 'STOPPED';
+            isProcessing = false;
+            updateStatusMessage();
+            
+            const nodoIndex = currentNodeIndex + 1;
+            if (nodoIndex >= 1 && nodoIndex <= 26) {
+                nodoImageAlphas[nodoIndex] = NODO_IMAGE_TARGET_ALPHA;
+                if (nodoIndex <= 10) {
+                    nodoImageStates[nodoIndex] = 'bis';
+                    nodoImageFadeProgress[nodoIndex] = 0;
+                }
+            } else {
+                for (let i = 1; i <= 26; i++) {
+                    showNodoImages[i] = false;
+                    nodoImageAlphas[i] = 0;
+                }
+            }
+            
+            // SE SIAMO ARRIVATI ALL'ULTIMO NODO (26), AVVIA AUTOMATICAMENTE L'ANIMAZIONE DI USCITA
+            if (currentNodeIndex === 25 && !exitTriggered) { // 25 perché l'indice parte da 0
+                console.log('Raggiunto l\'ultimo nodo, avvio animazione di uscita automatica');
+                startExitAnimation();
+            }
+        }
+    }
 }
 
 // ============ FUNZIONI UTILITY ============
@@ -350,7 +567,7 @@ function calculateWaveOffset(p, wordIndex, totalWords, time, descriptionIndex) {
 }
 
 // ============ FUNZIONI PER LE DESCRIZIONI ============
-function splitTextWithManualBreaks(text, maxCharsPerLine = 60) {  // Aumentato per font più piccolo
+function splitTextWithManualBreaks(text, maxCharsPerLine = 60) {
     const segments = text.split(/<br\s*\/?>/i);
     const allLines = [];
     
@@ -392,11 +609,10 @@ function splitTextWithManualBreaks(text, maxCharsPerLine = 60) {  // Aumentato p
 function createTextLinesGroup1(node, text, nodeNumber) {
     textLinesGroup1 = [];
     
-    const lines = splitTextWithManualBreaks(text, 50);  // Più caratteri per linea con font piccolo
+    const lines = splitTextWithManualBreaks(text, 50);
     const customPos = getFixedDescriptionPosition(nodeNumber);
     const groupSettings = DEFAULT_DESCRIPTION_POSITIONS.group1;
     
-    // Usa coordinate personalizzate se disponibili, altrimenti posizione di default
     let baseX, baseY;
     if (customPos) {
         baseX = customPos.x;
@@ -406,7 +622,7 @@ function createTextLinesGroup1(node, text, nodeNumber) {
         baseY = groupSettings.baseY;
     }
     
-    const lineHeight = SCREEN_LINE_HEIGHT;  // 16px
+    const lineHeight = SCREEN_LINE_HEIGHT;
     const startY = baseY - ((lines.length - 1) * lineHeight) / 2;
     
     lines.forEach((line, lineIndex) => {
@@ -423,7 +639,7 @@ function createTextLinesGroup1(node, text, nodeNumber) {
         
         let currentX = baseX - totalLineWidth / 2;
         
-        const lineAmplitude = 3 + Math.random() * 6;  // Ridotto per font piccolo
+        const lineAmplitude = 3 + Math.random() * 6;
         const lineFrequency = 0.01 + Math.random() * 0.02;
         const linePhase = Math.random() * 1000;
         const lineAngle = (Math.random() - 0.5) * 0.4;
@@ -447,27 +663,27 @@ function createTextLinesGroup1(node, text, nodeNumber) {
                 width: wordWidth,
                 
                 delay: 100 + wordIndex * 150 + lineIndex * 300,
-                startX: (Math.random() - 0.5) * 60,  // Ridotto
-                startY: (Math.random() - 0.5) * 40,  // Ridotto
-                startRotation: (Math.random() - 0.5) * 0.15,  // Ridotto
+                startX: (Math.random() - 0.5) * 60,
+                startY: (Math.random() - 0.5) * 40,
+                startRotation: (Math.random() - 0.5) * 0.15,
                 moveSpeed: 0.9 + Math.random() * 0.4,
                 snapIntensity: 0.8 + Math.random() * 0.4,
                 postEntryWobble: 0.2 + Math.random() * 0.3,
                 entryDuration: 400 + Math.random() * 300,
                 
-                waveAmplitudeX: isSpecial ? 8 + Math.random() * 12 : 2 + Math.random() * 1.5,  // Ridotto
+                waveAmplitudeX: isSpecial ? 8 + Math.random() * 12 : 2 + Math.random() * 1.5,
                 waveFrequencyX: isSpecial ? 0.03 + Math.random() * 0.03 : 0.015 + Math.random() * 0.01,
                 waveOffsetX: Math.random() * 1000,
                 
-                waveAmplitudeY: isSpecial ? 6 + Math.random() * 8 : 1.5 + Math.random() * 2,  // Ridotto
+                waveAmplitudeY: isSpecial ? 6 + Math.random() * 8 : 1.5 + Math.random() * 2,
                 waveFrequencyY: isSpecial ? 0.025 + Math.random() * 0.025 : 0.01 + Math.random() * 0.01,
                 waveOffsetY: Math.random() * 1000,
                 
-                rotationAmplitude: isSpecial ? 0.02 + Math.random() * 0.01 : 0.005 + Math.random() * 0.005,  // Ridotto
+                rotationAmplitude: isSpecial ? 0.02 + Math.random() * 0.01 : 0.005 + Math.random() * 0.005,
                 rotationFrequency: isSpecial ? 0.04 + Math.random() * 0.02 : 0.02 + Math.random() * 0.01,
                 rotationOffset: Math.random() * 1000,
                 
-                pulseAmplitude: isSpecial ? 3 + Math.random() * 3 : 0.8 + Math.random() * 0.5,  // Ridotto
+                pulseAmplitude: isSpecial ? 3 + Math.random() * 3 : 0.8 + Math.random() * 0.5,
                 pulseFrequency: isSpecial ? 0.05 + Math.random() * 0.02 : 0.03 + Math.random() * 0.02,
                 pulseOffset: Math.random() * 1000,
                 
@@ -486,9 +702,9 @@ function createTextLinesGroup1(node, text, nodeNumber) {
             };
             
             for (let i = 0; i < word.length; i++) {
-                wordParams.charRotations.push((Math.random() - 0.5) * (isSpecial ? 0.04 : 0.01));  // Ridotto
-                wordParams.charSpacings.push(SCREEN_CHAR_SPACING + (Math.random() - 0.5) * (isSpecial ? 6 : 2));  // Ridotto
-                wordParams.charScales.push(0.9 + Math.random() * (isSpecial ? 0.02 : 0.01));  // Ridotto
+                wordParams.charRotations.push((Math.random() - 0.5) * (isSpecial ? 0.04 : 0.01));
+                wordParams.charSpacings.push(SCREEN_CHAR_SPACING + (Math.random() - 0.5) * (isSpecial ? 6 : 2));
+                wordParams.charScales.push(0.9 + Math.random() * (isSpecial ? 0.02 : 0.01));
             }
             
             wordsInLine.push(wordParams);
@@ -545,8 +761,8 @@ function drawDescriptionGroup1(p) {
                 
                 if (word.isSpecial && entryProgress > 0.7) {
                     const overshoot = (entryProgress - 0.7) / 0.3;
-                    currentX += Math.sin(overshoot * Math.PI) * 2.5 * word.snapIntensity;  // Ridotto
-                    currentY += Math.cos(overshoot * Math.PI) * 1.5 * word.snapIntensity;  // Ridotto
+                    currentX += Math.sin(overshoot * Math.PI) * 2.5 * word.snapIntensity;
+                    currentY += Math.cos(overshoot * Math.PI) * 1.5 * word.snapIntensity;
                 }
             } else {
                 const waveOffset = calculateWaveOffset(p, word.wordIndex, word.totalWords, time, descriptionIndex);
@@ -565,16 +781,16 @@ function drawDescriptionGroup1(p) {
                 
                 let wobble = 0;
                 if (word.isSpecial && word.wobbleAmount > 0) {
-                    wobble = Math.sin(time * word.wobbleFrequency + word.wobbleOffset) * word.wobbleAmount * 2;  // Ridotto
+                    wobble = Math.sin(time * word.wobbleFrequency + word.wobbleOffset) * word.wobbleAmount * 2;
                 }
                 
                 if (word.isLineStart) {
-                    currentX += Math.sin(time * 1.2) * 1.5;  // Ridotto
-                    currentY += Math.cos(time * 1.2) * 0.8;  // Ridotto
+                    currentX += Math.sin(time * 1.2) * 1.5;
+                    currentY += Math.cos(time * 1.2) * 0.8;
                 }
                 if (word.isLineEnd) {
-                    currentX += Math.cos(time * 1.0) * 1.5;  // Ridotto
-                    currentY += Math.sin(time * 1.0) * 0.8;  // Ridotto
+                    currentX += Math.cos(time * 1.0) * 1.5;
+                    currentY += Math.sin(time * 1.0) * 0.8;
                 }
                 
                 currentX += wobble;
@@ -587,10 +803,10 @@ function drawDescriptionGroup1(p) {
             let glowAlpha = 0;
             let sizeVariation = 0;
             if (word.isSpecial && entryProgress >= 1) {
-                p.rotate(Math.sin(time * 1.5) * 0.015 + Math.cos(time * 1.1 + wordIndex) * 0.008);  // Ridotto
-                const extraWobble = Math.sin(time * word.wobbleFrequency + wordIndex) * word.wobbleAmount * 2;  // Ridotto
+                p.rotate(Math.sin(time * 1.5) * 0.015 + Math.cos(time * 1.1 + wordIndex) * 0.008);
+                const extraWobble = Math.sin(time * word.wobbleFrequency + wordIndex) * word.wobbleAmount * 2;
                 p.translate(extraWobble, extraWobble * 0.3);
-                sizeVariation = (Math.sin(time * 1.5) * 2 + Math.cos(time * 1.4) * 0.8);  // Ridotto
+                sizeVariation = (Math.sin(time * 1.5) * 2 + Math.cos(time * 1.4) * 0.8);
                 glowAlpha = 25 + Math.sin(time * 2.0) * 15;
             }
             
@@ -603,11 +819,11 @@ function drawDescriptionGroup1(p) {
             for (let i = 0; i < word.text.length; i++) {
                 p.push();
                 p.translate(currentCharX, 0);
-                const charRotation = word.charRotations[i] + Math.sin(time * 0.05 + i) * 0.005;  // Ridotto
+                const charRotation = word.charRotations[i] + Math.sin(time * 0.05 + i) * 0.005;
                 p.rotate(charRotation);
-                const charScale = word.charScales[i] * currentScale + (word.isSpecial ? Math.sin(time * 0.1 + i) * 0.005 : 0);  // Ridotto
+                const charScale = word.charScales[i] * currentScale + (word.isSpecial ? Math.sin(time * 0.1 + i) * 0.005 : 0);
                 p.scale(charScale);
-                const baseTextSize = SCREEN_BASE_TEXT_SIZE;  // 14px
+                const baseTextSize = SCREEN_BASE_TEXT_SIZE;
                 let charSize = baseTextSize + sizeVariation;
                 
                 const brightness = 255;
@@ -620,7 +836,7 @@ function drawDescriptionGroup1(p) {
                 
                 if (word.isSpecial && glowAlpha > 0) {
                     p.fill(255, 255, 255, glowAlpha * (descriptionAlpha / 255));
-                    p.textSize(charSize + 0.4);  // Ridotto
+                    p.textSize(charSize + 0.4);
                     p.text(word.text[i], 0, 0);
                 }
                 
@@ -637,11 +853,10 @@ function drawDescriptionGroup1(p) {
 function createTextLinesGroup2(node, text, nodeNumber) {
     textLinesGroup2 = [];
     
-    const lines = splitTextWithManualBreaks(text, 50);  // Più caratteri per linea
+    const lines = splitTextWithManualBreaks(text, 50);
     const customPos = getFixedDescriptionPosition(nodeNumber);
     const groupSettings = DEFAULT_DESCRIPTION_POSITIONS.group2;
     
-    // Usa coordinate personalizzate se disponibili, altrimenti posizione di default
     let baseX, baseY;
     if (customPos) {
         baseX = customPos.x;
@@ -651,7 +866,7 @@ function createTextLinesGroup2(node, text, nodeNumber) {
         baseY = groupSettings.baseY;
     }
     
-    const lineHeight = SCREEN_LINE_HEIGHT;  // 16px
+    const lineHeight = SCREEN_LINE_HEIGHT;
     const startY = baseY - ((lines.length - 1) * lineHeight) / 2;
     
     lines.forEach((line, lineIndex) => {
@@ -692,10 +907,10 @@ function createTextLinesGroup2(node, text, nodeNumber) {
             words: wordsInLine,
             baseY: startY + lineIndex * lineHeight,
             waveType: lineIndex % 3,
-            waveAmp: 2 + Math.random() * 3,  // Ridotto
+            waveAmp: 2 + Math.random() * 3,
             waveSpeed: 0.02 + Math.random() * 0.02,
             waveOffset: Math.random() * 1000,
-            tiltAmp: (Math.random() - 0.5) * 0.006,  // Ridotto
+            tiltAmp: (Math.random() - 0.5) * 0.006,
             tiltSpeed: 0.005 + Math.random() * 0.01,
             tiltOffset: Math.random() * 1000
         };
@@ -746,10 +961,10 @@ function drawDescriptionGroup2(p) {
             waveY += waveOffset.y * waveIntensity;
             
             p.translate(waveX, waveY);
-            const wordRotation = Math.sin(time * line.waveSpeed * 1.2 + wordIndex * 0.4) * 0.003;  // Ridotto
+            const wordRotation = Math.sin(time * line.waveSpeed * 1.2 + wordIndex * 0.4) * 0.003;
             p.rotate(wordRotation);
             
-            p.textSize(SCREEN_BASE_TEXT_SIZE);  // 14px
+            p.textSize(SCREEN_BASE_TEXT_SIZE);
             p.textAlign(p.CENTER, p.CENTER);
             const brightness = 255;
             p.fill(brightness, brightness, brightness, descriptionAlpha);
@@ -765,11 +980,10 @@ function drawDescriptionGroup2(p) {
 function createTextLinesGroup3(node, text, nodeNumber) {
     textLinesGroup3 = [];
     
-    const lines = splitTextWithManualBreaks(text, 50);  // Più caratteri per linea
+    const lines = splitTextWithManualBreaks(text, 50);
     const customPos = getFixedDescriptionPosition(nodeNumber);
     const groupSettings = DEFAULT_DESCRIPTION_POSITIONS.group3;
     
-    // Usa coordinate personalizzate se disponibili, altrimenti posizione di default
     let baseX, baseY;
     if (customPos) {
         baseX = customPos.x;
@@ -779,7 +993,7 @@ function createTextLinesGroup3(node, text, nodeNumber) {
         baseY = groupSettings.baseY;
     }
     
-    const lineHeight = SCREEN_LINE_HEIGHT;  // 16px
+    const lineHeight = SCREEN_LINE_HEIGHT;
     const startY = baseY - ((lines.length - 1) * lineHeight) / 2;
     
     lines.forEach((line, lineIndex) => {
@@ -823,16 +1037,16 @@ function createTextLinesGroup3(node, text, nodeNumber) {
     });
     
     textLinesGroup3.blockParams = {
-        waveAmpY: 3,  // Ridotto
+        waveAmpY: 3,
         waveSpeedY: 0.012,
         waveOffsetY: Math.random() * 1000,
-        waveAmpX: 2,  // Ridotto
+        waveAmpX: 2,
         waveSpeedX: 0.008,
         waveOffsetX: Math.random() * 1000,
-        rotationAmp: 0.002,  // Ridotto
+        rotationAmp: 0.002,
         rotationSpeed: 0.006,
         rotationOffset: Math.random() * 1000,
-        lineWaveAmp: 1,  // Ridotto
+        lineWaveAmp: 1,
         lineWaveSpeed: 0.02,
         lineWaveOffset: Math.random() * 1000
     };
@@ -868,7 +1082,7 @@ function drawDescriptionGroup3(p) {
                 
                 p.translate(word.baseX + finalWaveX, word.baseY + finalWaveY);
                 
-                p.textSize(SCREEN_BASE_TEXT_SIZE);  // 14px
+                p.textSize(SCREEN_BASE_TEXT_SIZE);
                 p.textAlign(p.CENTER, p.CENTER);
                 p.fill(255, 255, 255, descriptionAlpha);
                 p.noStroke();
@@ -884,11 +1098,10 @@ function drawDescriptionGroup3(p) {
 function createTextLinesGroup4(node, text, nodeNumber) {
     textLinesGroup4 = [];
     
-    const lines = splitTextWithManualBreaks(text, 50);  // Più caratteri per linea
+    const lines = splitTextWithManualBreaks(text, 50);
     const customPos = getFixedDescriptionPosition(nodeNumber);
     const groupSettings = DEFAULT_DESCRIPTION_POSITIONS.group4;
     
-    // Usa coordinate personalizzate se disponibili, altrimenti posizione di default
     let baseX, baseY;
     if (customPos) {
         baseX = customPos.x;
@@ -898,7 +1111,7 @@ function createTextLinesGroup4(node, text, nodeNumber) {
         baseY = groupSettings.baseY;
     }
     
-    const lineHeight = SCREEN_LINE_HEIGHT;  // 16px
+    const lineHeight = SCREEN_LINE_HEIGHT;
     const startY = baseY - ((lines.length - 1) * lineHeight) / 2;
     
     lines.forEach((line, lineIndex) => {
@@ -962,7 +1175,7 @@ function drawDescriptionGroup4(p) {
                 
                 p.translate(finalX, finalY);
                 
-                p.textSize(SCREEN_BASE_TEXT_SIZE);  // 14px
+                p.textSize(SCREEN_BASE_TEXT_SIZE);
                 p.textAlign(p.CENTER, p.CENTER);
                 p.fill(255, 255, 255, descriptionAlpha);
                 p.noStroke();
@@ -976,6 +1189,7 @@ function drawDescriptionGroup4(p) {
 // ============ GESTIONE UI ============
 function initUIElements() {
     nodeCounter = document.querySelector('.node-counter');
+    descriptionOverlay = document.querySelector('.description-overlay');
     updateUI();
 }
 
@@ -989,14 +1203,39 @@ function updateUI() {
 function updateStatusMessage() {
     const statusMessageElement = nodeCounter.querySelector('.status-message');
     if (!statusMessageElement) return;
+    
+    const nodeNumber = currentNodeIndex + 1;
+    
+    // Non mostrare messaggi speciali per l'ultimo nodo (uscita automatica)
+    if (nodeNumber === 26) {
+        statusMessageElement.style.display = 'none';
+        statusMessageElement.onclick = null;
+        statusMessageElement.onmouseenter = null;
+        statusMessageElement.onmouseleave = null;
+        return;
+    }
+    
     if (activeDescription !== null) {
         statusMessageElement.textContent = "Click per chiudere la descrizione";
         statusMessageElement.style.display = 'block';
+        statusMessageElement.style.cursor = 'pointer';
+        statusMessageElement.onclick = null;
+        statusMessageElement.onmouseenter = null;
+        statusMessageElement.onmouseleave = null;
+        statusMessageElement.style.color = 'rgba(255, 255, 255, 0.9)';
     } else if (movementState === 'MOVING_TO_NODE') {
         statusMessageElement.textContent = "Raggiungendo il nodo...";
         statusMessageElement.style.display = 'block';
+        statusMessageElement.style.cursor = 'default';
+        statusMessageElement.onclick = null;
+        statusMessageElement.onmouseenter = null;
+        statusMessageElement.onmouseleave = null;
+        statusMessageElement.style.color = 'rgba(255, 255, 255, 0.9)';
     } else {
         statusMessageElement.style.display = 'none';
+        statusMessageElement.onclick = null;
+        statusMessageElement.onmouseenter = null;
+        statusMessageElement.onmouseleave = null;
     }
 }
 
@@ -1027,39 +1266,10 @@ function startMoving(direction) {
         }
         activeDescription = null;
         descriptionAlpha = 0;
+        if (descriptionOverlay) {
+            descriptionOverlay.classList.remove('active');
+        }
         updateStatusMessage();
-    }
-}
-
-function updateMovement() {
-    if (movementState === 'MOVING_TO_NODE') {
-        const targetT = nodes[targetNodeIndex].t;
-        const distanceToTarget = Math.abs(targetT - scrollProgress);
-        const nodoIndex = targetNodeIndex + 1;
-        if (nodoIndex >= 1 && nodoIndex <= 26 && showNodoImages[nodoIndex]) {
-            if (distanceToTarget < 0.008) {
-                nodoImageAlphas[nodoIndex] = Math.min(nodoImageAlphas[nodoIndex] + NODO_IMAGE_FADE_SPEED, NODO_IMAGE_TARGET_ALPHA);
-            }
-        }
-        scrollProgress += (targetT - scrollProgress) * MOVEMENT_SPEED;
-        if (distanceToTarget < 0.0005) {
-            scrollProgress = targetT;
-            currentNodeIndex = targetNodeIndex;
-            movementState = 'STOPPED';
-            isProcessing = false;
-            updateStatusMessage();
-            const nodoIndex = currentNodeIndex + 1;
-            if (nodoIndex >= 1 && nodoIndex <= 26) {
-                nodoImageAlphas[nodoIndex] = NODO_IMAGE_TARGET_ALPHA;
-                if (nodoIndex <= 10) nodoImageStates[nodoIndex] = 'bis';
-                nodoImageFadeProgress[nodoIndex] = 0;
-            } else {
-                for (let i = 1; i <= 26; i++) {
-                    showNodoImages[i] = false;
-                    nodoImageAlphas[i] = 0;
-                }
-            }
-        }
     }
 }
 
@@ -1079,8 +1289,17 @@ function updateImageTransitions() {
 }
 
 function updateDescriptionAlpha() {
-    if (activeDescription !== null) descriptionAlpha = Math.min(descriptionAlpha + DESCRIPTION_FADE_SPEED, 255);
-    else descriptionAlpha = Math.max(descriptionAlpha - DESCRIPTION_FADE_SPEED, 0);
+    if (activeDescription !== null) {
+        descriptionAlpha = Math.min(descriptionAlpha + DESCRIPTION_FADE_SPEED, 255);
+        if (descriptionOverlay) {
+            descriptionOverlay.classList.add('active');
+        }
+    } else {
+        descriptionAlpha = Math.max(descriptionAlpha - DESCRIPTION_FADE_SPEED, 0);
+        if (descriptionAlpha <= 0 && descriptionOverlay) {
+            descriptionOverlay.classList.remove('active');
+        }
+    }
 }
 
 // ============ SKETCH P5 ============
@@ -1351,29 +1570,36 @@ const sketch = (p) => {
             return;
         }
         
-        // Poi controlla i nodi
-        for (let nodeIdx = 0; nodeIdx < nodes.length; nodeIdx++) {
+        // Controlla se il click è all'interno di un'immagine di un nodo (escluso l'ultimo nodo)
+        for (let nodeIdx = 0; nodeIdx < nodes.length - 1; nodeIdx++) { // -1 per escludere l'ultimo nodo
             const node = nodes[nodeIdx];
             const nodeNumber = nodeIdx + 1;
+            
+            // Controlla se il click è all'interno dell'immagine del nodo
             if (showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0) {
                 const settings = NODO_IMAGE_SETTINGS[nodeNumber];
                 if (settings && settings.scale > 0) {
                     const imageX = node.x + settings.offsetX;
                     const imageY = node.y + settings.offsetY;
-                    let imgWidth = 1000 * settings.scale;
-                    let imgHeight = 1000 * settings.scale;
-                    if (Math.abs(worldX - imageX) < imgWidth/2 && Math.abs(worldY - imageY) < imgHeight/2) {
-                        handleNodeClick(nodeIdx);
-                        return;
+                    
+                    // Ottieni le dimensioni reali dell'immagine
+                    let imgWidth, imgHeight;
+                    const img = nodoImages[nodeNumber].original || nodoImages[nodeNumber];
+                    if (img && img.width && img.height) {
+                        imgWidth = img.width * settings.scale;
+                        imgHeight = img.height * settings.scale;
+                        
+                        // Controlla se il click è all'interno del rettangolo dell'immagine
+                        if (worldX >= imageX && worldX <= imageX + imgWidth && 
+                            worldY >= imageY && worldY <= imageY + imgHeight) {
+                            handleNodeClick(nodeIdx);
+                            return;
+                        }
                     }
                 }
             }
-        }
-        
-        // Infine controlla i nodi direttamente
-        for (let nodeIdx = 0; nodeIdx < nodes.length; nodeIdx++) {
-            const node = nodes[nodeIdx];
-            const nodeNumber = nodeIdx + 1;
+            
+            // Controlla anche i nodi direttamente (escludendo l'ultimo)
             const dist = distance(worldX, worldY, node.x, node.y);
             if (dist < 1500) {
                 handleNodeClick(nodeIdx);
@@ -1384,7 +1610,13 @@ const sketch = (p) => {
     
     function handleNodeClick(nodeIdx) {
         const nodeNumber = nodeIdx + 1;
-        if (nodeNumber === 1 || nodeNumber === 26) return;
+        
+        // Non fare nulla per l'ultimo nodo (uscita automatica)
+        if (nodeNumber === 26) {
+            return;
+        }
+        
+        if (nodeNumber === 1) return;
         
         let animationType = 'group1';
         if (nodeNumber >= 2 && nodeNumber <= 9) animationType = 'group1';
@@ -1429,6 +1661,11 @@ const sketch = (p) => {
             try {
                 const originalImg = await loadImageSafely(originalPath, `Img ${imageFileIndex} -> Nodo ${nodeNumber}`);
                 nodoImages[nodeNumber].original = originalImg;
+                // Salva le dimensioni dell'immagine
+                nodoImageDimensions[nodeNumber] = {
+                    width: originalImg.width,
+                    height: originalImg.height
+                };
                 console.log(`✅ Immagine originale nodo_${imageFileIndex}.png assegnata al Nodo ${nodeNumber}`);
                 if (imageFileIndex <= 10) {
                     const bisPath = `assets/nodo_${imageFileIndex}bis.png`;
@@ -1454,7 +1691,11 @@ const sketch = (p) => {
     };
     
     p.setup = function() {
-        console.log("Setup p5.js - Descrizioni ridotte: font 14px, interlinea 16px");
+        console.log("Setup p5.js - Inizializzazione con effetto blur");
+        
+        // Inizializza le posizioni dinamiche prima di creare il canvas
+        initDynamicPositions();
+        
         canvas = p.createCanvas(p.windowWidth, p.windowHeight);
         canvas.parent('p5-canvas');
         window.width = p.width;
@@ -1465,6 +1706,11 @@ const sketch = (p) => {
         calculateNodes();
         initStarParticles();
         initUIElements();
+        initElementStates();
+        
+        // Inizializza l'animazione di uscita
+        initExitAnimation();
+        
         const navigationInfo = document.querySelector('.navigation-info');
         if (navigationInfo && !document.querySelector('.status-message')) {
             const statusMessage = document.createElement('div');
@@ -1490,7 +1736,6 @@ const sketch = (p) => {
             }
         });
         console.log("Setup completato con", nodes.length, "nodi");
-        console.log("Dimensioni descrizioni: font=" + SCREEN_BASE_TEXT_SIZE + "px, interlinea=" + SCREEN_LINE_HEIGHT + "px");
     };
                       
     p.draw = function() {
@@ -1525,7 +1770,7 @@ const sketch = (p) => {
             p.push();
             
             // Applica un overlay semi-trasparente per migliorare la leggibilità
-            p.fill(0, 0, 0, 30);  // Ridotto l'opacità per font piccolo
+            p.fill(0, 0, 0, 30);
             p.noStroke();
             p.rect(0, 0, p.width, p.height);
             
@@ -1549,15 +1794,8 @@ const sketch = (p) => {
         window.height = p.height;
         initStarParticles();
         
-        // Aggiorna le posizioni di default per le nuove dimensioni
-        DEFAULT_DESCRIPTION_POSITIONS.group1.baseX = p.width / 2;
-        DEFAULT_DESCRIPTION_POSITIONS.group1.baseY = p.height / 2;
-        DEFAULT_DESCRIPTION_POSITIONS.group2.baseX = p.width / 2;
-        DEFAULT_DESCRIPTION_POSITIONS.group2.baseY = p.height / 3;
-        DEFAULT_DESCRIPTION_POSITIONS.group3.baseX = p.width / 2;
-        DEFAULT_DESCRIPTION_POSITIONS.group3.baseY = p.height / 1.5;
-        DEFAULT_DESCRIPTION_POSITIONS.group4.baseX = p.width / 2;
-        DEFAULT_DESCRIPTION_POSITIONS.group4.baseY = p.height / 2;
+        // Aggiorna le posizioni dinamiche per le nuove dimensioni
+        initDynamicPositions();
         
         // Se c'è una descrizione attiva, ricreala con le nuove dimensioni
         if (activeDescription) {

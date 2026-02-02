@@ -5,7 +5,6 @@
     box-sizing: border-box;
 }
 
-
 /* CANVAS PRINCIPALE P5 */
 #p5-canvas {
     position: fixed;
@@ -17,6 +16,7 @@
     cursor: pointer;
     background: transparent !important;
     pointer-events: auto;
+    animation: focusIn 4s ease-out forwards;
 }
 
 .scroll-space {
@@ -43,6 +43,7 @@
     height: 100%;
     display: block;
     filter: blur(0.1px);
+    animation: focusIn 4.5s ease-out forwards;
 }
 
 /* CONTATORE NODI CON INFORMAZIONI */
@@ -54,8 +55,8 @@
     background: rgba(0, 0, 0, 0.85);
     padding: 14px 22px;
     border-radius: 25px;
-    opacity: 1;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    animation: fadeInDelayed 2s ease-out 3s forwards;
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -64,6 +65,7 @@
     gap: 8px;
     max-width: 220px;
     min-width: 180px;
+    animation-delay: 2.5s;
 }
 
 .node-number {
@@ -96,8 +98,21 @@
     margin-top: 4px;
 }
 
-/* RESPONSIVE */
+/* Stile per migliorare la visualizzazione del testo */
+.text-line {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+/* Per mantenere la leggibilità su schermi piccoli */
 @media (max-width: 768px) {
+    .text-line {
+        font-size: 0.9em;
+        line-height: 1.4;
+    }
+    
     .node-counter {
         top: 20px;
         right: 20px;
@@ -137,4 +152,159 @@
     .node-counter .status-message {
         font-size: 10px;
     }
+}
+
+/* Effetto di sfuocatura e comparsa graduale */
+@keyframes focusIn {
+    0% {
+        filter: blur(20px);
+        opacity: 0.6;
+    }
+    30% {
+        filter: blur(15px);
+        opacity: 0.7;
+    }
+    60% {
+        filter: blur(8px);
+        opacity: 0.85;
+    }
+    100% {
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDelayed {
+    0%, 70% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes subtlePulse {
+    0%, 100% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Effetto di pulsazione sottile per attirare l'attenzione */
+.node-counter.attention {
+    animation: subtlePulse 2s ease-in-out infinite;
+}
+
+/* Overlay per migliorare la leggibilità delle descrizioni */
+.description-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.description-overlay.active {
+    opacity: 1;
+}
+
+/* Animazione di uscita - fasce bianche che si aprono */
+@keyframes slideInUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.exit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.exit-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.exit-band {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: #ffffff;
+}
+
+.exit-band.upper {
+    top: 0;
+    transform: translateY(-100%);
+    animation: slideInDown 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.exit-band.lower {
+    bottom: 0;
+    transform: translateY(100%);
+    animation: slideInUp 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.exit-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    color: #000000;
+    font-family: 'WakeType', sans-serif;
+    font-size: 24px;
+    text-align: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
+.exit-message.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Aggiungi anche un overlay per oscurare gradualmente la scena durante l'animazione */
+.scene-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    z-index: 9998;
+    pointer-events: none;
+    transition: background 1s ease;
+}
+
+.scene-overlay.active {
+    background: rgba(0, 0, 0, 0.7);
 }

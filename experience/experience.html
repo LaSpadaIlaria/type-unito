@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Percorso Onirico</title>
     <link rel="stylesheet" href="../global.css">
-<link rel="stylesheet" href="experience.css">
-
+    <link rel="stylesheet" href="experience.css">
 </head>
 <body>
     <!-- Canvas principale p5 -->
@@ -27,25 +26,20 @@
         <canvas id="forms-canvas"></canvas>
     </div>
     
+    <!-- Overlay per descrizioni -->
+    <div class="description-overlay"></div>
+    
+    <!-- Overlay per l'animazione di uscita -->
+    <div class="exit-overlay">
+        <div class="exit-band upper"></div>
+        <div class="exit-band lower"></div>
+    </div>
+
+    <div class="scene-overlay"></div>
+    <div class="exit-message">Ti stai svegliando...</div>
+    
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <script src="experience.js"></script>
-    <style>
-/* Stile per migliorare la visualizzazione del testo */
-.text-line {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-}
-
-/* Per mantenere la leggibilità su schermi piccoli */
-@media (max-width: 768px) {
-    .text-line {
-        font-size: 0.9em;
-        line-height: 1.4;
-    }
-}
-</style>
 </body>
 </html>

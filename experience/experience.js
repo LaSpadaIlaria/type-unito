@@ -97,6 +97,7 @@ const LETTER_TEXTS = [
 
 // ============ COSTANTI ============
 const NODE_COUNT = 26;
+const IMAGE_COUNT = 24; // Immagini per i nodi 2-25
 const MOVEMENT_SPEED = 0.15;
 const STAR_COUNT = 100;
 const NODO_IMAGE_TARGET_ALPHA = 200;
@@ -168,6 +169,14 @@ let exitMessage;
 let upperBand;
 let lowerBand;
 let whiteOpening;
+
+// ============ FUNZIONI PER OTTENERE NUMERO IMMAGINE ============
+function getImageNumber(nodeNumber) {
+    if (nodeNumber >= 2 && nodeNumber <= 25) {
+        return nodeNumber - 1; // Nodo 2 = Immagine 1, Nodo 3 = Immagine 2, etc.
+    }
+    return 0; // Per i nodi senza immagini
+}
 
 // ============ FUNZIONI PER INIZIALIZZARE LE POSIZIONI DINAMICHE ============
 function initDynamicPositions() {
@@ -397,7 +406,8 @@ function updateMovement() {
         const distanceToTarget = Math.abs(targetT - scrollProgress);
         const nodoIndex = targetNodeIndex + 1;
         
-        if (nodoIndex >= 1 && nodoIndex <= 26 && showNodoImages[nodoIndex]) {
+        // Solo i nodi 2-25 hanno immagini
+        if (nodoIndex >= 2 && nodoIndex <= 25 && showNodoImages[nodoIndex]) {
             if (distanceToTarget < 0.008) {
                 nodoImageAlphas[nodoIndex] = Math.min(nodoImageAlphas[nodoIndex] + NODO_IMAGE_FADE_SPEED, NODO_IMAGE_TARGET_ALPHA);
             }
@@ -410,16 +420,17 @@ function updateMovement() {
             currentNodeIndex = targetNodeIndex;
             movementState = 'STOPPED';
             isProcessing = false;
-            updateStatusMessage();
             
             const nodoIndex = currentNodeIndex + 1;
-            if (nodoIndex >= 1 && nodoIndex <= 26) {
+            // Attiva l'immagine solo per nodi 2-25
+            if (nodoIndex >= 2 && nodoIndex <= 25) {
                 nodoImageAlphas[nodoIndex] = NODO_IMAGE_TARGET_ALPHA;
                 if (nodoIndex <= 10) {
                     nodoImageStates[nodoIndex] = 'bis';
                     nodoImageFadeProgress[nodoIndex] = 0;
                 }
             } else {
+                // Disattiva le immagini per nodi 1 e 26
                 for (let i = 1; i <= 26; i++) {
                     showNodoImages[i] = false;
                     nodoImageAlphas[i] = 0;
@@ -431,6 +442,8 @@ function updateMovement() {
                 console.log('Raggiunto l\'ultimo nodo, avvio animazione di uscita automatica');
                 startExitAnimation();
             }
+            
+            updateUI();
         }
     }
 }
@@ -1195,48 +1208,18 @@ function initUIElements() {
 
 function updateUI() {
     const nodeNumber = currentNodeIndex + 1;
-    document.querySelector('.node-number').textContent = `Nodo ${nodeNumber}/26`;
-    if (nodeCounter) nodeCounter.style.opacity = '1';
-    updateStatusMessage();
-}
-
-function updateStatusMessage() {
-    const statusMessageElement = nodeCounter.querySelector('.status-message');
-    if (!statusMessageElement) return;
+    let displayText;
     
-    const nodeNumber = currentNodeIndex + 1;
-    
-    // Non mostrare messaggi speciali per l'ultimo nodo (uscita automatica)
-    if (nodeNumber === 26) {
-        statusMessageElement.style.display = 'none';
-        statusMessageElement.onclick = null;
-        statusMessageElement.onmouseenter = null;
-        statusMessageElement.onmouseleave = null;
-        return;
-    }
-    
-    if (activeDescription !== null) {
-        statusMessageElement.textContent = "Click per chiudere la descrizione";
-        statusMessageElement.style.display = 'block';
-        statusMessageElement.style.cursor = 'pointer';
-        statusMessageElement.onclick = null;
-        statusMessageElement.onmouseenter = null;
-        statusMessageElement.onmouseleave = null;
-        statusMessageElement.style.color = 'rgba(255, 255, 255, 0.9)';
-    } else if (movementState === 'MOVING_TO_NODE') {
-        statusMessageElement.textContent = "Raggiungendo il nodo...";
-        statusMessageElement.style.display = 'block';
-        statusMessageElement.style.cursor = 'default';
-        statusMessageElement.onclick = null;
-        statusMessageElement.onmouseenter = null;
-        statusMessageElement.onmouseleave = null;
-        statusMessageElement.style.color = 'rgba(255, 255, 255, 0.9)';
+    if (nodeNumber === 1 || nodeNumber === 26) {
+        displayText = `Nodo ${nodeNumber}`;
+        nodeCounter.classList.add('no-image');
     } else {
-        statusMessageElement.style.display = 'none';
-        statusMessageElement.onclick = null;
-        statusMessageElement.onmouseenter = null;
-        statusMessageElement.onmouseleave = null;
+        displayText = `Immagine ${getImageNumber(nodeNumber)}/24`;
+        nodeCounter.classList.remove('no-image');
     }
+    
+    document.querySelector('.node-number').textContent = displayText;
+    if (nodeCounter) nodeCounter.style.opacity = '1';
 }
 
 // ============ NAVIGAZIONE ============
@@ -1258,10 +1241,13 @@ function startMoving(direction) {
         }
         if (targetNodeIndex >= 0 && targetNodeIndex < 26) {
             const nodeNumber = targetNodeIndex + 1;
-            showNodoImages[nodeNumber] = true;
-            if (nodeNumber <= 10) {
-                nodoImageStates[nodeNumber] = 'bis';
-                nodoImageFadeProgress[nodeNumber] = 0;
+            // Mostra immagini solo per nodi 2-25
+            if (nodeNumber >= 2 && nodeNumber <= 25) {
+                showNodoImages[nodeNumber] = true;
+                if (nodeNumber <= 10) {
+                    nodoImageStates[nodeNumber] = 'bis';
+                    nodoImageFadeProgress[nodeNumber] = 0;
+                }
             }
         }
         activeDescription = null;
@@ -1269,7 +1255,7 @@ function startMoving(direction) {
         if (descriptionOverlay) {
             descriptionOverlay.classList.remove('active');
         }
-        updateStatusMessage();
+        updateUI();
     }
 }
 
@@ -1475,6 +1461,10 @@ const sketch = (p) => {
         if (!nodes || nodes.length <= nodeIndex || alpha <= 0) return;
         const node = nodes[nodeIndex];
         const nodeNumber = nodeIndex + 1;
+        
+        // Disegna solo immagini per nodi 2-25
+        if (nodeNumber < 2 || nodeNumber > 25) return;
+        
         if (!nodoImages[nodeNumber]) return;
         const settings = NODO_IMAGE_SETTINGS[nodeNumber];
         if (!settings) return;
@@ -1566,14 +1556,17 @@ const sketch = (p) => {
         // Prima controlla se c'è una descrizione attiva per chiuderla
         if (activeDescription !== null) {
             activeDescription = null;
-            updateStatusMessage();
+            updateUI();
             return;
         }
         
-        // Controlla se il click è all'interno di un'immagine di un nodo (escluso l'ultimo nodo)
-        for (let nodeIdx = 0; nodeIdx < nodes.length - 1; nodeIdx++) { // -1 per escludere l'ultimo nodo
+        // Controlla se il click è all'interno di un'immagine di un nodo (solo nodi 2-25)
+        for (let nodeIdx = 0; nodeIdx < nodes.length; nodeIdx++) {
             const node = nodes[nodeIdx];
             const nodeNumber = nodeIdx + 1;
+            
+            // Solo nodi 2-25 hanno immagini e possono essere cliccati
+            if (nodeNumber < 2 || nodeNumber > 25) continue;
             
             // Controlla se il click è all'interno dell'immagine del nodo
             if (showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0) {
@@ -1599,7 +1592,7 @@ const sketch = (p) => {
                 }
             }
             
-            // Controlla anche i nodi direttamente (escludendo l'ultimo)
+            // Controlla anche i nodi direttamente (solo per nodi 2-25)
             const dist = distance(worldX, worldY, node.x, node.y);
             if (dist < 1500) {
                 handleNodeClick(nodeIdx);
@@ -1616,7 +1609,10 @@ const sketch = (p) => {
             return;
         }
         
-        if (nodeNumber === 1) return;
+        // Non fare nulla per il primo nodo (nessuna immagine)
+        if (nodeNumber === 1) {
+            return;
+        }
         
         let animationType = 'group1';
         if (nodeNumber >= 2 && nodeNumber <= 9) animationType = 'group1';
@@ -1629,6 +1625,7 @@ const sketch = (p) => {
         
         if (activeDescription && activeDescription.nodeIndex === nodeIdx) {
             activeDescription = null;
+            updateUI();
         } else {
             activeDescription = {
                 nodeIndex: nodeIdx,
@@ -1637,6 +1634,7 @@ const sketch = (p) => {
                 text: letterText,
                 startTime: p.millis() * 0.001,
                 nodeNumber: nodeNumber,
+                imageNumber: getImageNumber(nodeNumber),
                 waveIntensity: getWaveIntensity(textIndex)
             };
             
@@ -1644,8 +1642,9 @@ const sketch = (p) => {
             else if (animationType === 'group2') createTextLinesGroup2(nodes[nodeIdx], letterText, nodeNumber);
             else if (animationType === 'group3') createTextLinesGroup3(nodes[nodeIdx], letterText, nodeNumber);
             else if (animationType === 'group4') createTextLinesGroup4(nodes[nodeIdx], letterText, nodeNumber);
+            
+            updateUI();
         }
-        updateStatusMessage();
     }
     
     p.preload = async function() {
@@ -1711,13 +1710,6 @@ const sketch = (p) => {
         // Inizializza l'animazione di uscita
         initExitAnimation();
         
-        const navigationInfo = document.querySelector('.navigation-info');
-        if (navigationInfo && !document.querySelector('.status-message')) {
-            const statusMessage = document.createElement('div');
-            statusMessage.className = 'status-message';
-            statusMessage.style.display = 'none';
-            navigationInfo.appendChild(statusMessage);
-        }
         canvas.elt.addEventListener('click', handleCanvasClick);
         canvas.elt.style.cursor = 'pointer';
         window.addEventListener('wheel', function(e) {
@@ -1751,10 +1743,11 @@ const sketch = (p) => {
         p.scale(zoom);
         p.translate(-currentPoint.x, -currentPoint.y);
         
-        // Disegna elementi del mondo
+        // Disegna elementi del mondo - SOLO IMMAGINI PER NODI 2-25
         for (let nodeIdx = 0; nodeIdx < 26; nodeIdx++) {
             const nodeNumber = nodeIdx + 1;
-            if (showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0) {
+            // Solo nodi 2-25 hanno immagini
+            if (nodeNumber >= 2 && nodeNumber <= 25 && showNodoImages[nodeNumber] && nodoImageAlphas[nodeNumber] > 0) {
                 drawNodoImage(nodeIdx, nodoImageAlphas[nodeNumber]);
             }
         }

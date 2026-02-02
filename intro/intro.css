@@ -28,7 +28,7 @@ body {
 
 .description-container {
     line-height: 1.2;
-    font-size: 16px;
+    font-size: 20px;
     text-align: center;
     position: relative;
     min-height: 300px;
@@ -46,7 +46,7 @@ body {
 }
 
 .quote {
-    font-size: 14px;
+    font-size: px;
     vertical-align: text-top;
     line-height: 0;
     display: inline;
@@ -67,7 +67,6 @@ body {
     text-align: center;
     font-size: 8px;
     opacity: 0;
-    filter: blur(0.3px);
     transition: opacity 0.5s ease;
 }
 

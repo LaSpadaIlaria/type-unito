@@ -39,8 +39,6 @@ const NODO_IMAGE_SETTINGS = {
     22: { offsetX: -2600, offsetY: -7000, scale: 7 },
     23: { offsetX: -3000, offsetY: -7000, scale: 7 },
     24: { offsetX: -2000, offsetY: -6000, scale: 9 },
-    25: { offsetX: -5000, offsetY: -2000, scale: 11 },
-    26: { offsetX: 2000, offsetY: -2000, scale: 0 }
 };
 
 // Testi delle lettere (nodi 2-25 corrispondono a testi 1-24)

@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function handleGlyphClick(event) {
         const glyph = event.currentTarget;
-        const glyphChar = glyph.getAttribute('data-glyph');
+        const glyphChar = glyph.textContent;
         
         // Rimuovi la classe active da tutti i glifi
         glyphItems.forEach(item => {
@@ -103,8 +103,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Aggiungi la classe active al glifi cliccato
         glyph.classList.add('active');
         
+        // Verifica se il glifo appartiene alla sezione Small Caps
+        const glyphGrid = glyph.closest('.glyph-grid');
+        const isSmallCaps = glyphGrid && glyphGrid.style.fontVariant === 'small-caps';
+        
         // Aggiorna la lettera grande
-        updateBigLetter(glyphChar);
+        updateBigLetter(glyphChar, isSmallCaps);
         
         // Salva il glifo attivo
         activeGlyph = glyphChar;
@@ -130,13 +134,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function updateBigLetter(char) {
+    function updateBigLetter(char, isSmallCaps = false) {
         // Effetto di transizione
         bigLetter.style.opacity = '0';
         bigLetter.style.transform = 'scale(0.9)';
         
         setTimeout(() => {
             bigLetter.textContent = char;
+            // Applica small-caps se il carattere proviene dalla sezione Small Caps
+            if (isSmallCaps) {
+                bigLetter.style.fontVariant = 'small-caps';
+            } else {
+                bigLetter.style.fontVariant = 'normal';
+            }
             bigLetter.style.opacity = '1';
             bigLetter.style.transform = 'scale(1)';
         }, 150);

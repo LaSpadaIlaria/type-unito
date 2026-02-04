@@ -103,12 +103,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Aggiungi la classe active al glifi cliccato
         glyph.classList.add('active');
         
-        // Verifica se il glifo appartiene alla sezione Small Caps
+        // Verifica se il glifo appartiene alla sezione Small Caps o Oldstyle Figures
         const glyphGrid = glyph.closest('.glyph-grid');
         const isSmallCaps = glyphGrid && glyphGrid.style.fontVariant === 'small-caps';
+        const isOldstyle = glyphGrid && glyphGrid.style.fontVariantNumeric === 'oldstyle-nums';
         
         // Aggiorna la lettera grande
-        updateBigLetter(glyphChar, isSmallCaps);
+        updateBigLetter(glyphChar, isSmallCaps, isOldstyle);
         
         // Salva il glifo attivo
         activeGlyph = glyphChar;
@@ -134,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function updateBigLetter(char, isSmallCaps = false) {
+    function updateBigLetter(char, isSmallCaps = false, isOldstyle = false) {
         // Effetto di transizione
         bigLetter.style.opacity = '0';
         bigLetter.style.transform = 'scale(0.9)';
@@ -144,8 +145,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Applica small-caps se il carattere proviene dalla sezione Small Caps
             if (isSmallCaps) {
                 bigLetter.style.fontVariant = 'small-caps';
+                bigLetter.style.fontVariantNumeric = 'normal';
+            } else if (isOldstyle) {
+                bigLetter.style.fontVariant = 'normal';
+                bigLetter.style.fontVariantNumeric = 'oldstyle-nums';
             } else {
                 bigLetter.style.fontVariant = 'normal';
+                bigLetter.style.fontVariantNumeric = 'normal';
             }
             bigLetter.style.opacity = '1';
             bigLetter.style.transform = 'scale(1)';

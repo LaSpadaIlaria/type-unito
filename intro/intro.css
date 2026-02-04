@@ -65,7 +65,7 @@ body {
 .instruction {
     margin-top: 40px;
     text-align: center;
-    font-size: 8px;
+    font-size: 12px;
     opacity: 0;
     transition: opacity 0.5s ease;
 }

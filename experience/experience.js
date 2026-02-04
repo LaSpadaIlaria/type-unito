@@ -39,6 +39,7 @@ const NODO_IMAGE_SETTINGS = {
     22: { offsetX: -2600, offsetY: -7000, scale: 7 },
     23: { offsetX: -3000, offsetY: -7000, scale: 7 },
     24: { offsetX: -2000, offsetY: -6000, scale: 9 },
+    25: { offsetX: -5000, offsetY: -2000, scale: 11 },
 };
 
 // Testi delle lettere (nodi 2-25 corrispondono a testi 1-24)
@@ -95,7 +96,7 @@ const LETTER_TEXTS = [
 
 // ============ COSTANTI ============
 const NODE_COUNT = 26;
-const IMAGE_COUNT = 24; // Immagini per i nodi 2-25
+const IMAGE_COUNT = 25; // Immagini per i nodi 2-25
 const MOVEMENT_SPEED = 0.15;
 const STAR_COUNT = 100;
 const NODO_IMAGE_TARGET_ALPHA = 200;

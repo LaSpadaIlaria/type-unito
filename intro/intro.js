@@ -1,13 +1,13 @@
 // Testo della descrizione con ritorni a capo
 const textLines = [
-    "Hai fatto un sogno.",
+    "«Hai fatto un sogno.",
     "Stai cercando di ricordarlo.",
     "",
     "Non trovi le parole.",
     "Trovi le lettere.",
     "",
     "A occhi aperti sfuggono.",
-    "Chiudendoli, tornano."
+    "Chiudendoli, tornano.»"
 ];
 
 // Elementi DOM
@@ -30,7 +30,7 @@ let isClosing = false;
 // Funzione per iniziare l'animazione di scrittura
 function startTyping() {
     // Reset dello stato
-    descriptionElement.innerHTML = '<span class="quote">"</span>';
+    descriptionElement.innerHTML = '';
     lineIndex = 0;
     charIndex = 0;
     isComplete = false;
@@ -63,8 +63,6 @@ function startTyping() {
 function typeNextCharacter() {
     // Se abbiamo finito tutte le righe
     if (lineIndex >= textLines.length) {
-        // Aggiungi la virgoletta di chiusura
-        descriptionElement.innerHTML += '<span class="quote">"</span>';
         completeTyping();
         return;
     }
@@ -110,7 +108,8 @@ function skipAnimation() {
     
     clearInterval(typingInterval);
     // Ricostruisci tutto il testo con i ritorni a capo corretti e le virgolette
-    let fullText = '<span class="quote">"</span>';
+    let fullText = '';
+
     
     for (let i = 0; i < textLines.length; i++) {
         if (textLines[i] === "") {

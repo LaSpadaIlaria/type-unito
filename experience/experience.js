@@ -62,7 +62,7 @@ const LETTER_TEXTS = [
 
     "Due occhi si aprono nella forma.<br> Due fori circolari, simmetrici, scuri.<br> La struttura è massiccia, geometrica, costruita su verticali spesse e curve chiuse.<br> Al centro una forma a mandorla divide e tiene insieme.<br> I terminali laterali si aprono verso l'esterno, come corna o antenne.<br> Il nero è compatto, denso.<br> La fluidità si è fermata:<br> la lettera prende corpo e ti guarda.",
 
-    "Massiccia, quadrata.<br> Una verticale ferma trattiene pressione.<br> Sopra e sotto si gonfiano come aria compressa.<br> Al centro qualcosa vibra:<br> un ricciolo morfologicoo, denso, che spinge verso destra.<br> La struttura resta immobile,<br> ma da lì nasce un'onda.<br> Silenzio e suono insieme.",
+    "Massiccia, quadrata.<br> Una verticale ferma trattiene pressione.<br> Sopra e sotto si gonfiano come aria compressa.<br> Al centro qualcosa vibra:<br> un ricciolo morbido, denso, che spinge verso destra.<br> La struttura resta immobile,<br> ma da lì nasce un'onda.<br> Silenzio e suono insieme.",
 
     "Il sogno ricade e si fa ornamento.<br> Una verticale scende e si avvolge in una spirale ampia, irregolare.<br> Altri riccioli germogliano dall'asta principale.<br> I contorni vibrano, si moltiplicano.<br> La forma cresce, si espande senza controllo.<br> È una lettera viva, organica, in continua trasformazione.",
 

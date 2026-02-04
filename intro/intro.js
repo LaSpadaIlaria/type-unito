@@ -1,13 +1,13 @@
 // Testo della descrizione con ritorni a capo
 const textLines = [
-    "«Hai fatto un sogno.",
+    "\u201CHai fatto un sogno.",
     "Stai cercando di ricordarlo.",
     "",
     "Non trovi le parole.",
     "Trovi le lettere.",
     "",
     "A occhi aperti sfuggono.",
-    "Chiudendoli, tornano.»"
+    "Chiudendoli, tornano.\u201D"
 ];
 
 // Elementi DOM

@@ -243,12 +243,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ============ GESTIONE SEZIONE GLYPH ============
     function updateGlyphSection() {
-        const glyphFadeStart = 0.95;
+        // Appare solo dopo che l'ultimo testo è quasi completamente scomparso
+        const glyphFadeStart = 0.96;
         const glyphFadeEnd = 1.0;
         
         if (scrollProgress >= glyphFadeStart && scrollProgress <= glyphFadeEnd) {
             const fadeProgress = (scrollProgress - glyphFadeStart) / (glyphFadeEnd - glyphFadeStart);
-            const opacity = Math.min(1, fadeProgress * 5);
+            const opacity = Math.min(1, fadeProgress * 2.5);
             
             glyphSection.style.opacity = opacity;
             
@@ -260,6 +261,10 @@ document.addEventListener('DOMContentLoaded', function() {
             glyphSection.style.opacity = '0';
             glyphSection.classList.remove('active');
             isInGlyphSection = false;
+        } else if (scrollProgress >= glyphFadeEnd) {
+            glyphSection.style.opacity = '1';
+            glyphSection.classList.add('active');
+            isInGlyphSection = true;
         }
     }
 

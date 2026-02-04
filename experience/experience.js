@@ -180,30 +180,30 @@ function getImageNumber(nodeNumber) {
 // ============ FUNZIONI PER INIZIALIZZARE LE POSIZIONI DINAMICHE ============
 function initDynamicPositions() {
     CUSTOM_DESCRIPTION_POSITIONS = {
-        2: { x: 400, y: 300 },
+        2: { x: 350, y: 300 },
         3: { x: window.innerWidth - 500, y: 550 },
         4: { x: 400, y: window.innerHeight - 350 },
         5: { x: window.innerWidth - 400, y: window.innerHeight - 300 },
         6: { x: window.innerWidth - 1100, y: 450 },
         7: { x: window.innerWidth - 1000, y: window.innerHeight - 280 },
-        8: { x: 820, y: window.innerHeight - 200},
-        9: { x: window.innerWidth - 400, y: window.innerHeight - 350 },
+        8: { x: 770, y: window.innerHeight - 190},
+        9: { x: window.innerWidth - 360, y: window.innerHeight - 350 },
         10: { x: window.innerWidth / 2, y: window.innerHeight - 200 },
         11: { x: 350, y: 280 },
-        12: { x: window.innerWidth - 550, y: 520 },
+        12: { x: window.innerWidth - 500, y: 530 },
         13: { x: window.innerWidth - 1000, y: 200 },
-        14: { x: window.innerWidth - 520, y: window.innerHeight - 450 },
+        14: { x: window.innerWidth - 500, y: window.innerHeight - 450 },
         15: { x: 1120, y: window.innerHeight - 300 },
         16: { x: window.innerWidth - 1100, y: 500 },
         17: { x: 360, y: window.innerHeight - 300 },
-        18: { x: window.innerWidth - 500, y: window.innerHeight / 2 },
+        18: { x: window.innerWidth - 470, y: window.innerHeight / 2 },
         19: { x: window.innerWidth -1000, y: window.innerHeight - 260 },
         20: { x: 1000, y: 400 },
         21: { x: window.innerWidth - 500, y: 500 },
         22: { x: window.innerWidth / 2, y: window.innerHeight - 280 },
         23: { x: 800, y: window.innerHeight - 280 },
         24: { x: window.innerWidth -750, y: window.innerHeight - 280 },
-        25: { x: window.innerWidth - 500, y: window.innerHeight - 400 }
+        25: { x: window.innerWidth - 490, y: window.innerHeight - 400 }
     };
 
     DEFAULT_DESCRIPTION_POSITIONS = {

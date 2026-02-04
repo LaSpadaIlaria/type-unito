@@ -122,7 +122,6 @@ function skipAnimation() {
         }
     }
     
-    fullText += '<span class="quote">"</span>';
     descriptionElement.innerHTML = fullText;
     
     completeTyping();

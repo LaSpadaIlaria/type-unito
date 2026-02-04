@@ -1647,7 +1647,7 @@ const sketch = (p) => {
     
     p.preload = async function() {
         console.log("Caricamento immagini dei nodi...");
-        wakeTypeFont = p.loadFont('../assets/WakeType.ttf');
+        wakeTypeFont = p.loadFont('../Assets/WakeType.ttf');
         console.log("Font WakeType caricato");
         
         for (let imageFileIndex = 1; imageFileIndex <= 26; imageFileIndex++) {
